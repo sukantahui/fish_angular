@@ -1,0 +1,145 @@
+<div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFill id="job-div">
+                <div fxLayout="column" fxFlex="40" class="mr-1">
+                    <mat-card class="ml-2 mt-2">
+                        <div class="form-container">
+                           <form [formGroup] = jobMasterForm>
+                             <div class="container" fxLayout="column" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+                               <div class="container" fxLayout="row">
+                                 <mat-form-field class="col-6">
+                                   <input matInput placeholder="Model number" formControlName="model_number">
+                                 </mat-form-field>
+                                 <mat-form-field class="col-6">
+                                   <input matInput placeholder="Material Name" formControlName="material_name">
+                                 </mat-form-field>
+                               </div>
+                               <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start">
+                                 <mat-form-field class="col-6">
+                                   <mat-label>Karigarh</mat-label>
+                                   <mat-select  formControlName="karigarh_id">
+                                     <mat-option *ngFor="let karigarh of karigarhData" [value]="karigarh.id">
+                                       {{karigarh.person_name}}
+                                     </mat-option>
+                                   </mat-select>
+                                 </mat-form-field>
+                                 <mat-form-field class="col-6">
+                                   <input matInput placeholder="Gross Weight" formControlName="gross_weight">
+                                 </mat-form-field>
+                               </div>
+                                <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+                                  <mat-form-field class="col-6">
+                                    <mat-label>Job Date</mat-label>
+                                    <input matInput
+                                           [matDatepicker]="picker1"
+                                           formControlName="date"
+                                           [min]="minDate"
+                                           [max]="maxDate">
+                                    <mat-datepicker-toggle matSuffix [for]="picker1">
+                                      <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker1></mat-datepicker>
+                                  </mat-form-field>
+                                </div>
+                             </div>
+                           </form>
+                          <form [formGroup] = jobDetailsForm>
+                              <div class="container" fxLayout="column" fxLayout.xs="column" fxLayoutAlign="start">
+                                <mat-form-field class="col-6 pl-4">
+                                  <input matInput placeholder="Material Quantity" formControlName="material_quantity">
+                                </mat-form-field>
+                              </div>
+                          </form>
+
+                          <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end" fxLayoutGap="10px" fxLayoutGap.xs="0" >
+
+                            <button mat-button (click)="onSubmit()" mat-stroked-button>Save</button>
+                          </div>
+
+                       </div>
+                    </mat-card>
+                </div>
+                <div fxLayout="column" fxFlex="60" class="mr-1">
+                  <div class="row" style="align-content: center; text-align: center" [hidden]="showProduct">
+                    <div class="col-3"><button style="background-color: green" mat-button class="col-12" mat-stroked-button (click)="productShow()">{{showProduct==true? 'Show Order Master List':'Back'}}</button></div>
+                  </div>
+                  <div id="job-table-div" [hidden]="!showProduct">
+                    <table class="table" id="my-table">
+                      <thead>
+                      <tr>
+                        <th>SL No.</th>
+                        <th>Order Number</th>
+                        <th>Customer</th>
+                        <th>Agent</th>
+                        <th>Order Date</th>
+                        <th>Delivery Date</th>
+                        <th>Open</th>
+                        <th>Delete</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr  *ngFor="let data of orderMasterData ; let indexOfelement = index;">
+                        <td>{{indexOfelement+1}}</td>
+                        <td >{{data.order_number}}</td>
+                        <td >{{data.customer_name}}</td>
+                        <td >{{data.agent_name}}</td>
+                        <td >{{data.date_of_order}}</td>
+                        <td >{{data.date_of_delivery}}</td>
+                        <td>
+                          <button mat-icon-button color="primary" aria-label="Open Master" (click)="viewDetails(data)">
+                            <mat-icon>forward</mat-icon>
+                          </button>
+                        </td>
+                        <td>
+                          <button mat-icon-button color="warn" aria-label="Edit Customer">
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                        </td>
+
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div id="job-table-div" [hidden]="showProduct">
+                    <table class="table" id="my-table">
+                      <thead>
+                      <tr>
+                        <th>SL No.</th>
+                        <th>Model Number</th>
+                        <th>Price Code</th>
+                        <th>Price</th>
+                        <th>PLoss</th>
+                        <th>Approx Gold</th>
+                        <th>Quantity</th>
+                        <th>Amount</th>
+                        <th>Send to Job</th>
+                        <th>Delete</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr  *ngFor="let details of orderDetails ; let indexOfelement = index;">
+                        <td>{{indexOfelement+1}}</td>
+                        <td >{{details.model_number}}</td>
+                        <td >{{details.price_code}}</td>
+                        <td>{{details.price}}</td>
+                        <td>{{(details.p_loss).toFixed(3)}}</td>
+                        <td>{{details.approx_gold}}</td>
+                        <td>{{details.quantity}}</td>
+                        <td>{{details.amount}}</td>
+                        <td>
+                          <button mat-icon-button color="primary" [disabled]="details.job_status==1" aria-label="Edit Product" (click)="placeJob(details)">
+                            <mat-icon>done</mat-icon>
+
+                          </button>
+                        </td>
+                        <td>
+                          <button mat-icon-button color="warn" [disabled]="details.job_status==1" aria-label="Edit Customer">
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                        </td>
+
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+

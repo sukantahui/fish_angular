@@ -1,0 +1,47 @@
+<div fxLayout.xs="column" [hidden]="formTaskDiv" fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFill id="job-div">
+
+  <div fxLayout="column" fxFlex="100" class="mr-1">
+   
+    <div class="jobTask-table-div" *ngIf="savedJobsData">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>SL No.</th>
+          <th>Job Number</th>
+          <th>Quantity</th>
+          <th>Size</th>
+          <th>Send to Task</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr  *ngFor="let data of savedJobsData ; let indexOfelement = index;">
+          <td>{{indexOfelement+1}}</td>
+          <td >{{data.job_number}}</td>
+          <td >{{data.quantity}}</td>
+          <td >{{data.size}}</td>
+          <td>
+           <button mat-icon-button color="primary" aria-label="Open Master" [routerLink]="['/job_detail',data.id]"   (click)="placeDetails(data)">
+
+              <mat-icon>forward</mat-icon>
+            </button>
+          </td>
+
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+   
+    
+   
+    
+   
+</div>
+
+
+
+
+
+
+

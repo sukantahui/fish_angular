@@ -1,0 +1,51 @@
+<div>
+  <mat-card class="ml-2 mt-2">
+    <div class="form-container">
+      <!--      <button (click)="backFunction()">Back</button>-->
+      <h2>Pan Return</h2>
+      <form [formGroup] = jobTaskForm>
+        <div class="container" fxLayout="column" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+          <!--          <label class="m-2">Job Number: </label>-->
+          <div class="container" fxLayout="row">
+            <mat-form-field class="col-4">
+              <input matInput placeholder="Material Name" formControlName="material_name">
+            </mat-form-field>
+            <mat-form-field class="col-4">
+              <input matInput placeholder="Size" [readonly]="true" formControlName="size">
+            </mat-form-field>
+          </div>
+          <mat-form-field class="col-4">
+            <input  style ="text-align: right;" matInput placeholder="Quantity" formControlName="return_quantity">
+          </mat-form-field>
+        </div>
+      </form>
+      <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end" fxLayoutGap="10px" fxLayoutGap.xs="0" >
+        <!--          <button mat-button  mat-stroked-button (click)="testing()">show</button>-->
+        <button mat-button  mat-stroked-button class="btn btn-primary" (click)="onSubmit()">Save</button>
+        <button mat-button  mat-stroked-button class="btn btn-primary" (click)="getTotal()" >Get Detail</button>
+      </div>
+    </div>
+
+    <div  class="col-12" [hidden]="!showJobTaskData">
+      <table class="jobTaskData-table-div col-12">
+        <thead>
+        <th colspan="3" style="text-align: center">SL No.</th>
+        <th colspan="3" style="text-align: center">Quantity</th>
+        <th colspan="3" style="text-align: center">Date</th>
+        </thead>
+        <tbody>
+        <tr  *ngFor="let data of jobTaskData ; let indexOfelement = index;">
+          <td colspan="3" style="text-align: center">{{indexOfelement+1}}</td>
+          <td colspan="3" style="text-align: center">{{data.material_quantity}}</td>
+          <td colspan="3" style="text-align: center">{{data.created_at | date}}</td>
+        </tr>
+        <tr>
+          <td colspan="3"  style="text-align: center ; background-color: yellow">Total</td>
+          <td colspan="3"  style="text-align: center ; background-color: yellow">{{total}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </mat-card>
+</div>
+

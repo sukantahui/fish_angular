@@ -1,0 +1,258 @@
+<div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFill id="order-div">
+  <div fxLayout="column" fxFlex="35" class="mr-1">
+    <mat-card class="ml-2 mt-2">
+      <div class="form-container-master">
+      <!--Order Master form-->
+        <form [formGroup] = orderMasterForm >
+          <div class="container" fxLayout="column" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+              <mat-form-field>
+                <mat-label>Customer</mat-label>
+                <mat-select  formControlName="customer_id">
+                  <mat-option *ngFor="let customer of customerList" [value]="customer.id">
+                    {{customer.person_name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+          </div>
+          <div class="container" fxLayout="column" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+              <mat-form-field>
+                <mat-label>Agent</mat-label>
+                <mat-select  formControlName="agent_id">
+                  <mat-option *ngFor="let agent of agentList" [value]="agent.id">
+                    {{agent.person_name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+          </div>
+          <!--Both dates-->
+          <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+              <!--              Order date-->
+              <mat-form-field fxFlex="30">
+                <mat-label>Order Date</mat-label>
+                <input matInput
+                       [matDatepicker]="picker1"
+                       formControlName="order_date"
+                       [matDatepickerFilter]="onlyOdds"
+                       [min]="minDate"
+                       [max]="maxDate">
+                <mat-datepicker-toggle matSuffix [for]="picker1">
+                  <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+              </mat-form-field>
+              <!--              Delivery date-->
+              <mat-form-field  fxFlex="30">
+                <mat-label>Delivery Date</mat-label>
+                <input matInput [matDatepicker]="picker2"
+                       formControlName="delivery_date"
+                       [matDatepickerFilter]="onlyOdds"
+                       [min]="minDate"
+                       [max]="maxDate">
+                <mat-datepicker-toggle matSuffix [for]="picker2">
+                  <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+              </mat-form-field>
+              <!--              Adding form to -->
+<!--              <button mat-button (click)="selectCustomerForOrder()" mat-stroked-button fxFlex="20">Save</button>-->
+              <button mat-button (click)="updateMaster()" mat-stroked-button fxFlex="20" [hidden]="!showUpdate" >Update</button>
+            </div>
+        </form>
+      </div>
+      <div class="form-container-details">
+        <!--Order Details form-->
+        <form [formGroup] = orderDetailsForm >
+
+          <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+              <mat-form-field fxFlex="50">
+                <mat-label>Material</mat-label>
+                <mat-select  formControlName="material_id">
+                  <mat-option *ngFor="let material of materialList" [value]="material.id">
+                    {{material.material_name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+          </div>
+
+<!--          <mat-form-field class="example-full-width">-->
+<!--            <input type="text"-->
+<!--                   placeholder="Model"-->
+<!--                   aria-label="Number"-->
+<!--                   matInput-->
+
+<!--                   [matAutocomplete]="auto"-->
+<!--                   formControlName="model_number"-->
+<!--            >-->
+<!--            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="findModel($event)">-->
+<!--              <mat-option *ngFor="let option of modelNumberFilteredOptions | async" [value]="option">-->
+<!--                {{option}}-->
+<!--              </mat-option>-->
+<!--            </mat-autocomplete>-->
+<!--          </mat-form-field>-->
+
+          <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+<!--            <mat-form-field fxFlex="33">-->
+<!--              <mat-placeholder>Model Number</mat-placeholder>-->
+<!--              <input matInput  formControlName="model_number" (change)="findModel()">-->
+<!--            </mat-form-field>-->
+            <mat-form-field class="example-full-width">
+              <input type="text"
+                     placeholder="Model"
+                     aria-label="Number"
+                     matInput
+
+                     [matAutocomplete]="auto"
+                     formControlName="model_number"
+              >
+              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="findModel($event)">
+                <mat-option *ngFor="let option of modelNumberFilteredOptions | async" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+
+            <div class="container" fxLayout="row" fxFlex="50" fxLayout.xs="column" fxLayoutAlign="right" fxLayoutGap="10px" fxLayoutGap.xs="0">
+              <mat-form-field fxFlex="20">
+                <mat-placeholder>PLoss</mat-placeholder>
+                <input matInput formControlName="p_loss" [readonly]="true" class="text-right">
+              </mat-form-field>
+
+              <mat-form-field fxFlex="20">
+                <mat-placeholder>Price</mat-placeholder>
+                <input matInput formControlName="price" [readonly]="true" class="text-right">
+              </mat-form-field>
+
+              <mat-form-field fxFlex="15">
+                <mat-placeholder>Code</mat-placeholder>
+                <input matInput  formControlName="price_code" [readonly]="true" class="text-center">
+              </mat-form-field>
+
+            </div>
+          </div>
+
+
+          <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+            <mat-form-field fxFlex="40" class="pr-4">
+              <mat-placeholder>Approx Gold</mat-placeholder>
+              <input matInput  formControlName="approx_gold">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="40">
+              <mat-placeholder>Size</mat-placeholder>
+              <input matInput  formControlName="size">
+            </mat-form-field>
+          </div>
+
+          <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+            <mat-form-field fxFlex="40"  class="pr-4">
+              <mat-placeholder>Quantity</mat-placeholder>
+              <input matInput  formControlName="quantity" (change)="this.orderDetailsForm.value.amount = this.orderDetailsForm.value.quantity * this.orderDetailsForm.value.price">
+            </mat-form-field>
+            <mat-form-field fxFlex="40">
+              <mat-placeholder>Amount</mat-placeholder>
+              <input matInput  formControlName="amount" [value]="this.orderDetailsForm.value.amount">
+            </mat-form-field>
+          </div>
+
+        </form>
+
+        <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end" fxLayoutGap="10px" fxLayoutGap.xs="0" >
+          <button mat-button (click)="addOrder()" mat-stroked-button [disabled]="!orderDetailsForm.valid" >Add Order</button>
+          <button mat-button (click)="onSubmit()" mat-stroked-button [disabled]=" ">Save Order</button>
+          <button mat-button (click)="updateOrder()" mat-stroked-button [disabled]="!orderDetailsForm.dirty">Update Order</button>
+          <button mat-button (click)="clearForm()" mat-stroked-button>clear</button>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <div id ="order-table-div" fxLayout="column" fxFlex="65" class="mr-1">
+    <div class="row" style="align-content: center; text-align: center">
+      <div class="col"><button style="background-color: green" mat-button class="col-12" mat-stroked-button (click)="productShow()">{{showProduct==true? 'Show Order Master List':'Show Order Details List'}}</button></div>
+    </div>
+    <div [hidden]="!showProduct">
+      <table class="table" id="my-table">
+        <thead>
+        <tr>
+          <th>SL No.</th>
+          <th>Model Number</th>
+          <th>Price Code</th>
+          <th>Price</th>
+          <th>PLoss</th>
+          <th>Approx Gold</th>
+          <th>Quantity</th>
+          <th>Amount</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr  *ngFor="let details of orderDetails ; let indexOfelement = index;">
+          <td>{{indexOfelement+1}}</td>
+          <td >{{details.model_number}}</td>
+          <td >{{details.price_code}}</td>
+          <td>{{details.price}}</td>
+          <td>{{details.p_loss}}</td>
+          <td>{{details.approx_gold}}</td>
+          <td>{{details.quantity}}</td>
+          <td>{{details.amount}}</td>
+          <td>
+            <button mat-icon-button color="primary" aria-label="Edit Product" (click)="fillOrderDetailsForm(details)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+          <td>
+            <button mat-icon-button color="warn" aria-label="Edit Customer"  (click)="deleteDetails(details)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div [hidden]="showProduct">
+      <table class="table" id="my-table">
+        <thead>
+        <tr>
+          <th>SL No.</th>
+          <th>Order Number</th>
+          <th>Customer</th>
+          <th>Agent</th>
+          <th>Order Date</th>
+          <th>Delivery Date</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr  *ngFor="let data of orderData ; let indexOfelement = index;">
+          <td>{{indexOfelement+1}}</td>
+          <td >{{data.order_number}}</td>
+          <td >{{data.customer_name}}</td>
+          <td >{{data.agent_name}}</td>
+          <td >{{data.date_of_order}}</td>
+          <td >{{data.date_of_delivery}}</td>
+          <td>
+            <button mat-icon-button color="primary" aria-label="Edit Product" (click)="fetchDetails(data)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+          <td>
+            <button mat-icon-button color="warn" aria-label="Edit Customer" (click)="deleteOrderMaster(data)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+<!--  <div style="background-color : white">-->
+<!--    <pre>{{orderMasterForm.value | json }}</pre>-->
+<!--  </div>-->
+</div>
+
+
