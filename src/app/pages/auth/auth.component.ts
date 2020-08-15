@@ -33,7 +33,6 @@ export class AuthComponent implements OnInit {
     authObserable = this.authService.login({email: form.value.email, password: passwordMd5});
     authObserable.subscribe(response => {
       this.isLoading = false;
-      console.log(response);
       // tslint:disable-next-line:triple-equals
       if (response.user.person_type_id == 1){
         this.router.navigate(['/owner']);

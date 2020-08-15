@@ -7,9 +7,18 @@ import {Router} from '@angular/router';
 // global.ts file is created in shared folder to store all global variables.
 import {GlobalVariable} from '../shared/global';
 
+// it will be used at the time of login, check login response of API using insomnia first
 export interface AuthResponseData {
-  token: {headers: object, original: {access_token: string, token_type: string, expires_in: number}, exception: object };
-  user: {id: number, person_name: string,  person_type_id: number};
+  token: {
+            headers: object,
+            original: {
+                        access_token: string,
+                        token_type: string,
+                        expires_in: number
+            },
+            exception: object
+        };
+  user: { id: number, person_name: string,  person_type_id: number};
 }
 
 @Injectable({
@@ -40,6 +49,7 @@ export class AuthService {
       // }
     }
   }
+
   login(loginData){
     return this.http.post<AuthResponseData>(GlobalVariable.BASE_API_URL + '/login', loginData)
       .pipe(catchError(this.handleError), tap(resData => {
