@@ -3,7 +3,6 @@ import {PriceCode} from '../models/priceCode.model';
 import {ProductCategory} from '../models/productCategory.model';
 import {Subject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
-import {PriceCodeResponse} from './price-code.service';
 
 export interface ProductCategoryResponse{
   success: number;
