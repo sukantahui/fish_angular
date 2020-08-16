@@ -36,21 +36,9 @@ import { LoaidngRippleComponent } from './shared/loaidng-ripple/loaidng-ripple.c
 import { LoaidngEllipsisComponent } from './shared/loaidng-ellipsis/loaidng-ellipsis.component';
 import { LoaidngHourglassComponent } from './shared/loaidng-hourglass/loaidng-hourglass.component';
 import { LoaidngRollerComponent } from './shared/loaidng-roller/loaidng-roller.component';
-import { OrderComponent } from './pages/order/order.component';
 
 import { DateAdapter } from '@angular/material/core';
 import { DateFormat } from './date-format';
-import { JobComponent } from './pages/job/job.component';
-import { JobTaskComponent } from './pages/job/job-task/job-task.component';
-import { JobDetailComponent } from './pages/job/job-detail/job-detail.component';
-import { GoldSubmitComponent } from './pages/job/job-detail/gold-submit/gold-submit.component';
-import { GoldReturnComponent } from './pages/job/job-detail/gold-return/gold-return.component';
-import { PanSubmitComponent } from './pages/job/job-detail/pan-submit/pan-submit.component';
-import { PanReturnComponent } from './pages/job/job-detail/pan-return/pan-return.component';
-import { DalReturnComponent } from './pages/job/job-detail/dal-return/dal-return.component';
-import { DalSubmitComponent } from './pages/job/job-detail/dal-submit/dal-submit.component';
-import { NitricReturnComponent } from './pages/job/job-detail/nitric-return/nitric-return.component';
-import { BronzeSubmitComponent } from './pages/job/job-detail/bronze-submit/bronze-submit.component';
 
 
 @NgModule({
@@ -70,20 +58,7 @@ import { BronzeSubmitComponent } from './pages/job/job-detail/bronze-submit/bron
     LoaidngRippleComponent,
     LoaidngEllipsisComponent,
     LoaidngHourglassComponent,
-    LoaidngRollerComponent,
-    OrderComponent,
-    JobComponent,
-    JobTaskComponent,
-    JobDetailComponent,
-    GoldSubmitComponent,
-    GoldReturnComponent,
-    PanSubmitComponent,
-    PanReturnComponent,
-    DalReturnComponent,
-    DalSubmitComponent,
-    NitricReturnComponent,
-    BronzeSubmitComponent
-
+    LoaidngRollerComponent
   ],
   imports: [
     BrowserModule,

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {ProductService} from '../../services/product.service';
 import {Product} from '../../models/product.model';
 import {FormControl, FormGroup} from '@angular/forms';
-import {PriceCodeService} from '../../services/price-code.service';
 import {PriceCode} from '../../models/priceCode.model';
 import {ProductCategoryService} from '../../services/product-category.service';
 import {ProductCategory} from '../../models/productCategory.model';
@@ -31,10 +30,10 @@ export class ProductComponent implements OnInit {
   pageSize = 15;
   filter = new FormControl('');
   p = 1;
-  //testing purpose......
+  // testing purpose......
 
   // tslint:disable-next-line:max-line-length
-  constructor(private productService: ProductService, private priceCodeService: PriceCodeService, private productCategoryService: ProductCategoryService, private  snackBar: MatSnackBar, private confirmationDialogService: ConfirmationDialogService) {
+  constructor(private productService: ProductService,  private productCategoryService: ProductCategoryService, private  snackBar: MatSnackBar, private confirmationDialogService: ConfirmationDialogService) {
 
   }
 
@@ -44,10 +43,6 @@ export class ProductComponent implements OnInit {
     this.products = this.productService.getProducts();
     this.productService.getProductUpdateListener().subscribe((responseProducts: Product[]) => {
       this.products = responseProducts;
-    });
-
-    this.priceCodeService.getPriceCodeUpdateListener().subscribe((responsePriceCodes: PriceCode[]) => {
-      this.priceCodes = responsePriceCodes;
     });
 
     this.productCategoryService.getProductCategoryUpdateListener().subscribe((responseProductCategory: ProductCategory[]) => {
