@@ -8,6 +8,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {SncakBarComponent} from '../../common/sncak-bar/sncak-bar.component';
 import {Observable} from 'rxjs';
 import {AuthResponseData} from '../../services/auth.service';
+import {CustomerCategory} from '../../models/customerCategory.model';
 
 
 export class Profile {
@@ -26,6 +27,7 @@ export class CustomerComponent implements OnInit {
   customerForm: FormGroup;
   customers: Customer[];
   customer: Customer;
+  customerCategories: CustomerCategory[];
   currentEerror: {status: number, message: string, statusText: string};
   allProfiles = [
     new Profile(2, 'Developer'),
@@ -47,7 +49,18 @@ export class CustomerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-     // this.customers = this.customerService.getCustomers();
+
+    this.http.get('http://127.0.0.1:8000/api/customerCategories')
+      .subscribe((response: {success: number, data: CustomerCategory[]}) => {
+        // console.log(response);
+        // @ts-ignore
+        const {data} = response;
+        this.customerCategories = data;
+      });
+
+
+
+    // this.customers = this.customerService.getCustomers();
      this.customerForm = this.customerService.customerForm;
      // this.customerService.getCustomerUpdateListener();
   }

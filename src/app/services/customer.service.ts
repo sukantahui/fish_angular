@@ -1,6 +1,5 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {Customer} from '../models/customer.model';
-import {Agent} from '../models/agent.model';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {catchError, tap} from 'rxjs/operators';

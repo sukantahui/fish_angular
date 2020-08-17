@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {ProductService} from '../../services/product.service';
 import {Product} from '../../models/product.model';
 import {FormControl, FormGroup} from '@angular/forms';
-import {PriceCode} from '../../models/priceCode.model';
 import {ProductCategoryService} from '../../services/product-category.service';
 import {ProductCategory} from '../../models/productCategory.model';
 
@@ -23,7 +22,6 @@ export class ProductComponent implements OnInit {
   public searchTerm: string;
   public currentError: any;
   products: Product[] = [];
-  priceCodes: PriceCode[] = [];
   productCategories: ProductCategory[] = [];
   productForm: FormGroup;
   page: number;

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import {PriceCode} from '../models/priceCode.model';
 import {ProductCategory} from '../models/productCategory.model';
 import {Subject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
