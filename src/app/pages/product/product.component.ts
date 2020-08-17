@@ -43,6 +43,7 @@ export class ProductComponent implements OnInit {
       this.products = responseProducts;
     });
 
+    this.productCategories = this.productCategoryService.getProductCategories();
     this.productCategoryService.getProductCategoryUpdateListener().subscribe((responseProductCategory: ProductCategory[]) => {
       this.productCategories = responseProductCategory;
     });

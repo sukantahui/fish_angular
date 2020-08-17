@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {Product} from '../models/product.model';
 import {HttpClient} from '@angular/common/http';
 import { Subject, throwError} from 'rxjs';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {catchError, tap} from 'rxjs/operators';
+import {ProductCategory} from '../models/productCategory.model';
 
 
 export interface ProductResponseData {
@@ -15,13 +16,15 @@ export interface ProductResponseData {
   providedIn: 'root'
 })
 
-export class ProductService {
+export class ProductService implements OnDestroy {
   products: Product[] = [];
   productForm: FormGroup;
   productSubject = new Subject<Product[]>();
 
+
+
   constructor(private http: HttpClient) {
-    console.log('Product Service Initiated for first time');
+
     this.http.get('http://127.0.0.1:8000/api/products')
       .subscribe((response: {success: number, data: Product[]}) => {
         const {data} = response;
@@ -32,9 +35,8 @@ export class ProductService {
     this.productForm = new FormGroup({
       id : new FormControl(null),
       product_name : new FormControl(null, [Validators.required, Validators.maxLength(20), Validators.minLength(4)]),
-      model_number : new FormControl(null, [Validators.required]),
-      price_code_id : new FormControl(null, [Validators.required]),
-      product_category_id : new FormControl(null, [Validators.required]),
+      product_code : new FormControl(null, [Validators.required]),
+      product_category_id : new FormControl(null, [Validators.required])
     });
   }
   getProducts(){
@@ -42,14 +44,15 @@ export class ProductService {
     // console.log('getting products from product service');
     return [...this.products];
   }
+  getProductUpdateListener(){
+    return this.productSubject.asObservable();
+  }
+
 
   fillFormByUpdatebaleData(product){
     this.productForm.setValue(product);
   }
 
-  getProductUpdateListener(){
-    return this.productSubject.asObservable();
-  }
 
   saveProduct(product){
     return this.http.post<ProductResponseData>('http://127.0.0.1:8000/api/products', product)
@@ -105,6 +108,9 @@ export class ProductService {
       return throwError ({status: err.status, message: 'Your are not authorised', statusText: err.statusText});
     }
     return throwError(err);
+  }
+
+  ngOnDestroy(): void {
   }
 
 }

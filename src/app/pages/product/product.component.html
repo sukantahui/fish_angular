@@ -5,7 +5,7 @@
         <form [formGroup] = productForm>
           <div class="container" fxLayout="column" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
             <mat-form-field>
-              <input matInput placeholder="Model Number" formControlName="model_number">
+              <input matInput placeholder="Product Code" formControlName="product_code">
             </mat-form-field>
 
             <mat-form-field>
@@ -62,7 +62,6 @@
           <th>SL No.</th>
           <th>Product Name</th>
           <th>Model Number</th>
-          <th>Price Code</th>
           <th>Product Category</th>
           <th colspan="2">Action</th>
         </tr>
@@ -70,9 +69,8 @@
       <tbody>
       <tr  *ngFor="let product of products | filter:searchTerm | paginate: { itemsPerPage: pageSize, currentPage: p };let indexOfelement = index;">
         <td>{{indexOfelement+1}}</td>
-        <td sortable-column="person_name">{{product.product_name}}</td>
-        <td>{{product.model_number}}</td>
-        <td>{{product.price_code_name}}</td>
+        <td sortable-column="product_code">{{product.product_code}}</td>
+        <td sortable-column="product_name">{{product.product_name}}</td>
         <td>{{product.category_name}}</td>
         <td>
           <button mat-icon-button color="primary" aria-label="Edit Product" (click)="populateFormByCurrentProduct(product)">
@@ -105,6 +103,22 @@
         </pagination-controls>
       </div>
     </div>
+  </div>
+</div>
+
+<!--this is for developer -->
+<div *ngIf="true" style="background-color: #c6538c" fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFill id="developer-div">
+  <!--  Left Side-->
+  <div fxLayout="column" fxFlex="40" class="mr-1">
+      <pre>
+      productCategories={{this.productCategories | json}}
+    </pre>
+  </div>
+  <!--  Right Side-->
+  <div fxFlex="60" style="background-color: #dce815;">
+    <pre>
+      products={{this.products | json}}
+    </pre>
   </div>
 </div>
 
