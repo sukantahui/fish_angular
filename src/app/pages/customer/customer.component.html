@@ -34,7 +34,7 @@
                 <mat-form-field fxFlex="20">
                   <mat-label>Category</mat-label>
                   <mat-select  formControlName="customer_category_id">
-                    <mat-option *ngFor="let customerCategory of customerCategories" [value]="customerCategory.id">
+                    <mat-option *ngFor="let customerCategory of customerCategoryData" [value]="customerCategory.id">
                       {{customerCategory.customer_category_name}}
                     </mat-option>
                   </mat-select>
@@ -99,7 +99,7 @@
   <!--  Left Side-->
   <div fxLayout="column" fxFlex="40" class="mr-1">
     <pre>
-      customerCategories={{this.customerCategories | json}}
+      customerCategories={{this.customerCategoryData | json}}
     </pre>
   </div>
   <!--  Right Side-->

@@ -4,6 +4,7 @@ import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {catchError, tap} from 'rxjs/operators';
 import {Subject, throwError} from 'rxjs';
+import {CustomerCategory} from '../models/customerCategory.model';
 
 
 export interface CustomerResponseData {
@@ -18,10 +19,16 @@ export class CustomerService implements OnDestroy{
   customerData: Customer[] = [];
   private customerSub = new Subject<Customer[]>();
   customerForm: FormGroup;
+  customerCategoryData: CustomerCategory[] = [];
+  private customerCategorySub = new Subject<CustomerCategory[]>()
 
   getCustomers(){
     // when no data it will return null;
     return [...this.customerData];
+  }
+  getCustomerCategories(){
+    // when no data it will return null;
+    return [...this.customerCategoryData];
   }
 
   getCustomerUpdateListener(){
@@ -29,12 +36,17 @@ export class CustomerService implements OnDestroy{
     return this.customerSub.asObservable();
   }
 
+  getCustomerCategoryUpdateListener(){
+    console.log('customer Category listener called');
+    return this.customerCategorySub.asObservable();
+  }
+
   setData(tempCustomer: Customer){
     this.customerData.push(tempCustomer);
     this.customerSub.next([...this.customerData]);
   }
   constructor(private http: HttpClient) {
-    console.log('customer service constructor called');
+    // fetching customers
     this.http.get('http://127.0.0.1:8000/api/customers')
       .subscribe((response: {success: number, data: Customer[]}) => {
         // console.log(response);
@@ -44,6 +56,15 @@ export class CustomerService implements OnDestroy{
         this.customerSub.next([...this.customerData]);
     });
 
+    // fetching customer categories
+    this.http.get('http://127.0.0.1:8000/api/customerCategories')
+      .subscribe((response: {success: number, data: CustomerCategory[]}) => {
+        // console.log(response);
+        // @ts-ignore
+        const {data} = response;
+        this.customerCategoryData = data;
+        this.customerCategorySub.next([...this.customerCategoryData]);
+      });
 
     this.customerForm = new FormGroup({
       id : new FormControl(null),

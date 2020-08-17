@@ -54,13 +54,10 @@ export class CustomerListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('Customer list ONIT works');
+
     this.customerData = this.customerService.getCustomers();
-    console.log('First time CustomerData will be blank');
-    console.log(this.customerData);
     this.customerService.getCustomerUpdateListener()
       .subscribe((customers: Customer[]) => {
-        console.log('observable returned, now CustomerData will not be blank');
         this.customerData = customers;
       });
   }

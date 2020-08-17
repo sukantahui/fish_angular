@@ -27,8 +27,8 @@ export class CustomerComponent implements OnInit {
   customerForm: FormGroup;
   customers: Customer[];
   customer: Customer;
-  customerCategories: CustomerCategory[];
   currentEerror: {status: number, message: string, statusText: string};
+  customerCategoryData: CustomerCategory[];
   allProfiles = [
     new Profile(2, 'Developer'),
     new Profile(3, 'Manager'),
@@ -50,19 +50,14 @@ export class CustomerComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.http.get('http://127.0.0.1:8000/api/customerCategories')
-      .subscribe((response: {success: number, data: CustomerCategory[]}) => {
-        // console.log(response);
-        // @ts-ignore
-        const {data} = response;
-        this.customerCategories = data;
+    this.customerCategoryData = this.customerService.getCustomerCategories();
+
+    this.customerService.getCustomerCategoryUpdateListener()
+      .subscribe((customersCategories: CustomerCategory[]) => {
+        console.log('observable returned, now CustomerCategoryData will not be blank');
+        this.customerCategoryData = customersCategories;
       });
-
-
-
-    // this.customers = this.customerService.getCustomers();
-     this.customerForm = this.customerService.customerForm;
-     // this.customerService.getCustomerUpdateListener();
+    this.customerForm = this.customerService.customerForm;
   }
 
   onGetCustomers() {
