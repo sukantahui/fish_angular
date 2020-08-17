@@ -34,10 +34,10 @@
                 <mat-form-field fxFlex="33">
                   <mat-label>Category</mat-label>
                   <select matNativeControl formControlName="customer_category_id" required>
-                    <option value="2">Good</option>
-                    <option value="3">Better</option>
-                    <option value="4">Best</option>
-                    <option value="5">Excellent</option>
+                    <option [ngValue]="null" disabled>Choose your profile</option>
+                    <option *ngFor="let prf of allProfiles" [ngValue]="prf">
+                      {{ prf.prName }}
+                    </option>
                   </select>
                 </mat-form-field>
               </div>
@@ -89,9 +89,22 @@
       </div>
     </mat-card>
 
+
   </div>
 <!--  Right Side-->
   <div fxFlex="60" >
     <app-customer-list></app-customer-list>
   </div>
 </div>
+<div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFill id="customer-div">
+  <!--  Left Side-->
+  <div fxLayout="column" fxFlex="40" class="mr-1">
+  </div>
+  <!--  Right Side-->
+  <div fxFlex="60" >
+    <pre>
+      customerForm={{this.customerForm.value | json}}
+    </pre>
+  </div>
+</div>
+

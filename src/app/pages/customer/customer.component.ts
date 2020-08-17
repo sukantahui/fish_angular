@@ -9,6 +9,13 @@ import {SncakBarComponent} from '../../common/sncak-bar/sncak-bar.component';
 import {Observable} from 'rxjs';
 import {AuthResponseData} from '../../services/auth.service';
 
+
+export class Profile {
+  constructor(public prId: number, public prName: string) {
+  }
+}
+
+
 // @ts-ignore
 @Component({
   selector: 'app-customer',
@@ -20,6 +27,11 @@ export class CustomerComponent implements OnInit {
   customers: Customer[];
   customer: Customer;
   currentEerror: {status: number, message: string, statusText: string};
+  allProfiles = [
+    new Profile(2, 'Developer'),
+    new Profile(3, 'Manager'),
+    new Profile(4, 'Director')
+  ]
 
   constructor(public customerService: CustomerService, private http: HttpClient, private _snackBar: MatSnackBar) {
     console.log('Customer Component calls');
