@@ -10,6 +10,8 @@ import {SncakBarComponent} from '../../common/sncak-bar/sncak-bar.component';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
 import {ConfirmationDialogService} from '../../common/confirmation-dialog/confirmation-dialog.service';
+import swal from 'sweetalert';
+
 
 
 @Component({
@@ -122,4 +124,21 @@ export class ProductComponent implements OnInit {
       });
   }
 
+  testSwl() {
+    swal({
+      className: 'test',
+      closeOnClickOutside: false,
+      closeOnEsc: true, content: undefined,
+      timer: 0,
+      title: 'Are you sure?',
+      text: 'Once deleted, you will not be able to recover this imaginary file!',
+      icon: 'success',
+      // @ts-ignore
+      buttons: true,
+      dangerMode: true
+    })
+      .then((value) => {
+        console.log(value);
+      });
+  }
 }
