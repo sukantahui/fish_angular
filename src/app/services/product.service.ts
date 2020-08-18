@@ -110,7 +110,11 @@ export class ProductService implements OnDestroy {
     return throwError(err);
   }
   private handleError(errorResponse: HttpErrorResponse){
-    return throwError(errorResponse.error.message);
+    if (errorResponse.error.message.includes('1062')){
+      return throwError('Record already exists');
+    }else {
+      return throwError(errorResponse.error.message);
+    }
   }
   ngOnDestroy(): void {
   }
