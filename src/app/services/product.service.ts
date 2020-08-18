@@ -1,10 +1,11 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {Product} from '../models/product.model';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import { Subject, throwError} from 'rxjs';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {catchError, tap} from 'rxjs/operators';
 import {ProductCategory} from '../models/productCategory.model';
+import {User} from '../models/user.model';
 
 
 export interface ProductResponseData {
@@ -56,11 +57,11 @@ export class ProductService implements OnDestroy {
 
   saveProduct(product){
     return this.http.post<ProductResponseData>('http://127.0.0.1:8000/api/products', product)
-      .subscribe((response: {success: number, data: Product})  => {
-        this.products.unshift(response.data);
-
+      .pipe(catchError(this.handleError), tap((resData: {success: number, data: Product}) => {
+        // tslint:disable-next-line:max-line-length
+        this.products.unshift(resData.data);
         this.productSubject.next([...this.products]);
-      });
+      }));  // this.handleError is a method created by me
   }
 
   updateProduct(product){
@@ -108,7 +109,9 @@ export class ProductService implements OnDestroy {
     }
     return throwError(err);
   }
-
+  private handleError(errorResponse: HttpErrorResponse){
+    return throwError(errorResponse.error.message);
+  }
   ngOnDestroy(): void {
   }
 

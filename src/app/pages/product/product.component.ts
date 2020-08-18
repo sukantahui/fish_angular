@@ -59,8 +59,20 @@ export class ProductComponent implements OnInit {
   }
 
   onSubmit(){
-    const x = this.productService.saveProduct(this.productForm.value);
-    console.log(x);
+    this.productService.saveProduct(this.productForm.value).subscribe(response => {
+      if (response.success === 1){
+        this.snackBar.openFromComponent(SncakBarComponent, {
+          duration: 4000, data: {message: 'Product added!'}
+        });
+
+      }
+      // tslint:disable-next-line:no-unused-expression
+    }, (error) => {
+      console.log(error);
+      this.snackBar.openFromComponent(SncakBarComponent, {
+        duration: 4000, data: {message: 'Error Adding Product'}
+      });
+    });
   }
 
   updateProduct(){

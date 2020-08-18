@@ -64,8 +64,6 @@ export class AuthService {
   }
 
   private handleError(errorResponse: HttpErrorResponse){
-    console.log('Login Failed');
-    console.log(errorResponse);
     return throwError(errorResponse.error.message);
   }
 
