@@ -90,7 +90,7 @@ export class CustomerService implements OnDestroy{
   saveCustomer(customer){
     return this.http.post<CustomerResponseData>('http://127.0.0.1:8000/api/customers', customer)
       .subscribe((response: {success: number, data: Customer})  => {
-        this.customerData.push(response.data);
+        this.customerData.unshift(response.data);
         this.customerSub.next([...this.customerData]);
       });
   }

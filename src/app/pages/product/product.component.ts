@@ -59,7 +59,8 @@ export class ProductComponent implements OnInit {
   }
 
   onSubmit(){
-    this.productService.saveProduct(this.productForm.value);
+    const x = this.productService.saveProduct(this.productForm.value);
+    console.log(x);
   }
 
   updateProduct(){

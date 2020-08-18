@@ -34,9 +34,9 @@ export class ProductService implements OnDestroy {
 
     this.productForm = new FormGroup({
       id : new FormControl(null),
-      product_name : new FormControl(null, [Validators.required, Validators.maxLength(20), Validators.minLength(4)]),
-      product_code : new FormControl(null, [Validators.required]),
-      product_category_id : new FormControl(null, [Validators.required])
+      product_code : new FormControl(null, [Validators.required, Validators.maxLength(6), Validators.minLength(2)]),
+      product_name : new FormControl(null, [Validators.required, Validators.maxLength(50), Validators.minLength(4)]),
+      product_category_id : new FormControl(1, [Validators.required])
     });
   }
   getProducts(){
@@ -60,7 +60,6 @@ export class ProductService implements OnDestroy {
         this.products.unshift(response.data);
 
         this.productSubject.next([...this.products]);
-        // console.log(this.products);
       });
   }
 
