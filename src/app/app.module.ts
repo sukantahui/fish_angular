@@ -39,6 +39,7 @@ import { LoaidngRollerComponent } from './shared/loaidng-roller/loaidng-roller.c
 
 import { DateAdapter } from '@angular/material/core';
 import { DateFormat } from './date-format';
+import { VendorComponent } from './pages/vendor/vendor.component';
 
 
 @NgModule({
@@ -58,7 +59,8 @@ import { DateFormat } from './date-format';
     LoaidngRippleComponent,
     LoaidngEllipsisComponent,
     LoaidngHourglassComponent,
-    LoaidngRollerComponent
+    LoaidngRollerComponent,
+    VendorComponent
   ],
   imports: [
     BrowserModule,
