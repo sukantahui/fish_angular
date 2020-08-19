@@ -102,20 +102,30 @@ export class ProductComponent implements OnInit {
   }
 
   updateProduct(){
-    let updateObserable: Observable<any>;
-    updateObserable = this.productService.updateProduct(this.productForm.value);
-    updateObserable.subscribe((response) => {
-      if (response.success === 1){
-        this.snackBar.openFromComponent(SncakBarComponent, {
-          duration: 4000, data: {message: 'Product Updated!'}
+    Swal.fire({
+      title: 'Confirmation',
+      text: 'Do you sure to add this product',
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Create It!'
+    }).then((result) => {
+      // if selected yes
+      if (result.value) {
+        this.productService.updateProduct(this.productForm.value)
+        .subscribe((response) => {
+          if (response.success === 1){
+            this.snackBar.openFromComponent(SncakBarComponent, {
+              duration: 4000, data: {message: 'Product Updated!'}
+            });
+          }
+        }, (error) => {
+          this.snackBar.openFromComponent(SncakBarComponent, {
+            duration: 4000, data: {message: error.message}
+          });
         });
       }
-    }, (error) => {
-      console.log('error occured ');
-      console.log(error);
-      this.snackBar.openFromComponent(SncakBarComponent, {
-        duration: 4000, data: {message: error.message}
-      });
     });
   }
 
