@@ -1,6 +1,7 @@
 <div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFill id="purchase-div">
   <div fxLayout="column" fxFlex="40" class="mr-1">
-    <mat-card class="ml-2 mt-2">
+    <div id="left-details">
+      <mat-card class="ml-2 mt-2 form-mat-card" >
       <div class="form-container">
         <form [formGroup] = purchaseMasterForm>
           <div class="container" fxLayout="column" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
@@ -34,23 +35,13 @@
         </form>
       </div>
     </mat-card>
+    </div>
   </div>
   <div fxLayout="column" fxFlex="60" class="mr-1">
-   sdfgsdgsdg
+   <div  id="right-details">
+
+   </div>
   </div>
 </div>
 
 
-<!--this is for developer -->
-<div *ngIf="true" style="background-color: #c6538c" fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFill id="developer-div">
-  <!--  Left Side-->
-  <div fxLayout="column" fxFlex="40" class="mr-1">
-      <pre>
-      VendorList={{this.vendorList | json}}
-    </pre>
-  </div>
-  <!--  Right Side-->
-  <div fxFlex="60" style="background-color: #dce815;">
-
-  </div>
-</div>

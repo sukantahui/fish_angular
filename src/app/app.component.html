@@ -1,18 +1,3 @@
-<!--<div fxLayout="column" fxFlexFill>-->
-<!--  <app-header [deviceXs]="deviceXs"></app-header>-->
-<!--  <div fxLayout="column" fxFill>-->
-<!--    <div fxFlex="column grow" style="margin: 0%">-->
-<!--      <router-outlet></router-outlet>-->
-<!--    </div>-->
-<!--    <footer fxLayout="column">-->
-<!--      <div fxLayout="row">-->
-<!--        <hr fxFlex="100">-->
-<!--      </div>-->
-<!--      <p fxFlexAlign="center">Copy Right CODER</p>-->
-<!--    </footer>-->
-<!--  </div>-->
-<!--</div>-->
-
 
 
 
@@ -22,12 +7,12 @@
   <div fxFlex="1" fxLayout="column" flexLayoutAlign="center center">
       <app-header [deviceXs]="deviceXs"></app-header>
   </div>
-  <div fxFlex="1" fxLayout="column" flexLayoutAlign="center center" style="margin-top: 70px">
+  <div fxFlex="1" fxLayout="column" flexLayoutAlign="center center"  style="margin-top: 70px; height: 100%;">
     <router-outlet></router-outlet>
   </div>
 
 
-  <div fxFlex fxLayoutAlign="start end" class="bottom-div">
+  <div fxFlexFill fxLayoutAlign="start end" class="bottom-div" style="background-color: #e88007">
     BOTTOM ELEMENT: This div is filled and text is aligned in the end
   </div>
 </div>
