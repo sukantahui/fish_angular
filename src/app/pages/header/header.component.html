@@ -72,7 +72,7 @@
             </div>
           </div>
 
-          <button mat-button [matMenuTriggerFor]="menuMaster">Master</button>
+          <button mat-button [matMenuTriggerFor]="menuMaster">Master<mat-icon>arrow_drop_down</mat-icon></button>
           <mat-menu #menuMaster="matMenu">
             <button mat-menu-item [routerLink]="['/customer']" routerLinkActive="MyActiveMenu"><mat-icon>face</mat-icon>Customer</button>
             <button mat-menu-item [routerLink]="['/vendor']" routerLinkActive="MyActiveMenu"><mat-icon>account_circle</mat-icon>Vendor</button>
