@@ -4,7 +4,7 @@
     <!--    https://www.angularjswiki.com/angular/angular-material-icons-list-mat-icon-list/-->
     <mat-card>
       <div class="form-container">
-        <form [formGroup] = vendorForm (ngSubmit)="onSubmit()">
+        <form [formGroup] = vendorForm>
           <div class="container" fxLayout="column" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
             <mat-form-field>
               <input matInput placeholder="Vendor Name" formControlName="person_name">
@@ -12,6 +12,15 @@
                 <mat-error *ngIf="vendorForm.get('person_name').errors['required']">This field is Required</mat-error>
                 <mat-error *ngIf="vendorForm.get('person_name').errors['minlength']">Minimum length of name is {{vendorForm.get('person_name').errors.minlength.requiredLength}}</mat-error>
                 <mat-error *ngIf="vendorForm.get('person_name').errors['maxlength']">Maximum length of name is {{vendorForm.get('person_name').errors.maxlength.requiredLength}}</mat-error>
+              </div>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput placeholder="Billing Name" formControlName="billing_name">
+              <div class="container" fxLayout fxLayout.xs="column" fxLayoutAlign="end" fxLayoutGap="10px" fxLayoutGap.xs="0" *ngIf="!vendorForm.get('billing_name').valid && vendorForm.get('billing_name').touched">
+                <mat-error *ngIf="vendorForm.get('billing_name').errors['required']">This field is Required</mat-error>
+                <mat-error *ngIf="vendorForm.get('billing_name').errors['minlength']">Minimum length of name is {{vendorForm.get('billing_name').errors.minlength.requiredLength}}</mat-error>
+                <mat-error *ngIf="vendorForm.get('billing_name').errors['maxlength']">Maximum length of name is {{vendorForm.get('billing_name').errors.maxlength.requiredLength}}</mat-error>
               </div>
             </mat-form-field>
 
@@ -62,7 +71,7 @@
               <button mat-button  mat-stroked-button (click)="clearVendorForm()">
                 Clear
               </button>
-              <button mat-button  mat-stroked-button [disabled]="!vendorForm.valid" >
+              <button mat-button  mat-stroked-button [disabled]="!vendorForm.valid" (click)="onSubmit()">
                 Save
               </button>
               <button mat-button type="button"  mat-stroked-button (click)="updateVendor()" [disabled]="!vendorForm.valid">
@@ -100,6 +109,7 @@
           <th>Email</th>
           <th>Mobile</th>
           <th>City</th>
+          <th>Action</th>
         </tr>
         </thead>
         <tbody>
@@ -109,6 +119,14 @@
           <td>{{vendor.email}}</td>
           <td>{{vendor.mobile1}}</td>
           <td>{{vendor.city}}</td>
+          <td>
+            <button mat-icon-button color="primary" aria-label="Edit Customer" (click)="populateFormByCurrentVendor(vendor)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" aria-label="Edit Customer" (click)="deleteCurrentVendor(vendor)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
         </tr>
         </tbody>
       </table>

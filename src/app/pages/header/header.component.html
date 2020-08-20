@@ -43,12 +43,13 @@
     </mat-toolbar-row>
   </mat-toolbar>
   <!--For Owner-->
+  <!--  https://www.angularjswiki.com/angular/angular-material-icons-list-mat-icon-list/-->
   <mat-toolbar [ngStyle]="myStyle()" *ngIf="isAuthenticated && isOwner">
     <mat-toolbar-row fxLayoutAlign="space-between center">
       <div fxLayout="row">
           <button mat-button >
-            <mat-icon>home</mat-icon>
-            <span class="logo">Coder</span>
+            <mat-icon>filter_none</mat-icon>
+            <span class="logo">Fish</span>
           </button>
           <div *ngIf="!deviceXs">
             <button mat-button
@@ -71,18 +72,16 @@
             </div>
           </div>
 
-          <button mat-button [matMenuTriggerFor]="menu">Menu</button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item [routerLink]="['/customer']" routerLinkActive="MyActiveMenu">Customer</button>
-            <button mat-menu-item [routerLink]="['/vendor']" routerLinkActive="MyActiveMenu">Vendor</button>
-            <button mat-menu-item [routerLink]="['/product']" routerLinkActive="MyActiveMenu">Product</button>
+          <button mat-button [matMenuTriggerFor]="menuMaster">Master<mat-icon>arrow_drop_down</mat-icon></button>
+          <mat-menu #menuMaster="matMenu">
+            <button mat-menu-item [routerLink]="['/customer']" routerLinkActive="MyActiveMenu"><mat-icon>face</mat-icon>Customer</button>
+            <button mat-menu-item [routerLink]="['/vendor']" routerLinkActive="MyActiveMenu"><mat-icon>account_circle</mat-icon>Vendor</button>
+            <button mat-menu-item [routerLink]="['/product']" routerLinkActive="MyActiveMenu"><mat-icon>shopping_cart</mat-icon>Product</button>
           </mat-menu>
 
         <button mat-button [matMenuTriggerFor]="TransactionMenu">Transaction</button>
         <mat-menu #TransactionMenu="matMenu">
-          <button mat-menu-item [routerLink]="['/order']" routerLinkActive="MyActiveMenu">Order</button>
-          <button mat-menu-item [routerLink]="['/job']" routerLinkActive="MyActiveMenu">Job</button>
-          <button mat-menu-item [routerLink]="['/job_task']" routerLinkActive="MyActiveMenu">Work In Progress</button>
+          <button mat-menu-item [routerLink]="['/purchase']" routerLinkActive="MyActiveMenu">Purchase</button>
         </mat-menu>
 
 

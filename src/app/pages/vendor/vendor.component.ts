@@ -3,6 +3,8 @@ import {VendorService} from '../../services/vendor.service';
 import {Vendor} from '../../models/vendor.model';
 import {FormControl, FormGroup} from '@angular/forms';
 import Swal from 'sweetalert2';
+import {SncakBarComponent} from "../../common/sncak-bar/sncak-bar.component";
+import {MatSnackBar} from "@angular/material/snack-bar";
 @Component({
   selector: 'app-vendor',
   templateUrl: './vendor.component.html',
@@ -17,6 +19,7 @@ export class VendorComponent implements OnInit {
   filter = new FormControl('');
   p = 1;
   vendorForm: FormGroup;
+  private  snackBar: MatSnackBar;
   constructor(private vendorService: VendorService) { }
 
   ngOnInit(): void {
@@ -53,7 +56,80 @@ export class VendorComponent implements OnInit {
         });
       });
   }
-  updateVendor() {
 
+  populateFormByCurrentVendor(vendor: Vendor) {
+    this.vendorService.fillVendorFormByUpdateAbleData(vendor);
   }
+  updateVendor() {
+    Swal.fire({
+      title: 'Confirmation',
+      text: 'Do you sure to add this product',
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Create It!'
+    }).then((result) => {
+      // if selected yes
+      if (result.value) {
+        this.vendorService.updateVendor(this.vendorForm.value)
+          .subscribe((response) => {
+            if (response.success === 1){
+              Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Vendor has been Updated',
+                showConfirmButton: false,
+                timer: 3000
+              });
+            }
+          }, (error) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: error,
+              footer: '<a href>Why do I have this issue?</a>',
+              timer: 0
+            });
+          });
+      }
+    });
+  }
+
+  deleteCurrentVendor(vendor: Vendor) {
+    Swal.fire({
+      title: 'Confirmation',
+      text: 'Do you sure to delete ' + vendor.person_name,
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Delete It!'
+    }).then((result) => {
+      // if selected yes
+      if (result.value) {
+        this.vendorService.deleteVendor(vendor.id)
+          .subscribe((response) => {
+            if (response.success === 1){
+              Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Vendor has been deleted',
+                showConfirmButton: false,
+                timer: 3000
+              });
+            }
+          }, (error) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: error,
+              footer: '<a href>Why do I have this issue?</a>',
+              timer: 0
+            });
+          });
+      }
+    });
+  }
+
 }

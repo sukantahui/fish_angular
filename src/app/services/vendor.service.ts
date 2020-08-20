@@ -3,7 +3,7 @@ import {Vendor} from '../models/vendor.model';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Subject, throwError} from 'rxjs';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {catchError, tap} from "rxjs/operators";
+import {catchError, tap} from 'rxjs/operators';
 
 
 @Injectable({
@@ -25,6 +25,7 @@ export class VendorService {
     this.vendorForm = new FormGroup({
       id : new FormControl(null),
       person_name : new FormControl(null, [Validators.required, Validators.maxLength(20), Validators.minLength(4)]),
+      billing_name : new FormControl(null, [Validators.required, Validators.maxLength(20), Validators.minLength(4)]),
       email : new FormControl(null, [Validators.required, Validators.email]),
       mobile1 : new FormControl('+91', [Validators.maxLength(10)]),
       mobile2 : new FormControl('+91', [Validators.maxLength(10)]),
@@ -59,8 +60,55 @@ export class VendorService {
   private handleError(errorResponse: HttpErrorResponse){
     if (errorResponse.error.message.includes('1062')){
       return throwError('Record already exists');
+    }else if (errorResponse.error.message.includes('1451')){
+      return throwError('This record can not be deleted');
     }else {
       return throwError(errorResponse.error.message);
     }
+  }
+
+  fillVendorFormByUpdateAbleData(vendor){
+    this.vendorForm.setValue(vendor);
+  }
+
+  updateVendor(vendor: Vendor) {
+    return this.http.patch<{ success: number, data: object }>('http://127.0.0.1:8000/api/vendors', vendor)
+      .pipe(catchError(this.handleError), tap((response: {success: number, data: Vendor}) => {
+        const index = this.vendorList.findIndex(x => x.id === vendor.id);
+        this.vendorList[index] = response.data;
+        this.vendorSubject.next([...this.vendorList]);
+      }));
+  }
+
+  deleteVendor(id: number) {
+    return this.http.delete<{success: number, id: number}>('http://127.0.0.1:8000/api/vendors/' + id)
+      .pipe(catchError(this.serverError), tap((response: {success: number, id: number}) => {
+        if (response.success === 1){
+          const index = this.vendorList.findIndex(x => x.id === id);
+          if (index !== -1) {
+            this.vendorList.splice(index, 1);
+          }
+        }
+
+        this.vendorSubject.next([...this.vendorList]); // here two user is used one is user and another user is subject of rxjs
+      }));
+  }
+  private serverError(err: any) {
+    // console.log('sever error:', err);  // debug
+    if (err instanceof Response) {
+      return throwError('backend server error');
+      // if you're using lite-server, use the following line
+      // instead of the line above:
+      // return Observable.throw(err.text() || 'backend server error');
+    }
+    if (err.status === 0){
+      // tslint:disable-next-line:label-position
+      return throwError ({status: err.status, message: 'Backend Server is not Working', statusText: err.statusText});
+    }
+    if (err.status === 401){
+      // tslint:disable-next-line:label-position
+      return throwError ({status: err.status, message: 'Your are not authorised', statusText: err.statusText});
+    }
+    return throwError(err);
   }
 }
