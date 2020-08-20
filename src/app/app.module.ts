@@ -40,6 +40,7 @@ import { LoaidngRollerComponent } from './shared/loaidng-roller/loaidng-roller.c
 import { DateAdapter } from '@angular/material/core';
 import { DateFormat } from './date-format';
 import { VendorComponent } from './pages/vendor/vendor.component';
+import { PurchaseComponent } from './pages/purchase/purchase.component';
 
 
 @NgModule({
@@ -60,7 +61,8 @@ import { VendorComponent } from './pages/vendor/vendor.component';
     LoaidngEllipsisComponent,
     LoaidngHourglassComponent,
     LoaidngRollerComponent,
-    VendorComponent
+    VendorComponent,
+    PurchaseComponent
   ],
   imports: [
     BrowserModule,

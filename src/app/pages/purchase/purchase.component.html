@@ -1,0 +1,56 @@
+<div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFill id="purchase-div">
+  <div fxLayout="column" fxFlex="40" class="mr-1">
+    <mat-card class="ml-2 mt-2">
+      <div class="form-container">
+        <form [formGroup] = purchaseMasterForm>
+          <div class="container" fxLayout="column" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+
+            <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+              <mat-form-field class="example-full-width">
+                <mat-label>Choose a date</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="purchase_date">
+                <mat-datepicker-toggle matSuffix [for]="picker">
+                  <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+              <mat-form-field fxFlex="40">
+                <input matInput placeholder="Invoice" formControlName="invoice_number">
+              </mat-form-field>
+            </div>
+
+            <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+              <mat-form-field fxFlex="40">
+                <mat-label>Vendor Name</mat-label>
+                <mat-select  formControlName="vendor_id">
+                  <mat-option *ngFor="let vendor of vendorList" [value]="vendor.id">
+                    {{vendor.person_name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </mat-card>
+  </div>
+  <div fxLayout="column" fxFlex="60" class="mr-1">
+   sdfgsdgsdg
+  </div>
+</div>
+
+
+<!--this is for developer -->
+<div *ngIf="true" style="background-color: #c6538c" fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFill id="developer-div">
+  <!--  Left Side-->
+  <div fxLayout="column" fxFlex="40" class="mr-1">
+      <pre>
+      VendorList={{this.vendorList | json}}
+    </pre>
+  </div>
+  <!--  Right Side-->
+  <div fxFlex="60" style="background-color: #dce815;">
+
+  </div>
+</div>

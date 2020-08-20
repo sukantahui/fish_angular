@@ -3,7 +3,7 @@ import {Vendor} from '../models/vendor.model';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Subject, throwError} from 'rxjs';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {catchError, tap} from "rxjs/operators";
+import {catchError, tap} from 'rxjs/operators';
 
 
 @Injectable({
