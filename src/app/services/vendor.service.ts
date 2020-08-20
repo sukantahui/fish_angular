@@ -57,15 +57,7 @@ export class VendorService {
       }));
   }
 
-  private handleError(errorResponse: HttpErrorResponse){
-    if (errorResponse.error.message.includes('1062')){
-      return throwError('Record already exists');
-    }else if (errorResponse.error.message.includes('1451')){
-      return throwError('This record can not be deleted');
-    }else {
-      return throwError(errorResponse.error.message);
-    }
-  }
+
 
   fillVendorFormByUpdateAbleData(vendor){
     this.vendorForm.setValue(vendor);
@@ -93,21 +85,38 @@ export class VendorService {
         this.vendorSubject.next([...this.vendorList]); // here two user is used one is user and another user is subject of rxjs
       }));
   }
+
+
+
+  private handleError(errorResponse: HttpErrorResponse){
+    if (errorResponse.error.message.includes('1062')){
+      return throwError({success: 0, status: 'failed', message: 'Record already exists', statusText: ''});
+    }else if (errorResponse.error.message.includes('1451')){
+      return throwError({success: 0, status: 'failed', message: 'This record can not be deleted', statusText: ''});
+    }else {
+      return throwError(errorResponse.error.message);
+    }
+  }
+
   private serverError(err: any) {
-    // console.log('sever error:', err);  // debug
+    console.log('sever error:', err);  // debug
     if (err instanceof Response) {
-      return throwError('backend server error');
+      return throwError({success: 0, status: err.status, message: 'Backend Server is not Working', statusText: err.statusText});
       // if you're using lite-server, use the following line
       // instead of the line above:
       // return Observable.throw(err.text() || 'backend server error');
     }
     if (err.status === 0){
       // tslint:disable-next-line:label-position
-      return throwError ({status: err.status, message: 'Backend Server is not Working', statusText: err.statusText});
+      return throwError ({success: 0, status: err.status, message: 'Backend Server is not Working', statusText: err.statusText});
     }
     if (err.status === 401){
       // tslint:disable-next-line:label-position
-      return throwError ({status: err.status, message: 'Your are not authorised', statusText: err.statusText});
+      return throwError ({success: 0, status: err.status, message: 'Your are not authorised', statusText: err.statusText});
+    }
+    if (err.status === 500){
+      // tslint:disable-next-line:label-position
+      return throwError ({success: 0, status: err.status, message: 'Server error', statusText: err.statusText});
     }
     return throwError(err);
   }
