@@ -119,13 +119,21 @@ export class VendorComponent implements OnInit {
                 showConfirmButton: false,
                 timer: 3000
               });
+            }else{
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: response.data,
+                footer: '<a href>Why do I have this issue?</a>',
+                timer: 0
+              });
             }
           }, (error) => {
             console.log(error);
             Swal.fire({
               icon: 'error',
               title: 'Oops...',
-              text: error.message,
+              text: response.data,
               footer: '<a href>Why do I have this issue?</a>',
               timer: 0
             });
