@@ -74,7 +74,7 @@ export class VendorService {
 
   deleteVendor(id: number) {
     return this.http.delete<{success: number, id: number}>('http://127.0.0.1:8000/api/vendors/' + id)
-      .pipe(catchError(this.serverError), tap((response: {success: number, id: number}) => {
+      .pipe(catchError(this.serverError), tap((response: {success: number, id: number, data: string}) => {
         if (response.success === 1){
           const index = this.vendorList.findIndex(x => x.id === id);
           if (index !== -1) {

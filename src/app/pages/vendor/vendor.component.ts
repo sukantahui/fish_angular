@@ -110,7 +110,6 @@ export class VendorComponent implements OnInit {
       if (result.value) {
         this.vendorService.deleteVendor(vendor.id)
           .subscribe((response) => {
-
             if (response.success === 1){
               Swal.fire({
                 position: 'top-end',
@@ -133,7 +132,7 @@ export class VendorComponent implements OnInit {
             Swal.fire({
               icon: 'error',
               title: 'Oops...',
-              text: response.data,
+              text: error.message,
               footer: '<a href>Why do I have this issue?</a>',
               timer: 0
             });
