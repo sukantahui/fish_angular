@@ -7,11 +7,11 @@
         <form [formGroup] = vendorForm>
           <div class="container" fxLayout="column" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
             <mat-form-field>
-              <input matInput placeholder="Vendor Name" formControlName="person_name">
-              <div class="container" fxLayout fxLayout.xs="column" fxLayoutAlign="end" fxLayoutGap="10px" fxLayoutGap.xs="0" *ngIf="!vendorForm.get('person_name').valid && vendorForm.get('person_name').touched">
-                <mat-error *ngIf="vendorForm.get('person_name').errors['required']">This field is Required</mat-error>
-                <mat-error *ngIf="vendorForm.get('person_name').errors['minlength']">Minimum length of name is {{vendorForm.get('person_name').errors.minlength.requiredLength}}</mat-error>
-                <mat-error *ngIf="vendorForm.get('person_name').errors['maxlength']">Maximum length of name is {{vendorForm.get('person_name').errors.maxlength.requiredLength}}</mat-error>
+              <input matInput placeholder="Vendor Name" formControlName="ledger_name">
+              <div class="container" fxLayout fxLayout.xs="column" fxLayoutAlign="end" fxLayoutGap="10px" fxLayoutGap.xs="0" *ngIf="!vendorForm.get('ledger_name').valid && vendorForm.get('ledger_name').touched">
+                <mat-error *ngIf="vendorForm.get('ledger_name').errors['required']">This field is Required</mat-error>
+                <mat-error *ngIf="vendorForm.get('ledger_name').errors['minlength']">Minimum length of name is {{vendorForm.get('ledger_name').errors.minlength.requiredLength}}</mat-error>
+                <mat-error *ngIf="vendorForm.get('ledger_name').errors['maxlength']">Maximum length of name is {{vendorForm.get('ledger_name').errors.maxlength.requiredLength}}</mat-error>
               </div>
             </mat-form-field>
 
@@ -65,6 +65,11 @@
               </mat-form-field>
               <mat-form-field fxFlex="30">
                 <input matInput placeholder="PIN" formControlName="pin">
+              </mat-form-field>
+            </div>
+            <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+              <mat-form-field fxFlex="40">
+                <input matInput placeholder="Opening balance" formControlName="opening_balance">
               </mat-form-field>
             </div>
             <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end" fxLayoutGap="10px" fxLayoutGap.xs="0" >

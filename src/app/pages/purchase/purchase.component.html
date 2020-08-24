@@ -25,7 +25,7 @@
                 <mat-label>Vendor Name</mat-label>
                 <mat-select  formControlName="vendor_id">
                   <mat-option *ngFor="let vendor of vendorList" [value]="vendor.id">
-                    {{vendor.person_name}}
+                    {{vendor.ledger_name}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>

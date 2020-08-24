@@ -11,9 +11,10 @@ export class PurchaseService {
   constructor() {
     this.purchaseMasterForm = new FormGroup({
       id : new FormControl(null),
-      invoice_number : new FormControl(null, [Validators.required, Validators.maxLength(20), Validators.minLength(2)]),
-      purchase_date : new FormControl(null, [Validators.required]),
-      vendor_id : new FormControl(null, [Validators.required])
+      discount : new FormControl(0),
+      round_off : new FormControl(0),
+      loading_expenditure : new FormControl(0),
+      comment : new FormControl(null)
     });
   }
 }

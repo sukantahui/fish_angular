@@ -24,20 +24,21 @@ export class VendorService {
 
     this.vendorForm = new FormGroup({
       id : new FormControl(null),
-      person_name : new FormControl(null, [Validators.required, Validators.maxLength(20), Validators.minLength(4)]),
+      ledger_name : new FormControl(null, [Validators.required, Validators.maxLength(20), Validators.minLength(4)]),
       billing_name : new FormControl(null, [Validators.required, Validators.maxLength(20), Validators.minLength(4)]),
-      email : new FormControl(null, [Validators.required, Validators.email]),
+      ledger_group_id : new FormControl(15),
+      email : new FormControl(null, [Validators.maxLength(250)]),
       mobile1 : new FormControl('+91', [Validators.maxLength(10)]),
       mobile2 : new FormControl('+91', [Validators.maxLength(10)]),
-      person_type_id : new FormControl(11),
-      customer_category_id : new FormControl(1),
       address1 : new FormControl(null),
       address2 : new FormControl(null),
       state : new FormControl('West Bengal'),
       po : new FormControl(null),
       area : new FormControl(null),
       city : new FormControl(null),
-      pin : new FormControl(null, [Validators.pattern('^[0-9]*$'), Validators.maxLength(6)])
+      pin : new FormControl(null, [Validators.pattern('^[0-9]*$'), Validators.maxLength(6)]),
+      opening_balance : new FormControl(0),
+      transaction_type_id : new FormControl(2),
     });
 
   } // end of constructor
