@@ -68,9 +68,17 @@
               </mat-form-field>
             </div>
             <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
-              <mat-form-field fxFlex="40">
+              <mat-form-field fxFlex="30">
                 <input matInput placeholder="Opening balance" formControlName="opening_balance">
               </mat-form-field>
+              <mat-form-field fxFlex="20">
+              <mat-label>Type</mat-label>
+                <mat-select  formControlName="transaction_type_id">
+                  <mat-option  [value]="1">Dr.</mat-option>
+                  <mat-option  [value]="2">Cr.</mat-option>
+                </mat-select>
+              </mat-form-field>
+
             </div>
             <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end" fxLayoutGap="10px" fxLayoutGap.xs="0" >
               <button mat-button  mat-stroked-button (click)="clearVendorForm()">
