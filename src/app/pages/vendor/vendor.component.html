@@ -128,7 +128,7 @@
         <tbody>
         <tr *ngFor="let vendor of vendorList | filter:searchTerm | paginate: { itemsPerPage: pageSize, currentPage: p }">
           <td>{{vendor.id}}</td>
-          <td sortable-column="person_name">{{vendor.person_name}}</td>
+          <td sortable-column="ledger_name">{{vendor.ledger_name}}</td>
           <td>{{vendor.email}}</td>
           <td>{{vendor.mobile1}}</td>
           <td>{{vendor.city}}</td>

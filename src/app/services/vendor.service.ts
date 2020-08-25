@@ -53,6 +53,7 @@ export class VendorService {
   saveVendor(vendor) {
     return this.http.post<{ success: number, data: object }>('http://127.0.0.1:8000/api/vendors', vendor)
       .pipe(catchError(this.handleError), tap((response: {success: number, data: Vendor}) => {
+        console.log(response.data);
         this.vendorList.unshift(response.data);
         this.vendorSubject.next([...this.vendorList]);
       }));
@@ -61,6 +62,7 @@ export class VendorService {
 
 
   fillVendorFormByUpdateAbleData(vendor){
+    console.log(vendor);
     this.vendorForm.setValue(vendor);
   }
 

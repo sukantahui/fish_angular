@@ -3,8 +3,8 @@ import {VendorService} from '../../services/vendor.service';
 import {Vendor} from '../../models/vendor.model';
 import {FormControl, FormGroup} from '@angular/forms';
 import Swal from 'sweetalert2';
-import {SncakBarComponent} from "../../common/sncak-bar/sncak-bar.component";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import {SncakBarComponent} from '../../common/sncak-bar/sncak-bar.component';
+import {MatSnackBar} from '@angular/material/snack-bar';
 @Component({
   selector: 'app-vendor',
   templateUrl: './vendor.component.html',
@@ -59,6 +59,7 @@ export class VendorComponent implements OnInit {
 
   populateFormByCurrentVendor(vendor: Vendor) {
     this.vendorService.fillVendorFormByUpdateAbleData(vendor);
+    console.log(vendor);
   }
   updateVendor() {
     Swal.fire({
@@ -99,7 +100,7 @@ export class VendorComponent implements OnInit {
   deleteCurrentVendor(vendor: Vendor) {
     Swal.fire({
       title: 'Confirmation',
-      text: 'Do you sure to delete ' + vendor.person_name,
+      text: 'Do you sure to delete ' + vendor.ledger_name,
       icon: 'info',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
