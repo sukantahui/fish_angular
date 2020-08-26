@@ -3,44 +3,35 @@
     <div id="left-details">
       <mat-card class="ml-2 mt-2 form-mat-card" >
       <div class="form-container">
-        <form [formGroup] = purchaseMasterForm>
+        <form [formGroup] = transactionMaster>
           <div class="container" fxLayout="column" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
-
+            <!--Transaction Date and Transaction Number-->
             <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+              <!--Transaction Date-->
               <mat-form-field class="example-full-width">
                 <mat-label>Choose a date</mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="purchase_date">
+                <input matInput [matDatepicker]="picker" formControlName="transaction_date">
                 <mat-datepicker-toggle matSuffix [for]="picker">
                   <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
                 </mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
               </mat-form-field>
+              <!--Transaction Number or Bill Number-->
               <mat-form-field fxFlex="40">
-                <input matInput placeholder="Invoice" formControlName="invoice_number">
+                <input matInput placeholder="Invoice" formControlName="transaction_number">
               </mat-form-field>
             </div>
 
-            <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
-              <mat-form-field fxFlex="40">
-                <mat-label>Vendor Name</mat-label>
-                <mat-select  formControlName="vendor_id">
-                  <mat-option *ngFor="let vendor of vendorList" [value]="vendor.id">
-                    {{vendor.ledger_name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-            <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
-              <mat-form-field class="example-full-width">
-                <mat-label>Choose a date</mat-label>
-                <input matInput placeholder="comments" formControlName="comment">
-
-              </mat-form-field>
-              <mat-form-field fxFlex="40">
-
-              </mat-form-field>
-            </div>
-
+<!--            <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">-->
+<!--              <mat-form-field fxFlex="40">-->
+<!--                <mat-label>Vendor Name</mat-label>-->
+<!--                <mat-select  formControlName="vendor_id">-->
+<!--                  <mat-option *ngFor="let vendor of vendorList" [value]="vendor.id">-->
+<!--                    {{vendor.ledger_name}}-->
+<!--                  </mat-option>-->
+<!--                </mat-select>-->
+<!--              </mat-form-field>-->
+<!--            </div>-->
           </div>
         </form>
       </div>
@@ -51,6 +42,22 @@
    <div  id="right-details">
 
    </div>
+  </div>
+</div>
+
+<!--This is developer div-->
+<div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch"  id="developer-div">
+  <div fxLayout="column" fxFlex="40" class="mr-1">
+    <pre>
+      purchaseMasterForm = {{purchaseMasterForm.value | json}}
+      purchaseDetailForm = {{purchaseDetailForm.value | json}}
+    </pre>
+  </div>
+  <div fxLayout="column" fxFlex="60" class="mr-1">
+    <pre>
+      transactionMaster = {{transactionMaster.value | json}}
+      transactionDetail = {{transactionDetail.value | json}}
+    </pre>
   </div>
 </div>
 

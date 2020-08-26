@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {User} from '../models/user.model';
 
 
 @Injectable({
@@ -10,7 +11,15 @@ export class PurchaseService {
   purchaseMasterForm: FormGroup;
   purchaseDetailForm: FormGroup;
   transactionMaster: FormGroup;
+  transactionDetail: FormGroup;
+  userData: {id: number, personName: string, _authKey: string, personTypeId: number};
   constructor() {
+    this.userData = JSON.parse(localStorage.getItem('user'));
+    if (!this.userData){
+      return;
+    }else{
+      console.log(this.userData);
+    }
     this.purchaseMasterForm = new FormGroup({
       id: new FormControl(null),
       discount: new FormControl(0),
@@ -32,7 +41,14 @@ export class PurchaseService {
       transaction_date: new FormControl(null),
       transaction_number: new FormControl(null),
       voucher_id: new FormControl(2),           // purchase
-      employee_id: new FormControl(null)
+      employee_id: new FormControl(this.userData.id)
+    });
+    this.transactionDetail = new FormGroup({
+      id: new FormControl(null),
+      transaction_master_id: new FormControl(null),
+      transaction_type_id: new FormControl(null),
+      ledger_id: new FormControl(2),           // purchase
+      amount: new FormControl(0)
     });
   }
 }
