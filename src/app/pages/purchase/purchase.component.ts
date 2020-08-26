@@ -3,6 +3,7 @@ import {PurchaseService} from '../../services/purchase.service';
 import {FormControl, FormGroup} from '@angular/forms';
 import {VendorService} from '../../services/vendor.service';
 import {Vendor} from '../../models/vendor.model';
+import {ProductCategory} from "../../models/productCategory.model";
 
 @Component({
   selector: 'app-purchase',
@@ -16,9 +17,15 @@ export class PurchaseComponent implements OnInit {
   purchaseDetailForm: FormGroup;
   transactionDetail: FormGroup;
   vendorList: Vendor[] = [];
+  productCategoryList: ProductCategory[] = [];
   constructor(private purchaseService: PurchaseService, private vendorService: VendorService) { }
 
   ngOnInit(): void {
+    this.productCategoryList = this.purchaseService.getProductCategoryList();
+    this.purchaseService.getProductCategoryUpdateListener().subscribe(response => {
+        // console.log(response);
+        this.productCategoryList = response;
+    });
     this.purchaseMasterForm = this.purchaseService.purchaseMasterForm;
     this.purchaseDetailForm = this.purchaseService.purchaseDetailForm;
     this.transactionMaster = this.purchaseService.transactionMaster;
@@ -30,4 +37,7 @@ export class PurchaseComponent implements OnInit {
 
   }
 
+  doSomething(event: any) {
+    console.log(event.target.value);
+  }
 }

@@ -34,16 +34,39 @@
 <!--            </div>-->
           </div>
         </form>
-        <form>
+        <form [formGroup] = transactionDetail>
           <div class="container" fxLayout="column" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
             <!--Transaction Date and Transaction Number-->
             <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
-              <!--Transaction Number or Bill Number-->
-              <mat-form-field fxFlex="40">
-                <input matInput placeholder="Invoice" formControlName="">
-              </mat-form-field>
+              <!--Vendors list-->
+                <mat-form-field fxFlex="40">
+                  <mat-label>Vendor Name</mat-label>
+                  <mat-select  formControlName="ledger_id">
+                    <mat-option *ngFor="let vendor of vendorList" [value]="vendor.id">
+                      {{vendor.ledger_name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
             </div>
-
+          </div>
+        </form>
+<!--        purchase details form-->
+        <form [formGroup] = purchaseDetailForm>
+          <div class="container" fxLayout="column" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+            <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+              <mat-form-field fxFlex="40">
+                <mat-label>Product category</mat-label>
+                <mat-select  formControlName="product_category_id" (change)="doSomething($event)">
+                  <mat-option *ngFor="let category of productCategoryList" [value]="category.id">
+                    {{category.category_name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <select class="custom-select" (change)="doSomething($event)" formControlName="product_category_id">
+                <option value="" disabled>Choose your city</option>
+                <option *ngFor="let city of productCategoryList" [ngValue]="city.id">{{city.category_name}}</option>
+              </select>
+            </div>
           </div>
         </form>
       </div>
