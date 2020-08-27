@@ -4,6 +4,7 @@ import {Product} from '../../models/product.model';
 import {FormControl, FormGroup} from '@angular/forms';
 import {ProductCategoryService} from '../../services/product-category.service';
 import {ProductCategory} from '../../models/productCategory.model';
+import {Unit} from '../../models/unit.model';
 
 import {Observable} from 'rxjs';
 import {SncakBarComponent} from '../../common/sncak-bar/sncak-bar.component';
@@ -25,6 +26,7 @@ export class ProductComponent implements OnInit {
   public searchTerm: string;
   public currentError: any;
   products: Product[] = [];
+  units: Unit[] = [];
   productCategories: ProductCategory[] = [];
   productForm: FormGroup;
   isProductUpdateAble = false;

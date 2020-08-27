@@ -62,6 +62,28 @@
               </mat-form-field>
             </div>
             <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+              <mat-form-field fxFlex="20">
+                <input matInput placeholder="Quantity" formControlName="quantity" (change)="getAmount()">
+              </mat-form-field>
+
+              <mat-form-field fxFlex="10">
+                <mat-label>Unit</mat-label>
+                <mat-select formControlName="unit_id">
+                  <mat-option *ngFor="let unit of unitList" [value]="unit.id">
+                    {{unit.unit_name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field fxFlex="20">
+                <input matInput placeholder="price" formControlName="price" (change)="getAmount()">
+              </mat-form-field>
+
+              <mat-form-field fxFlex="20">
+                <input matInput placeholder="discount" formControlName="discount" (change)="getAmount()">
+              </mat-form-field>
+                {{purchaseAmount}}
+
 
             </div>
           </div>
@@ -91,6 +113,7 @@
       transactionDetail = {{transactionDetail.value | json}}
 
       productList={{productList | json}}
+      units={{unitList | json}}
     </pre>
   </div>
 </div>

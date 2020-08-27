@@ -4,6 +4,7 @@ import {User} from '../models/user.model';
 import {ProductCategory} from '../models/ProductCategory.model';
 import {HttpClient} from '@angular/common/http';
 import {Subject} from 'rxjs';
+import {Unit} from "../models/unit.model";
 
 
 @Injectable({
@@ -44,7 +45,7 @@ export class PurchaseService {
       id: new FormControl(null),
       purchase_master_id: new FormControl(null),
       product_id: new FormControl(null),
-      unit_id: new FormControl(null),
+      unit_id: new FormControl(3),
       quantity: new FormControl(0),
       price: new FormControl(0),
       discount: new FormControl(0),

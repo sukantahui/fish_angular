@@ -3,8 +3,9 @@ import {PurchaseService} from '../../services/purchase.service';
 import {FormControl, FormGroup} from '@angular/forms';
 import {VendorService} from '../../services/vendor.service';
 import {Vendor} from '../../models/vendor.model';
-import {ProductCategory} from "../../models/productCategory.model";
+import {ProductCategory} from '../../models/productCategory.model';
 import {Product} from '../../models/product.model';
+import {Unit} from '../../models/unit.model';
 import {ProductService} from '../../services/product.service';
 
 @Component({
@@ -22,6 +23,8 @@ export class PurchaseComponent implements OnInit {
   productCategoryList: ProductCategory[] = [];
   productList: Product[] = [];
   productListByCategory: Product[] = [];
+  unitList: Unit[] = [];
+  purchaseAmount = 0;
   constructor(private purchaseService: PurchaseService, private vendorService: VendorService, private prodcutService: ProductService) { }
 
   ngOnInit(): void {
@@ -33,6 +36,10 @@ export class PurchaseComponent implements OnInit {
     this.productList = this.prodcutService.getProducts();
     this.prodcutService.getProductUpdateListener().subscribe(response => {
       this.productList = response;
+    });
+    this.unitList = this.prodcutService.getUnits();
+    this.prodcutService.getUnitUpdateListener().subscribe((responseUnit: Unit[]) => {
+      this.unitList = responseUnit;
     });
     this.purchaseMasterForm = this.purchaseService.purchaseMasterForm;
     this.purchaseDetailForm = this.purchaseService.purchaseDetailForm;
@@ -47,6 +54,11 @@ export class PurchaseComponent implements OnInit {
 
   selectProductsByCategory(event: any) {
     const category_id = event.value;
-    this.productListByCategory = this.productList.filter(xx => xx.product_category_id === category_id);
+    this.productListByCategory = this.productList.filter(x => x.product_category_id === category_id);
+  }
+
+  getAmount() {
+    this.purchaseAmount = (this.purchaseDetailForm.value.quantity * this.purchaseDetailForm.value.price) - this.purchaseDetailForm.value.discount;
+
   }
 }

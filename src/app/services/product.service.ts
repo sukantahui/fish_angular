@@ -6,6 +6,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {catchError, tap} from 'rxjs/operators';
 import {ProductCategory} from '../models/productCategory.model';
 import {User} from '../models/user.model';
+import {Unit} from '../models/unit.model';
 
 
 export interface ProductResponseData {
@@ -22,6 +23,8 @@ export class ProductService implements OnDestroy {
   productForm: FormGroup;
   productSubject = new Subject<Product[]>();
 
+  units: Unit[] = [];
+  unitSubject = new Subject<Unit[]>();
 
 
   constructor(private http: HttpClient) {
@@ -31,6 +34,13 @@ export class ProductService implements OnDestroy {
         const {data} = response;
         this.products = data;
         this.productSubject.next([...this.products]);
+      });
+
+    this.http.get('http://127.0.0.1:8000/api/units')
+      .subscribe((response: {success: number, data: Unit[]}) => {
+        const {data} = response;
+        this.units = data;
+        this.unitSubject.next([...this.units]);
       });
 
     this.productForm = new FormGroup({
@@ -49,6 +59,14 @@ export class ProductService implements OnDestroy {
     return this.productSubject.asObservable();
   }
 
+  getUnits(){
+    // when no data it will return null;
+    console.log('getUnits called');
+    return [...this.units];
+  }
+  getUnitUpdateListener(){
+    return this.unitSubject.asObservable();
+  }
 
   fillFormByUpdatebaleData(product){
     this.productForm.setValue(product);
