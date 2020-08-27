@@ -38,6 +38,6 @@ export class PurchaseComponent implements OnInit {
   }
 
   doSomething(event: any) {
-    console.log(event.target.value);
+    console.log(event.value);
   }
 }

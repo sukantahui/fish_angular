@@ -8,7 +8,7 @@
             <!--Transaction Date and Transaction Number-->
             <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
               <!--Transaction Date-->
-              <mat-form-field class="example-full-width">
+              <mat-form-field class="example-full-width" fxFlex="40">
                 <mat-label>Choose a date</mat-label>
                 <input matInput [matDatepicker]="picker" formControlName="transaction_date">
                 <mat-datepicker-toggle matSuffix [for]="picker">
@@ -21,17 +21,6 @@
                 <input matInput placeholder="Invoice" formControlName="transaction_number">
               </mat-form-field>
             </div>
-
-<!--            <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">-->
-<!--              <mat-form-field fxFlex="40">-->
-<!--                <mat-label>Vendor Name</mat-label>-->
-<!--                <mat-select  formControlName="vendor_id">-->
-<!--                  <mat-option *ngFor="let vendor of vendorList" [value]="vendor.id">-->
-<!--                    {{vendor.ledger_name}}-->
-<!--                  </mat-option>-->
-<!--                </mat-select>-->
-<!--              </mat-form-field>-->
-<!--            </div>-->
           </div>
         </form>
         <form [formGroup] = transactionDetail>
@@ -39,7 +28,7 @@
             <!--Transaction Date and Transaction Number-->
             <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
               <!--Vendors list-->
-                <mat-form-field fxFlex="40">
+                <mat-form-field fxFlex="80">
                   <mat-label>Vendor Name</mat-label>
                   <mat-select  formControlName="ledger_id">
                     <mat-option *ngFor="let vendor of vendorList" [value]="vendor.id">
@@ -56,16 +45,12 @@
             <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
               <mat-form-field fxFlex="40">
                 <mat-label>Product category</mat-label>
-                <mat-select  formControlName="product_category_id" (change)="doSomething($event)">
+                <mat-select  (selectionChange)="doSomething($event)">
                   <mat-option *ngFor="let category of productCategoryList" [value]="category.id">
                     {{category.category_name}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <select class="custom-select" (change)="doSomething($event)" formControlName="product_category_id">
-                <option value="" disabled>Choose your city</option>
-                <option *ngFor="let city of productCategoryList" [ngValue]="city.id">{{city.category_name}}</option>
-              </select>
             </div>
           </div>
         </form>

@@ -43,16 +43,16 @@ export class PurchaseService {
     this.purchaseDetailForm = new FormGroup({
       id: new FormControl(null),
       purchase_master_id: new FormControl(null),
-      product_category_id: new FormControl(null),
       product_id: new FormControl(null),
       unit_id: new FormControl(null),
       quantity: new FormControl(0),
       price: new FormControl(0),
       discount: new FormControl(0),
     });
+    const now = new Date();
     this.transactionMaster = new FormGroup({
       id: new FormControl(null),
-      transaction_date: new FormControl(null),
+      transaction_date: new FormControl(now),
       transaction_number: new FormControl(null),
       voucher_id: new FormControl(2),           // purchase
       employee_id: new FormControl(this.userData.id)
