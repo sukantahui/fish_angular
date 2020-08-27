@@ -21,6 +21,7 @@ export class PurchaseComponent implements OnInit {
   vendorList: Vendor[] = [];
   productCategoryList: ProductCategory[] = [];
   productList: Product[] = [];
+  productListByCategory: Product[] = [];
   constructor(private purchaseService: PurchaseService, private vendorService: VendorService, private prodcutService: ProductService) { }
 
   ngOnInit(): void {
@@ -44,7 +45,8 @@ export class PurchaseComponent implements OnInit {
 
   }
 
-  doSomething(event: any) {
-    console.log(event.value);
+  selectProductsByCategory(event: any) {
+    const category_id = event.value;
+    this.productListByCategory = this.productList.filter(xx => xx.product_category_id === category_id);
   }
 }

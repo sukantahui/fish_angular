@@ -45,12 +45,24 @@
             <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
               <mat-form-field fxFlex="40">
                 <mat-label>Product category</mat-label>
-                <mat-select  (selectionChange)="doSomething($event)">
+                <mat-select  (selectionChange)="selectProductsByCategory($event)">
                   <mat-option *ngFor="let category of productCategoryList" [value]="category.id">
                     {{category.category_name}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
+
+              <mat-form-field fxFlex="40" *ngIf="productListByCategory.length>0">
+                <mat-label>Product</mat-label>
+                <mat-select>
+                  <mat-option *ngFor="let product of productListByCategory" [value]="product.id">
+                    {{product.product_name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+
             </div>
           </div>
         </form>
