@@ -24,6 +24,8 @@ export interface PurchaseDetails{
   quantity: number;
   price: number;
   discount: number;
+  product: Product;
+  unit: Unit;
 }
 export interface TransactionMaster{
   id?: number;
@@ -108,7 +110,12 @@ export class PurchaseComponent implements OnInit {
 
   addPurchase() {
     console.log(this.purchaseDetailForm.value);
-    this.purchaseDetails.unshift(this.purchaseDetailForm.value);
+    const tempItem = this.purchaseDetailForm.value;
+    let index = this.productList.findIndex(x => x.id === tempItem.product_id);
+    tempItem.product = this.productList[index];
+    index = this.unitList.findIndex(x => x.id === tempItem.unit_id);
+    tempItem.unit = this.unitList[index];
+    this.purchaseDetails.unshift(tempItem);
     this.transactionMaster = this.transactionMasterForm.value;
     this.transactionDetails = this.transactionDetailForm.value;
 
