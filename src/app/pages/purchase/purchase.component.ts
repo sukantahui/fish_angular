@@ -1,21 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import {PurchaseService} from '../../services/purchase.service';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormGroup} from '@angular/forms';
 import {VendorService} from '../../services/vendor.service';
 import {Vendor} from '../../models/vendor.model';
 import {ProductCategory} from '../../models/productCategory.model';
 import {Product} from '../../models/product.model';
 import {Unit} from '../../models/unit.model';
 import {ProductService} from '../../services/product.service';
+import {PurchaseMaster} from '../../models/purchaseMaster.model';
+import {StorageMap} from '@ngx-pwa/local-storage';
 
 
-export interface PurchaseMaster{
-  id?: number;
-  discount: number;
-  round_off: number;
-  loading_n_unloading_expenditure: number;
-  comment: string;
-}
+
 export interface PurchaseDetails{
   id?: number;
   purchase_master_id: number;
@@ -68,7 +64,8 @@ export class PurchaseComponent implements OnInit {
   transactionDetails: TransactionDetails;
 
   currentTab = 1;
-  constructor(private purchaseService: PurchaseService, private vendorService: VendorService, private productService: ProductService) { }
+  // tslint:disable-next-line:max-line-length
+  constructor(private purchaseService: PurchaseService, private vendorService: VendorService, private productService: ProductService, private storage: StorageMap) { }
 
   ngOnInit(): void {
     this.productCategoryList = this.purchaseService.getProductCategoryList();
@@ -91,6 +88,9 @@ export class PurchaseComponent implements OnInit {
     this.vendorList = this.vendorService.getVendorList();
     this.vendorService.getVendorUpdateListener().subscribe(response => {
       this.vendorList = response;
+    });
+    this.storage.get('purchaseDetails').subscribe((purchaseDetails: PurchaseDetails[]) => {
+        this.purchaseDetails = purchaseDetails;
     });
   }
 
@@ -118,13 +118,17 @@ export class PurchaseComponent implements OnInit {
     this.purchaseDetails.unshift(tempItem);
     this.transactionMaster = this.transactionMasterForm.value;
     this.transactionDetails = this.transactionDetailForm.value;
-
+    this.purchaseMaster = this.purchaseMasterForm.value;
+    this.storage.set('purchaseDetails', this.purchaseDetails).subscribe(() => {});
   }
-
   isCurrentTab(tab: number){
     return (tab === this.currentTab);
   }
   setCurrentTab(tab: number){
     this.currentTab =  tab;
+  }
+
+  clearAll() {
+    this.storage.clear().subscribe(() => {});
   }
 }
