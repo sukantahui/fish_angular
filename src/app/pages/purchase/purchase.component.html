@@ -101,17 +101,29 @@
       <mat-card-header>
        <div mat-card-avatar class="example-header-image"></div>
        <mat-card-title>
-         <div>Buttons will be here</div>
+         <div>
+           <button mat-button (click)="setCurrentTab(1)"  mat-stroked-button>Purchase Details</button>
+           <button mat-button (click)="setCurrentTab(2)"  mat-stroked-button>Purchase List</button>
+         </div>
        </mat-card-title>
       </mat-card-header>
 
-      <mat-card-content>
+      <mat-card-content *ngIf="isCurrentTab(1)">
+        <h1>I am Purchase details</h1>
          <p>
            The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
            A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
            bred for hunting.
          </p>
       </mat-card-content>
+       <mat-card-content *ngIf="isCurrentTab(2)">
+         <h1>Purchase List</h1>
+         <p>
+           The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
+           A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
+           bred for hunting.
+         </p>
+       </mat-card-content>
        <mat-card-actions>
          <button mat-button>LIKE</button>
          <button mat-button>SHARE</button>

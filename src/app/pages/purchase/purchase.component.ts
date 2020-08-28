@@ -64,6 +64,8 @@ export class PurchaseComponent implements OnInit {
   purchaseDetails: PurchaseDetails[] = [];
   transactionMaster: TransactionMaster;
   transactionDetails: TransactionDetails;
+
+  currentTab = 1;
   constructor(private purchaseService: PurchaseService, private vendorService: VendorService, private productService: ProductService) { }
 
   ngOnInit(): void {
@@ -110,5 +112,12 @@ export class PurchaseComponent implements OnInit {
     this.transactionMaster = this.transactionMasterForm.value;
     this.transactionDetails = this.transactionDetailForm.value;
 
+  }
+
+  isCurrentTab(tab: number){
+    return (tab === this.currentTab);
+  }
+  setCurrentTab(tab: number){
+    this.currentTab =  tab;
   }
 }
