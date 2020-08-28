@@ -4,7 +4,7 @@ import {User} from '../models/user.model';
 import {ProductCategory} from '../models/ProductCategory.model';
 import {HttpClient} from '@angular/common/http';
 import {Subject} from 'rxjs';
-import {Unit} from "../models/unit.model";
+import {Unit} from '../models/unit.model';
 
 
 @Injectable({
@@ -14,8 +14,8 @@ import {Unit} from "../models/unit.model";
 export class PurchaseService {
   purchaseMasterForm: FormGroup;
   purchaseDetailForm: FormGroup;
-  transactionMaster: FormGroup;
-  transactionDetail: FormGroup;
+  transactionMasterForm: FormGroup;
+  transactionDetailForm: FormGroup;
   userData: {id: number, personName: string, _authKey: string, personTypeId: number};
   productCategorySubject = new Subject<ProductCategory[]>();
   productCategoryList: ProductCategory[] = [];
@@ -51,14 +51,14 @@ export class PurchaseService {
       discount: new FormControl(0),
     });
     const now = new Date();
-    this.transactionMaster = new FormGroup({
+    this.transactionMasterForm = new FormGroup({
       id: new FormControl(null),
       transaction_date: new FormControl(now),
       transaction_number: new FormControl(null),
       voucher_id: new FormControl(2),           // purchase
       employee_id: new FormControl(this.userData.id)
     });
-    this.transactionDetail = new FormGroup({
+    this.transactionDetailForm = new FormGroup({
       id: new FormControl(null),
       transaction_master_id: new FormControl(null),
       transaction_type_id: new FormControl(2),

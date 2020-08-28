@@ -8,6 +8,41 @@ import {Product} from '../../models/product.model';
 import {Unit} from '../../models/unit.model';
 import {ProductService} from '../../services/product.service';
 
+
+export interface PurchaseMaster{
+  id?: number;
+  discount: number;
+  round_off: number;
+  loading_n_unloading_expenditure: number;
+  comment: string;
+}
+export interface PurchaseDetails{
+  id?: number;
+  purchase_master_id: number;
+  product_id: number;
+  unit_id: number;
+  quantity: number;
+  price: number;
+  discount: number;
+}
+export interface TransactionMaster{
+  id?: number;
+  transaction_date: string;
+  transaction_number: string;
+  voucher_id: number;
+  purchase_master_id: number;
+  sale_master_id: number;
+  employee_id: number;
+}
+
+export interface TransactionDetails{
+  id?: number;
+  transaction_master_id: number;
+  transaction_type_id: number;
+  ledger_id: number;
+  amount: number;
+}
+
 @Component({
   selector: 'app-purchase',
   templateUrl: './purchase.component.html',
@@ -16,15 +51,19 @@ import {ProductService} from '../../services/product.service';
 export class PurchaseComponent implements OnInit {
 
   purchaseMasterForm: FormGroup;
-  transactionMaster: FormGroup;
+  transactionMasterForm: FormGroup;
   purchaseDetailForm: FormGroup;
-  transactionDetail: FormGroup;
+  transactionDetailForm: FormGroup;
   vendorList: Vendor[] = [];
   productCategoryList: ProductCategory[] = [];
   productList: Product[] = [];
   productListByCategory: Product[] = [];
   unitList: Unit[] = [];
   purchaseAmount = 0;
+  purchaseMaster: PurchaseMaster;
+  purchaseDetails: PurchaseDetails[] = [];
+  transactionMaster: TransactionMaster;
+  transactionDetails: TransactionDetails;
   constructor(private purchaseService: PurchaseService, private vendorService: VendorService, private productService: ProductService) { }
 
   ngOnInit(): void {
@@ -43,8 +82,8 @@ export class PurchaseComponent implements OnInit {
     });
     this.purchaseMasterForm = this.purchaseService.purchaseMasterForm;
     this.purchaseDetailForm = this.purchaseService.purchaseDetailForm;
-    this.transactionMaster = this.purchaseService.transactionMaster;
-    this.transactionDetail = this.purchaseService.transactionDetail;
+    this.transactionMasterForm = this.purchaseService.transactionMasterForm;
+    this.transactionDetailForm = this.purchaseService.transactionDetailForm;
     this.vendorList = this.vendorService.getVendorList();
     this.vendorService.getVendorUpdateListener().subscribe(response => {
       this.vendorList = response;
@@ -67,5 +106,9 @@ export class PurchaseComponent implements OnInit {
 
   addPurchase() {
     console.log(this.purchaseDetailForm.value);
+    this.purchaseDetails.unshift(this.purchaseDetailForm.value);
+    this.transactionMaster = this.transactionMasterForm.value;
+    this.transactionDetails = this.transactionDetailForm.value;
+
   }
 }

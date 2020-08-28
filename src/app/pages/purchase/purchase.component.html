@@ -3,7 +3,7 @@
     <div id="left-details">
       <mat-card class="ml-2 mt-2 form-mat-card" >
       <div class="form-container">
-        <form [formGroup] = transactionMaster>
+        <form [formGroup] = transactionMasterForm>
           <div class="container" fxLayout="column" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
             <!--Transaction Date and Transaction Number-->
             <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
@@ -23,7 +23,7 @@
             </div>
           </div>
         </form>
-        <form [formGroup] = transactionDetail>
+        <form [formGroup] = transactionDetailForm>
           <div class="container" fxLayout="column" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
             <!--Transaction Date and Transaction Number-->
             <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
@@ -125,19 +125,18 @@
 
 <!--This is developer div-->
 <div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch"  id="developer-div">
-  <div fxLayout="column" fxFlex="40" class="mr-1">
-    <pre>
-      purchaseMasterForm = {{purchaseMasterForm.value | json}}
-      purchaseDetailForm = {{purchaseDetailForm.value | json}}
-    </pre>
-  </div>
   <div fxLayout="column" fxFlex="60" class="mr-1">
     <pre>
-      transactionMaster = {{transactionMaster.value | json}}
-      transactionDetail = {{transactionDetail.value | json}}
+      purchaseDetails = {{purchaseDetails | json}}
+      transactionMaster = {{transactionMaster | json}}
+      transactionDetails = {{transactionDetails | json}}
+    </pre>
+  </div>
+  <div fxLayout="column" fxFlex="40" class="mr-1">
+    <pre>
+<!--      transactionMasterForm = {{transactionMasterForm.value | json}}-->
+<!--      transactionMasterForm = {{transactionMasterForm.value | json}}-->
 
-      productList={{productList | json}}
-      units={{unitList | json}}
     </pre>
   </div>
 </div>
