@@ -25,7 +25,7 @@ export class PurchaseComponent implements OnInit {
   productListByCategory: Product[] = [];
   unitList: Unit[] = [];
   purchaseAmount = 0;
-  constructor(private purchaseService: PurchaseService, private vendorService: VendorService, private prodcutService: ProductService) { }
+  constructor(private purchaseService: PurchaseService, private vendorService: VendorService, private productService: ProductService) { }
 
   ngOnInit(): void {
     this.productCategoryList = this.purchaseService.getProductCategoryList();
@@ -33,12 +33,12 @@ export class PurchaseComponent implements OnInit {
         // console.log(response);
         this.productCategoryList = response;
     });
-    this.productList = this.prodcutService.getProducts();
-    this.prodcutService.getProductUpdateListener().subscribe(response => {
+    this.productList = this.productService.getProducts();
+    this.productService.getProductUpdateListener().subscribe(response => {
       this.productList = response;
     });
-    this.unitList = this.prodcutService.getUnits();
-    this.prodcutService.getUnitUpdateListener().subscribe((responseUnit: Unit[]) => {
+    this.unitList = this.productService.getUnits();
+    this.productService.getUnitUpdateListener().subscribe((responseUnit: Unit[]) => {
       this.unitList = responseUnit;
     });
     this.purchaseMasterForm = this.purchaseService.purchaseMasterForm;
@@ -49,7 +49,6 @@ export class PurchaseComponent implements OnInit {
     this.vendorService.getVendorUpdateListener().subscribe(response => {
       this.vendorList = response;
     });
-
   }
 
   selectProductsByCategory(event: any) {
@@ -58,7 +57,15 @@ export class PurchaseComponent implements OnInit {
   }
 
   getAmount() {
-    this.purchaseAmount = (this.purchaseDetailForm.value.quantity * this.purchaseDetailForm.value.price) - this.purchaseDetailForm.value.discount;
+    // tslint:disable-next-line:max-line-length
+    const qty = this.purchaseDetailForm.value.quantity;
+    const price = this.purchaseDetailForm.value.price;
+    const discount = this.purchaseDetailForm.value.discount;
+    this.purchaseAmount = (qty * price) - discount;
 
+  }
+
+  addPurchase() {
+    console.log(this.purchaseDetailForm.value);
   }
 }

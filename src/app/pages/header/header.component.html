@@ -79,7 +79,7 @@
             <button mat-menu-item [routerLink]="['/product']" routerLinkActive="MyActiveMenu"><mat-icon>shopping_cart</mat-icon>Product</button>
           </mat-menu>
 
-        <button mat-button [matMenuTriggerFor]="TransactionMenu">Transaction</button>
+        <button mat-button [matMenuTriggerFor]="TransactionMenu">Transaction<mat-icon>arrow_drop_down</mat-icon></button>
         <mat-menu #TransactionMenu="matMenu">
           <button mat-menu-item [routerLink]="['/purchase']" routerLinkActive="MyActiveMenu">Purchase</button>
         </mat-menu>

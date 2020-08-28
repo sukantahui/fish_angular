@@ -46,8 +46,8 @@ export class PurchaseService {
       purchase_master_id: new FormControl(null),
       product_id: new FormControl(null),
       unit_id: new FormControl(3),
-      quantity: new FormControl(0),
-      price: new FormControl(0),
+      quantity: new FormControl(null),
+      price: new FormControl(null),
       discount: new FormControl(0),
     });
     const now = new Date();

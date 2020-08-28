@@ -54,7 +54,7 @@
 
               <mat-form-field fxFlex="40" *ngIf="productListByCategory.length>0">
                 <mat-label>Product</mat-label>
-                <mat-select>
+                <mat-select formControlName="product_id">
                   <mat-option *ngFor="let product of productListByCategory" [value]="product.id">
                     {{product.product_name}}
                   </mat-option>
@@ -62,8 +62,8 @@
               </mat-form-field>
             </div>
             <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
-              <mat-form-field fxFlex="20">
-                <input matInput placeholder="Quantity" formControlName="quantity" (change)="getAmount()">
+              <mat-form-field fxFlex="15">
+                <input matInput placeholder="Quantity" type="number" formControlName="quantity" (change)="getAmount()" class="text-right">
               </mat-form-field>
 
               <mat-form-field fxFlex="10">
@@ -75,25 +75,49 @@
                 </mat-select>
               </mat-form-field>
 
-              <mat-form-field fxFlex="20">
-                <input matInput placeholder="price" formControlName="price" (change)="getAmount()">
+              <mat-form-field fxFlex="15">
+                <input matInput placeholder="price" formControlName="price" (change)="getAmount()" class="text-right">
               </mat-form-field>
 
-              <mat-form-field fxFlex="20">
-                <input matInput placeholder="discount" formControlName="discount" (change)="getAmount()">
+              <mat-form-field fxFlex="10">
+                <input matInput placeholder="discount" formControlName="discount" (change)="getAmount()" class="text-right">
               </mat-form-field>
-                {{purchaseAmount}}
-
-
+              <mat-form-field fxFlex="20">
+                <input matInput placeholder="Total" [value]="purchaseAmount" readonly class="text-right">
+              </mat-form-field>
             </div>
           </div>
         </form>
+        <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end" fxLayoutGap="10px" fxLayoutGap.xs="0" >
+          <button mat-button (click)="addPurchase()"  mat-stroked-button>Add</button>
+        </div>
       </div>
     </mat-card>
     </div>
   </div>
   <div fxLayout="column" fxFlex="60" class="mr-1">
    <div  id="right-details">
+     <mat-card class="example-card">
+      <mat-card-header>
+       <div mat-card-avatar class="example-header-image"></div>
+       <mat-card-title>
+         <div>Buttons will be here</div>
+       </mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+         <p>
+           The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
+           A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
+           bred for hunting.
+         </p>
+      </mat-card-content>
+       <mat-card-actions>
+         <button mat-button>LIKE</button>
+         <button mat-button>SHARE</button>
+       </mat-card-actions>
+   </mat-card>
+
 
    </div>
   </div>
