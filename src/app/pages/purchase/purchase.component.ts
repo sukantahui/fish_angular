@@ -148,7 +148,8 @@ export class PurchaseComponent implements OnInit {
     console.log(tempItem);
     this.purchaseDetails.push(tempItem);
     // tslint:disable-next-line:max-line-length
-    this.transactionMasterForm.controls.transaction_date.setValue((this.transactionMasterForm.value.transaction_date));
+    this.transactionMasterForm.controls.transaction_date.setValue(this.getSQLDate(this.transactionMasterForm.value.transaction_pickup_date));
+    // console.log(this.getSQLDate(this.transactionMasterForm.value.transaction_date));
     this.transactionMaster = this.transactionMasterForm.value;
 
 
@@ -275,4 +276,9 @@ export class PurchaseComponent implements OnInit {
       }
     });
   }
+
+  getSQLDate(myDate: Date){
+    return myDate.getFullYear() + '-' + (myDate.getMonth() + 1) + '-' + myDate.getDate();
+  }
+
 }

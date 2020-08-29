@@ -63,6 +63,8 @@ export class PurchaseService {
     const now = new Date();
     this.transactionMasterForm = new FormGroup({
       id: new FormControl(null),
+      transaction_pickup_date: new FormControl(now, [Validators.required]),
+      // this is original date
       transaction_date: new FormControl(now, [Validators.required]),
       transaction_number: new FormControl(null, [Validators.required]),
       voucher_id: new FormControl(2, [Validators.required, Validators.maxLength(20), Validators.minLength(2)]),           // purchase
