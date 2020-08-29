@@ -173,6 +173,9 @@
   <div fxLayout="column" fxFlex="25" class="mr-1">
     purchaseDetails={{purchaseDetailForm.valid}}
     <pre>
+      purchaseDetailForm = {{purchaseDetailForm.value | json}}
+    </pre>
+    <pre>
       purchaseDetails = {{purchaseDetails | json}}
     </pre>
   </div>

@@ -66,7 +66,8 @@ export class PurchaseService {
       amount: new FormControl(0)
     });
   }
-  // End of constructor
+
+   // End of constructor
   getProductCategoryUpdateListener(){
     return this.productCategorySubject.asObservable();
   }
