@@ -246,6 +246,26 @@ export class PurchaseComponent implements OnInit {
       // if selected yes
       if (result.value) {
         // will be saved from here
+        // tslint:disable-next-line:max-line-length
+        this.purchaseService.savePurchase(this.purchaseMaster, this.purchaseDetails, this.transactionMaster, this.transactionDetails).subscribe(response => {
+          if (response.success === 1){
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'Product has been saved',
+              showConfirmButton: false,
+              timer: 3000
+            });
+          }
+        }, (error) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: error.message,
+            footer: '<a href>Why do I have this issue?</a>',
+            timer: 0
+          });
+        });
       }else{
         // will not be saved
       }

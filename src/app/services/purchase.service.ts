@@ -2,10 +2,20 @@ import { Injectable } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {User} from '../models/user.model';
 import {ProductCategory} from '../models/ProductCategory.model';
-import {HttpClient} from '@angular/common/http';
-import {Subject} from 'rxjs';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {Subject, throwError} from 'rxjs';
 import {Unit} from '../models/unit.model';
+import {PurchaseMaster} from '../models/purchaseMaster.model';
+import {PurchaseDetails} from '../pages/purchase/purchase.component';
+import {TransactionMaster} from '../models/transactionMaster.model';
+import {TransactionDetail} from '../models/transactionDetail.model';
+import {catchError, tap} from 'rxjs/operators';
+import {Vendor} from '../models/vendor.model';
 
+
+export class PurchaseRespose {
+  success: number;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -74,5 +84,49 @@ export class PurchaseService {
 
   getProductCategoryList(){
     return [...this.productCategoryList];
+  }
+
+  // tslint:disable-next-line:max-line-length
+  savePurchase(purchaseMaster: PurchaseMaster, purchaseDetails: PurchaseDetails[], transactionMaster: TransactionMaster, transactionDetails: TransactionDetail[]) {
+    // tslint:disable-next-line:max-line-length
+    return this.http.post<{ success: number, data: object }>('http://127.0.0.1:8000/api/purchases', {purchase_master: purchaseMaster, purchase_details: purchaseDetails, transaction_master: transactionMaster, transaction_details: transactionDetails})
+      .pipe(catchError(this.handleError), tap((response: {success: number, data: PurchaseRespose}) => {
+        console.log(response.data);
+        // this.vendorList.unshift(response.data);
+        // this.vendorSubject.next([...this.vendorList]);
+      }));
+  }
+
+  private handleError(errorResponse: HttpErrorResponse){
+    if (errorResponse.error.message.includes('1062')){
+      return throwError({success: 0, status: 'failed', message: 'Record already exists', statusText: ''});
+    }else if (errorResponse.error.message.includes('1451')){
+      return throwError({success: 0, status: 'failed', message: 'This record can not be deleted', statusText: ''});
+    }else {
+      return throwError(errorResponse.error.message);
+    }
+  }
+
+  private serverError(err: any) {
+    console.log('sever error:', err);  // debug
+    if (err instanceof Response) {
+      return throwError({success: 0, status: err.status, message: 'Backend Server is not Working', statusText: err.statusText});
+      // if you're using lite-server, use the following line
+      // instead of the line above:
+      // return Observable.throw(err.text() || 'backend server error');
+    }
+    if (err.status === 0){
+      // tslint:disable-next-line:label-position
+      return throwError ({success: 0, status: err.status, message: 'Backend Server is not Working', statusText: err.statusText});
+    }
+    if (err.status === 401){
+      // tslint:disable-next-line:label-position
+      return throwError ({success: 0, status: err.status, message: 'Your are not authorised', statusText: err.statusText});
+    }
+    if (err.status === 500){
+      // tslint:disable-next-line:label-position
+      return throwError ({success: 0, status: err.status, message: 'Server error', statusText: err.statusText});
+    }
+    return throwError(err);
   }
 }
