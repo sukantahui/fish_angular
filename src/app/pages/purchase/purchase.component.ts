@@ -232,4 +232,23 @@ export class PurchaseComponent implements OnInit {
     });
   }
 
+  savePurchase() {
+    // purchase will be saved from here
+    Swal.fire({
+      title: 'Confirmation',
+      text: 'Do you sure to Save',
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Save It!'
+    }).then((result) => {
+      // if selected yes
+      if (result.value) {
+        // will be saved from here
+      }else{
+        // will not be saved
+      }
+    });
+  }
 }

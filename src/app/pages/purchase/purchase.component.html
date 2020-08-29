@@ -119,7 +119,7 @@
        </mat-card-title>
       </mat-card-header>
 
-      <mat-card-content *ngIf="isCurrentTab(1)">
+      <mat-card-content *ngIf="isCurrentTab(1)" id="purchase-details">
         <h1>I am Purchase details</h1>
         <table class="table" id="purchase-table">
           <thead>
@@ -159,6 +159,9 @@
             </tr>
           </tfoot>
         </table>
+        <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end" fxLayoutGap="10px" fxLayoutGap.xs="0" >
+          <button mat-button (click)="savePurchase()" [disabled]="false"  mat-stroked-button>Save Purchase</button>
+        </div>
       </mat-card-content>
        <mat-card-content *ngIf="isCurrentTab(2)">
          <h1>Purchase List</h1>
