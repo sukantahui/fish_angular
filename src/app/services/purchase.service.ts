@@ -44,25 +44,25 @@ export class PurchaseService {
     this.purchaseDetailForm = new FormGroup({
       id: new FormControl(null),
       purchase_master_id: new FormControl(null),
-      product_id: new FormControl(null),
-      unit_id: new FormControl(3),
-      quantity: new FormControl(null),
-      price: new FormControl(null),
+      product_id: new FormControl(null, [Validators.required]),
+      unit_id: new FormControl(3, [Validators.required]),
+      quantity: new FormControl(null, [Validators.required]),
+      price: new FormControl(null, [Validators.required]),
       discount: new FormControl(0),
     });
     const now = new Date();
     this.transactionMasterForm = new FormGroup({
       id: new FormControl(null),
-      transaction_date: new FormControl(now),
-      transaction_number: new FormControl(null),
-      voucher_id: new FormControl(2),           // purchase
+      transaction_date: new FormControl(now, [Validators.required]),
+      transaction_number: new FormControl(null, [Validators.required]),
+      voucher_id: new FormControl(2, [Validators.required, Validators.maxLength(20), Validators.minLength(2)]),           // purchase
       employee_id: new FormControl(this.userData.id)
     });
     this.transactionDetailForm = new FormGroup({
       id: new FormControl(null),
       transaction_master_id: new FormControl(null),
       transaction_type_id: new FormControl(2),
-      ledger_id: new FormControl(2),           // purchase
+      ledger_id: new FormControl(null, [Validators.required]),           // purchase
       amount: new FormControl(0)
     });
   }

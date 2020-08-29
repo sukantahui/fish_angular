@@ -8,6 +8,8 @@ import {Product} from '../../models/product.model';
 import {Unit} from '../../models/unit.model';
 import {ProductService} from '../../services/product.service';
 import {PurchaseMaster} from '../../models/purchaseMaster.model';
+import {TransactionMaster} from '../../models/transactionMaster.model';
+import {TransactionDetail} from '../../models/transactionDetail.model';
 import {StorageMap} from '@ngx-pwa/local-storage';
 
 
@@ -22,23 +24,6 @@ export interface PurchaseDetails{
   discount: number;
   product: Product;
   unit: Unit;
-}
-export interface TransactionMaster{
-  id?: number;
-  transaction_date: string;
-  transaction_number: string;
-  voucher_id: number;
-  purchase_master_id: number;
-  sale_master_id: number;
-  employee_id: number;
-}
-
-export interface TransactionDetails{
-  id?: number;
-  transaction_master_id: number;
-  transaction_type_id: number;
-  ledger_id: number;
-  amount: number;
 }
 
 @Component({
@@ -61,7 +46,7 @@ export class PurchaseComponent implements OnInit {
   purchaseMaster: PurchaseMaster;
   purchaseDetails: PurchaseDetails[] = [];
   transactionMaster: TransactionMaster;
-  transactionDetails: TransactionDetails;
+  transactionDetails: TransactionDetail[] = [];
 
   currentTab = 1;
   // tslint:disable-next-line:max-line-length
@@ -89,8 +74,39 @@ export class PurchaseComponent implements OnInit {
     this.vendorService.getVendorUpdateListener().subscribe(response => {
       this.vendorList = response;
     });
+    // get purchaseDetails from localstorage
     this.storage.get('purchaseDetails').subscribe((purchaseDetails: PurchaseDetails[]) => {
+      if (purchaseDetails){
         this.purchaseDetails = purchaseDetails;
+      }else{
+        this.purchaseDetails = [];
+      }
+    }, (error) => {
+      this.purchaseDetails = [];
+    });
+    // get transactionMaster from localstorage
+    this.storage.get('transactionMaster').subscribe((transactionMaster: TransactionMaster) => {
+      if (transactionMaster){
+        this.transactionMaster = transactionMaster;
+        this.transactionMasterForm.setValue(this.transactionMaster);
+      }else{
+        // this.transactionMaster = [];
+      }
+    }, (error) => {
+      // this.transactionMaster = [];
+    });
+
+
+// get transactionDetails from localstorage
+    this.storage.get('transactionDetails').subscribe((transactionDetails: TransactionDetail[]) => {
+      if (transactionDetails){
+        this.transactionDetails = transactionDetails;
+        this.transactionDetailForm.setValue(this.transactionDetails[0]);
+      }else{
+        this.transactionDetails = [];
+      }
+    }, (error) => {
+      this.transactionDetails = [];
     });
   }
 
@@ -109,17 +125,32 @@ export class PurchaseComponent implements OnInit {
   }
 
   addPurchase() {
-    console.log(this.purchaseDetailForm.value);
     const tempItem = this.purchaseDetailForm.value;
     let index = this.productList.findIndex(x => x.id === tempItem.product_id);
     tempItem.product = this.productList[index];
     index = this.unitList.findIndex(x => x.id === tempItem.unit_id);
     tempItem.unit = this.unitList[index];
+    console.log(tempItem);
     this.purchaseDetails.unshift(tempItem);
     this.transactionMaster = this.transactionMasterForm.value;
     this.transactionDetails = this.transactionDetailForm.value;
     this.purchaseMaster = this.purchaseMasterForm.value;
+    this.transactionDetails = [];
+    this.transactionDetails.push(this.transactionDetailForm.value);
+    this.transactionDetails.push(
+      {
+        id: null,
+        transaction_master_id: null,
+        transaction_type_id: 1,
+        ledger_id: 3,
+        amount: 0
+      }
+    );
     this.storage.set('purchaseDetails', this.purchaseDetails).subscribe(() => {});
+    this.storage.set('transactionMaster', this.transactionMaster).subscribe(() => {});
+    this.storage.set('transactionDetails', this.transactionDetails).subscribe(() => {});
+    this.purchaseDetailForm.reset();
+    this.purchaseDetailForm.setValue({unit_id: 3});
   }
   isCurrentTab(tab: number){
     return (tab === this.currentTab);
@@ -130,5 +161,15 @@ export class PurchaseComponent implements OnInit {
 
   clearAll() {
     this.storage.clear().subscribe(() => {});
+  }
+
+  isValidPurchasedForm(){
+    // tslint:disable-next-line:max-line-length
+    if (this.purchaseMasterForm.valid && this.purchaseDetailForm.valid && this.transactionMasterForm.valid && this.purchaseDetailForm.valid){
+      return true;
+    }
+    else{
+      return false;
+    }
   }
 }

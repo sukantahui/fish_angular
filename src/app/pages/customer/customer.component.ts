@@ -29,11 +29,6 @@ export class CustomerComponent implements OnInit {
   customer: Customer;
   currentEerror: {status: number, message: string, statusText: string};
   customerCategoryData: CustomerCategory[];
-  allProfiles = [
-    new Profile(2, 'Developer'),
-    new Profile(3, 'Manager'),
-    new Profile(4, 'Director')
-  ]
 
   constructor(public customerService: CustomerService, private http: HttpClient, private _snackBar: MatSnackBar) {
     console.log('Customer Component calls');

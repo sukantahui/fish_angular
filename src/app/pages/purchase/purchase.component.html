@@ -89,7 +89,7 @@
           </div>
         </form>
         <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end" fxLayoutGap="10px" fxLayoutGap.xs="0" >
-          <button mat-button (click)="addPurchase()"  mat-stroked-button>Add</button>
+          <button mat-button (click)="addPurchase()" [disabled]="!isValidPurchasedForm()"  mat-stroked-button>Add</button>
           <button mat-button (click)="clearAll()"  mat-stroked-button>Clear</button>
         </div>
       </div>
@@ -164,18 +164,28 @@
 
 <!--This is developer div-->
 <div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch"  id="developer-div">
-  <div fxLayout="column" fxFlex="60" class="mr-1">
+  <div fxLayout="column" fxFlex="25" class="mr-1">
+    purchaseMasterForm={{purchaseMasterForm.valid}}
     <pre>
-      purchaseDetails = {{purchaseDetails | json}}
-      transactionMaster = {{transactionMaster | json}}
-      transactionDetails = {{transactionDetails | json}}
+      purchaseMaster = {{purchaseMaster | json}}
     </pre>
   </div>
-  <div fxLayout="column" fxFlex="40" class="mr-1">
+  <div fxLayout="column" fxFlex="25" class="mr-1">
+    purchaseDetails={{purchaseDetailForm.valid}}
     <pre>
-<!--      transactionMasterForm = {{transactionMasterForm.value | json}}-->
-<!--      transactionMasterForm = {{transactionMasterForm.value | json}}-->
-
+      purchaseDetails = {{purchaseDetails | json}}
+    </pre>
+  </div>
+  <div fxLayout="column" fxFlex="25" class="mr-1">
+    transactionMaster={{transactionMasterForm.valid}}
+    <pre>
+      transactionMaster = {{transactionMaster | json}}
+    </pre>
+  </div>
+  <div fxLayout="column" fxFlex="25" class="mr-1">
+    transactionDetails={{transactionDetailForm.valid}}
+    <pre>
+      transactionDetails = {{transactionDetails | json}}
     </pre>
   </div>
 </div>
