@@ -89,7 +89,13 @@ export class PurchaseService {
   // tslint:disable-next-line:max-line-length
   savePurchase(purchaseMaster: PurchaseMaster, purchaseDetails: PurchaseDetails[], transactionMaster: TransactionMaster, transactionDetails: TransactionDetail[]) {
     // tslint:disable-next-line:max-line-length
-    return this.http.post<{ success: number, data: object }>('http://127.0.0.1:8000/api/purchases', {purchase_master: purchaseMaster, purchase_details: purchaseDetails, transaction_master: transactionMaster, transaction_details: transactionDetails})
+    return this.http.post<{ success: number, data: object }>('http://127.0.0.1:8000/api/purchases',
+      {
+        purchase_master: purchaseMaster,
+        purchase_details: purchaseDetails,
+        transaction_master: transactionMaster,
+        transaction_details: transactionDetails
+      })
       .pipe(catchError(this.handleError), tap((response: {success: number, data: PurchaseRespose}) => {
         console.log(response.data);
         // this.vendorList.unshift(response.data);
