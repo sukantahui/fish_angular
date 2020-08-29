@@ -150,15 +150,7 @@ export class PurchaseComponent implements OnInit {
     this.storage.set('transactionMaster', this.transactionMaster).subscribe(() => {});
     this.storage.set('transactionDetails', this.transactionDetails).subscribe(() => {});
     this.purchaseDetailForm.reset();
-    this.purchaseDetailForm.setValue({
-      id: null,
-      purchase_master_id: null,
-      product_id: null,
-      unit_id: 3,
-      quantity: null,
-      price: null,
-      discount: 0
-    });
+    this.purchaseDetailForm.patchValue({unit_id: 3});
   }
   isCurrentTab(tab: number){
     return (tab === this.currentTab);
