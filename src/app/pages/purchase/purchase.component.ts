@@ -11,6 +11,7 @@ import {PurchaseMaster} from '../../models/purchaseMaster.model';
 import {TransactionMaster} from '../../models/transactionMaster.model';
 import {TransactionDetail} from '../../models/transactionDetail.model';
 import {StorageMap} from '@ngx-pwa/local-storage';
+import Swal from 'sweetalert2';
 
 
 
@@ -47,8 +48,11 @@ export class PurchaseComponent implements OnInit {
   purchaseDetails: PurchaseDetails[] = [];
   transactionMaster: TransactionMaster;
   transactionDetails: TransactionDetail[] = [];
+  color = 'accent';
 
   currentTab = 1;
+  public totalPurchaseAmount = 0;
+
   // tslint:disable-next-line:max-line-length
   constructor(private purchaseService: PurchaseService, private vendorService: VendorService, private productService: ProductService, private storage: StorageMap) { }
 
@@ -108,7 +112,18 @@ export class PurchaseComponent implements OnInit {
     }, (error) => {
       this.transactionDetails = [];
     });
+    // get  totalPurchaseAmount
+    this.storage.get('totalPurchaseAmount').subscribe((totalPurchaseAmount: number) => {
+      if (totalPurchaseAmount){
+        this.totalPurchaseAmount = totalPurchaseAmount;
+      }else{
+        this.totalPurchaseAmount = 0;
+      }
+    }, (error) => {
+      this.totalPurchaseAmount = 0;
+    });
   }
+
 
   selectProductsByCategory(event: any) {
     const category_id = event.value;
@@ -131,7 +146,7 @@ export class PurchaseComponent implements OnInit {
     index = this.unitList.findIndex(x => x.id === tempItem.unit_id);
     tempItem.unit = this.unitList[index];
     console.log(tempItem);
-    this.purchaseDetails.unshift(tempItem);
+    this.purchaseDetails.push(tempItem);
     this.transactionMaster = this.transactionMasterForm.value;
     this.transactionDetails = this.transactionDetailForm.value;
     this.purchaseMaster = this.purchaseMasterForm.value;
@@ -150,7 +165,14 @@ export class PurchaseComponent implements OnInit {
     this.storage.set('transactionMaster', this.transactionMaster).subscribe(() => {});
     this.storage.set('transactionDetails', this.transactionDetails).subscribe(() => {});
     this.purchaseDetailForm.reset();
-    this.purchaseDetailForm.patchValue({unit_id: 3});
+    this.purchaseDetailForm.patchValue({unit_id: 3, discount: 0});
+    this.purchaseAmount = 0;
+
+
+    this.totalPurchaseAmount = this.purchaseDetails.reduce( (total, record) => {
+      return total + (record.price * record.quantity - record.discount);
+    }, 0);
+    this.storage.set('totalPurchaseAmount', this.totalPurchaseAmount).subscribe(() => {});
   }
   isCurrentTab(tab: number){
     return (tab === this.currentTab);
@@ -172,4 +194,42 @@ export class PurchaseComponent implements OnInit {
       return false;
     }
   }
+
+  changePurchaseSlide() {
+    // tslint:disable-next-line:triple-equals
+    if(this.currentTab == 1){
+      this.currentTab = 2;
+    }else{
+      this.currentTab = 1;
+    }
+  }
+
+
+  deleteCurrentItem(item: PurchaseDetails) {
+    Swal.fire({
+      title: 'Confirmation',
+      text: 'Do you sure to delete ' + item.product.product_name,
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Delete It!'
+    }).then((result) => {
+      // if selected yes
+      if (result.value) {
+        console.log('Item will be deleted');
+        // tslint:disable-next-line:triple-equals
+        const index = this.purchaseDetails.findIndex(x => x === item);
+        this.purchaseDetails.splice(index, 1);
+        this.storage.set('purchaseDetails', this.purchaseDetails).subscribe(() => {});
+        this.totalPurchaseAmount = this.purchaseDetails.reduce( (total, record) => {
+          return total + (record.price * record.quantity - record.discount);
+        }, 0);
+        this.storage.set('totalPurchaseAmount', this.totalPurchaseAmount).subscribe(() => {});
+      }else{
+        console.log('Item will not be deleted');
+      }
+    });
+  }
+
 }

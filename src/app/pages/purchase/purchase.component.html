@@ -102,19 +102,29 @@
       <mat-card-header>
        <div mat-card-avatar class="example-header-image"></div>
        <mat-card-title>
+<!--         <div>-->
+<!--           <button mat-button (click)="setCurrentTab(1)"  mat-stroked-button>Purchase Details</button>-->
+<!--           <button mat-button (click)="setCurrentTab(2)"  mat-stroked-button>Purchase List</button>-->
+<!--         </div>-->
          <div>
-           <button mat-button (click)="setCurrentTab(1)"  mat-stroked-button>Purchase Details</button>
-           <button mat-button (click)="setCurrentTab(2)"  mat-stroked-button>Purchase List</button>
+           <mat-slide-toggle
+             [(ngModel)]="currentTab"
+             class="example-margin"
+             [color]="color"
+             (change)="changePurchaseSlide()">
+             {{currentTab==1?"Purchase Details":"All Purchases"}}
+           </mat-slide-toggle>
          </div>
+
        </mat-card-title>
       </mat-card-header>
 
       <mat-card-content *ngIf="isCurrentTab(1)">
         <h1>I am Purchase details</h1>
-        <table class="table" id="my-table">
+        <table class="table" id="purchase-table">
           <thead>
           <tr>
-
+            <th>SL.</th>
             <th>Product Name</th>
             <th>Quantity</th>
             <th>Price</th>
@@ -124,23 +134,30 @@
           </tr>
           </thead>
           <tbody>
-          <tr  *ngFor="let item of purchaseDetails">
+          <tr  *ngFor="let item of purchaseDetails;let indexOfElement = index;">
 
-            <td sortable-column="product_code">{{item.product.product_name}}</td>
-             <td>{{item.quantity}} {{item.unit.unit_name}}</td>
-            <td>{{item.price}}</td>
-            <td>{{item.discount}}</td>
-            <td>{{item.quantity*item.price - item.discount}}</td>
+            <td class="text-left" >{{indexOfElement+1}}</td>
+            <td class="text-left" >{{item.product.product_name}}</td>
+            <td class="text-right">{{item.quantity}} {{item.unit.unit_name}}</td>
+            <td class="text-right">{{item.price | currency:"&#8377; "}}</td>
+            <td class="text-right">{{item.discount | currency:"&#8377; "}}</td>
+            <td class="text-right">{{item.quantity*item.price - item.discount | currency:"&#8377; "}}</td>
             <td>
               <button mat-icon-button color="primary" aria-label="Edit Product">
                 <mat-icon>edit</mat-icon>
               </button>
-              <button mat-icon-button color="warn" aria-label="Edit Customer">
+              <button mat-icon-button color="warn" aria-label="Delete" (click)="deleteCurrentItem(item)">
                 <mat-icon>delete</mat-icon>
               </button>
             </td>
           </tr>
           </tbody>
+          <tfoot>
+            <tr>
+              <td class="text-center" colspan="5">Total</td>
+              <td class="text-right">{{totalPurchaseAmount | currency:"&#8377; "}}</td>
+            </tr>
+          </tfoot>
         </table>
       </mat-card-content>
        <mat-card-content *ngIf="isCurrentTab(2)">
