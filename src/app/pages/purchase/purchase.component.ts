@@ -147,7 +147,11 @@ export class PurchaseComponent implements OnInit {
     tempItem.unit = this.unitList[index];
     console.log(tempItem);
     this.purchaseDetails.push(tempItem);
+    // tslint:disable-next-line:max-line-length
+    this.transactionMasterForm.controls.transaction_date.setValue((this.transactionMasterForm.value.transaction_date));
     this.transactionMaster = this.transactionMasterForm.value;
+
+
     this.transactionDetails = this.transactionDetailForm.value;
     this.purchaseMaster = this.purchaseMasterForm.value;
     this.transactionDetails = [];
