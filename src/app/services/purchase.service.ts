@@ -11,7 +11,7 @@ import {TransactionMaster} from '../models/transactionMaster.model';
 import {TransactionDetail} from '../models/transactionDetail.model';
 import {catchError, tap} from 'rxjs/operators';
 import {Vendor} from '../models/vendor.model';
-
+import {GlobalVariable} from '../shared/global';
 
 export class PurchaseRespose {
   success: number;
@@ -31,7 +31,7 @@ export class PurchaseService {
   productCategoryList: ProductCategory[] = [];
 
   constructor(private http: HttpClient) {
-    this.http.get('http://127.0.0.1:8000/api/productCategories')
+    this.http.get(GlobalVariable.BASE_API_URL + '/productCategories')
       .subscribe((response: {success: number, data: ProductCategory[]}) => {
         const {data} = response;
         this.productCategoryList = data;
