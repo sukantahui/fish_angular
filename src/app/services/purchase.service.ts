@@ -13,10 +13,14 @@ import {catchError, tap} from 'rxjs/operators';
 import {Vendor} from '../models/vendor.model';
 import {GlobalVariable} from '../shared/global';
 import {formatDate} from '@angular/common';
+import {Product} from '../models/product.model';
+import {PurchaseVoucher} from '../models/purchaseVoucher.model';
 
 export class PurchaseRespose {
   success: number;
 }
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +34,8 @@ export class PurchaseService {
   userData: {id: number, personName: string, _authKey: string, personTypeId: number};
   productCategorySubject = new Subject<ProductCategory[]>();
   productCategoryList: ProductCategory[] = [];
+  purchaseVouchers: PurchaseVoucher[] = [];
+  purchaseVoucherSubject = new Subject<PurchaseVoucher[]>();
 
   constructor(private http: HttpClient) {
     this.http.get(GlobalVariable.BASE_API_URL + '/productCategories')
@@ -37,6 +43,12 @@ export class PurchaseService {
         const {data} = response;
         this.productCategoryList = data;
         this.productCategorySubject.next([...this.productCategoryList]);
+      });
+    this.http.get(GlobalVariable.BASE_API_URL + '/purchases')
+      .subscribe((response: {success: number, data: PurchaseVoucher[]}) => {
+        const {data} = response;
+        this.purchaseVouchers = data;
+        this.purchaseVoucherSubject.next([...this.purchaseVouchers]);
       });
 
     this.userData = JSON.parse(localStorage.getItem('user'));
@@ -89,6 +101,17 @@ export class PurchaseService {
   getProductCategoryList(){
     return [...this.productCategoryList];
   }
+
+
+
+  getPurchaseVoucherUpdateListener(){
+    return this.purchaseVoucherSubject.asObservable();
+  }
+
+  getPurchaseVoucherList(){
+    return [...this.purchaseVouchers];
+  }
+
 
   // tslint:disable-next-line:max-line-length
   savePurchase(purchaseMaster: PurchaseMaster, purchaseDetails: PurchaseDetail[], transactionMaster: TransactionMaster, transactionDetails: TransactionDetail[]) {

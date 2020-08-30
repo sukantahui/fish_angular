@@ -1,0 +1,27 @@
+<p>purchase-list works!</p>
+<table class="table" id="purchase-list-table">
+  <thead>
+  <tr>
+    <th>SL.</th>
+    <th>Product Name</th>
+    <th>Quantity</th>
+    <th>Price</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr  *ngFor="let item of purchaseVouchers;let indexOfElement = index;">
+
+    <td class="text-left" >{{indexOfElement+1}}</td>
+    <td class="text-left" >{{item.transaction_date}}</td>
+    <td class="text-right">{{item.transaction_number}}</td>
+    <td class="text-right">{{item.transaction_details[0].ledger.ledger_name}}</td>
+  </tr>
+  </tbody>
+  <tfoot>
+  <tr>
+  </tr>
+  </tfoot>
+</table>
+<pre>
+  PurchaseVoucher = {{purchaseVouchers | json}}
+</pre>

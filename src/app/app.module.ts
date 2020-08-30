@@ -41,6 +41,7 @@ import { DateAdapter } from '@angular/material/core';
 import { DateFormat } from './date-format';
 import { VendorComponent } from './pages/vendor/vendor.component';
 import { PurchaseComponent } from './pages/purchase/purchase.component';
+import { PurchaseListComponent } from './pages/purchase/purchase-list/purchase-list.component';
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { PurchaseComponent } from './pages/purchase/purchase.component';
     LoaidngHourglassComponent,
     LoaidngRollerComponent,
     VendorComponent,
-    PurchaseComponent
+    PurchaseComponent,
+    PurchaseListComponent
   ],
   imports: [
     BrowserModule,
