@@ -169,6 +169,8 @@ export class PurchaseComponent implements OnInit {
     this.storage.set('transactionDetails', this.transactionDetails).subscribe(() => {});
     this.purchaseDetailForm.reset();
     this.purchaseDetailForm.patchValue({unit_id: 3, discount: 0});
+    this.temporaryForm.reset();
+    this.productListByCategory = [];
     this.purchaseAmount = 0;
 
 
@@ -291,7 +293,6 @@ export class PurchaseComponent implements OnInit {
     this.purchaseDetailForm.setValue({id: item.id, purchase_master_id: item.purchase_master_id,
       product_id: item.product_id , unit_id: item.unit_id, quantity: item.quantity, price: item.price, discount: item.discount});
     this.temporaryForm.setValue({product_category_id: item.product.product_category_id});
-
-
+    this.productListByCategory = this.productList.filter(x => x.product_category_id === item.product.product_category_id);
   }
 }
