@@ -252,6 +252,7 @@ export class PurchaseComponent implements OnInit {
         // will be saved from here
         // tslint:disable-next-line:max-line-length
         this.purchaseService.savePurchase(this.purchaseMaster, this.purchaseDetails, this.transactionMaster, this.transactionDetails).subscribe(response => {
+          console.log('from ts : ', response);
           if (response.success === 1){
             Swal.fire({
               position: 'top-end',
