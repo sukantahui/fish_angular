@@ -6,7 +6,7 @@ import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Subject, throwError} from 'rxjs';
 import {Unit} from '../models/unit.model';
 import {PurchaseMaster} from '../models/purchaseMaster.model';
-import {PurchaseDetails} from '../pages/purchase/purchase.component';
+import {PurchaseDetail} from '../models/purchaseDetail.model';
 import {TransactionMaster} from '../models/transactionMaster.model';
 import {TransactionDetail} from '../models/transactionDetail.model';
 import {catchError, tap} from 'rxjs/operators';
@@ -89,7 +89,7 @@ export class PurchaseService {
   }
 
   // tslint:disable-next-line:max-line-length
-  savePurchase(purchaseMaster: PurchaseMaster, purchaseDetails: PurchaseDetails[], transactionMaster: TransactionMaster, transactionDetails: TransactionDetail[]) {
+  savePurchase(purchaseMaster: PurchaseMaster, purchaseDetails: PurchaseDetail[], transactionMaster: TransactionMaster, transactionDetails: TransactionDetail[]) {
     // tslint:disable-next-line:max-line-length
     return this.http.post<{ success: number, data: number }>('http://127.0.0.1:8000/api/purchases',
       {

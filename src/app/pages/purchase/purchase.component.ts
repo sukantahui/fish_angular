@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {PurchaseService} from '../../services/purchase.service';
-import {FormGroup} from '@angular/forms';
+import {FormControl, FormGroup} from '@angular/forms';
 import {VendorService} from '../../services/vendor.service';
 import {Vendor} from '../../models/vendor.model';
 import {ProductCategory} from '../../models/productCategory.model';
@@ -8,6 +8,7 @@ import {Product} from '../../models/product.model';
 import {Unit} from '../../models/unit.model';
 import {ProductService} from '../../services/product.service';
 import {PurchaseMaster} from '../../models/purchaseMaster.model';
+import {PurchaseDetail} from '../../models/purchaseDetail.model';
 import {TransactionMaster} from '../../models/transactionMaster.model';
 import {TransactionDetail} from '../../models/transactionDetail.model';
 import {StorageMap} from '@ngx-pwa/local-storage';
@@ -16,18 +17,6 @@ import {formatDate} from '@angular/common';
 import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 
 
-
-export interface PurchaseDetails{
-  id?: number;
-  purchase_master_id: number;
-  product_id: number;
-  unit_id: number;
-  quantity: number;
-  price: number;
-  discount: number;
-  product: Product;
-  unit: Unit;
-}
 
 @Component({
   selector: 'app-purchase',
@@ -47,7 +36,7 @@ export class PurchaseComponent implements OnInit {
   unitList: Unit[] = [];
   purchaseAmount = 0;
   purchaseMaster: PurchaseMaster;
-  purchaseDetails: PurchaseDetails[] = [];
+  purchaseDetails: PurchaseDetail[] = [];
   transactionMaster: TransactionMaster;
   transactionDetails: TransactionDetail[] = [];
   color = 'accent';
@@ -56,9 +45,14 @@ export class PurchaseComponent implements OnInit {
   public totalPurchaseAmount = 0;
 
   // tslint:disable-next-line:max-line-length
+  public temporaryForm: FormGroup;
+  // tslint:disable-next-line:max-line-length
   constructor(private purchaseService: PurchaseService, private vendorService: VendorService, private productService: ProductService, private storage: StorageMap) { }
 
   ngOnInit(): void {
+    this.temporaryForm = new FormGroup({
+      product_category_id: new FormControl(null)
+    });
     this.productCategoryList = this.purchaseService.getProductCategoryList();
     this.purchaseService.getProductCategoryUpdateListener().subscribe(response => {
         // console.log(response);
@@ -81,7 +75,7 @@ export class PurchaseComponent implements OnInit {
       this.vendorList = response;
     });
     // get purchaseDetails from localstorage
-    this.storage.get('purchaseDetails').subscribe((purchaseDetails: PurchaseDetails[]) => {
+    this.storage.get('purchaseDetails').subscribe((purchaseDetails: PurchaseDetail[]) => {
       if (purchaseDetails){
         this.purchaseDetails = purchaseDetails;
       }else{
@@ -201,7 +195,7 @@ export class PurchaseComponent implements OnInit {
 
   changePurchaseSlide() {
     // tslint:disable-next-line:triple-equals
-    if(this.currentTab == 1){
+    if (this.currentTab == 1){
       this.currentTab = 2;
     }else{
       this.currentTab = 1;
@@ -209,7 +203,7 @@ export class PurchaseComponent implements OnInit {
   }
 
 
-  deleteCurrentItem(item: PurchaseDetails) {
+  deleteCurrentItem(item: PurchaseDetail) {
     Swal.fire({
       title: 'Confirmation',
       text: 'Do you sure to delete ' + item.product.product_name,
@@ -285,5 +279,14 @@ export class PurchaseComponent implements OnInit {
     let val = this.transactionMasterForm.value.transaction_date;
     val = formatDate(val, 'yyyy-MM-dd', 'en');
     this.transactionMasterForm.controls.transaction_date.setValue(val);
+  }
+
+  editCurrentItem(item: PurchaseDetail) {
+    console.log(item);
+    this.purchaseDetailForm.setValue({id: item.id, purchase_master_id: item.purchase_master_id,
+      product_id: item.product_id , unit_id: item.unit_id, quantity: item.quantity, price: item.price, discount: item.discount});
+    this.temporaryForm.setValue({product_category_id: item.product.product_category_id});
+
+
   }
 }

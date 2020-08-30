@@ -43,15 +43,16 @@
         <form [formGroup] = purchaseDetailForm>
           <div class="container" fxLayout="column" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
             <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
-              <mat-form-field fxFlex="40">
-                <mat-label>Product category</mat-label>
-                <mat-select  (selectionChange)="selectProductsByCategory($event)">
-                  <mat-option *ngFor="let category of productCategoryList" [value]="category.id">
-                    {{category.category_name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
+              <form [formGroup] = temporaryForm>
+                <mat-form-field fxFlex="80">
+                  <mat-label>Product category</mat-label>
+                  <mat-select  (selectionChange)="selectProductsByCategory($event)" formControlName="product_category_id">
+                    <mat-option *ngFor="let category of productCategoryList" [value]="category.id">
+                      {{category.category_name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </form>
               <mat-form-field fxFlex="40" *ngIf="productListByCategory.length>0">
                 <mat-label>Product</mat-label>
                 <mat-select formControlName="product_id">
@@ -154,7 +155,7 @@
             <td class="text-right">{{item.discount | currency:"&#8377; "}}</td>
             <td class="text-right">{{item.quantity*item.price - item.discount | currency:"&#8377; "}}</td>
             <td>
-              <button mat-icon-button color="primary" aria-label="Edit Product">
+              <button mat-icon-button color="primary" aria-label="Edit Product" (click)="editCurrentItem(item)">
                 <mat-icon>edit</mat-icon>
               </button>
               <button mat-icon-button color="warn" aria-label="Delete" (click)="deleteCurrentItem(item)">
