@@ -257,7 +257,7 @@ export class PurchaseComponent implements OnInit {
             Swal.fire({
               position: 'top-end',
               icon: 'success',
-              title: 'Product has been saved',
+              title: 'Purchase saved',
               showConfirmButton: false,
               timer: 3000
             });
