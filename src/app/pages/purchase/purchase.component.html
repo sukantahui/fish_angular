@@ -122,9 +122,14 @@
       <mat-card-content *ngIf="isCurrentTab(1)" id="purchase-details">
         <h1>I am Purchase details</h1>
 
-        <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end" fxLayoutGap="10px" fxLayoutGap.xs="0" >
-          <div >
+        <div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFill id="vendor-div">
+          <!--  Left Side-->
+          <div fxLayout="column" fxFlex="80" class="mr-1">
 
+          </div>
+          <!--  Right Side-->
+          <div fxFlex="20" class="vendor-list">
+            Invoice Number: {{transactionMaster.transaction_number}}
           </div>
         </div>
         <table class="table" id="purchase-table">
