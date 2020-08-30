@@ -12,6 +12,7 @@ import {TransactionDetail} from '../models/transactionDetail.model';
 import {catchError, tap} from 'rxjs/operators';
 import {Vendor} from '../models/vendor.model';
 import {GlobalVariable} from '../shared/global';
+import {formatDate} from '@angular/common';
 
 export class PurchaseRespose {
   success: number;
@@ -61,11 +62,12 @@ export class PurchaseService {
       discount: new FormControl(0),
     });
     const now = new Date();
+    const val = formatDate(now, 'yyyy-MM-dd', 'en');
     this.transactionMasterForm = new FormGroup({
       id: new FormControl(null),
       // transaction_pickup_date: new FormControl(now, [Validators.required]),
       // this is original date
-      transaction_date: new FormControl(now, [Validators.required]),
+      transaction_date: new FormControl(val, [Validators.required]),
       transaction_number: new FormControl(null, [Validators.required]),
       voucher_id: new FormControl(2, [Validators.required, Validators.maxLength(20), Validators.minLength(2)]),           // purchase
       employee_id: new FormControl(this.userData.id)
