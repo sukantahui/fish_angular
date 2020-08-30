@@ -13,6 +13,7 @@ import {TransactionDetail} from '../../models/transactionDetail.model';
 import {StorageMap} from '@ngx-pwa/local-storage';
 import Swal from 'sweetalert2';
 import {formatDate} from '@angular/common';
+import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 
 
 
@@ -148,14 +149,6 @@ export class PurchaseComponent implements OnInit {
     tempItem.unit = this.unitList[index];
     console.log(tempItem);
     this.purchaseDetails.push(tempItem);
-    // tslint:disable-next-line:max-line-length
-    let val = this.transactionMasterForm.value.transaction_date;
-    val = formatDate(val, 'yyyy-MM-dd', 'en');
-    this.transactionMasterForm.controls.transaction_date.setValue(val);
-    // this.transactionMasterForm.controls.transaction_pickup_date.setValue(val);
-    // tslint:disable-next-line:max-line-length
-    // this.transactionMasterForm.controls.transaction_date.setValue(this.getSQLDate(this.transactionMasterForm.value.transaction_pickup_date));
-    // console.log(this.getSQLDate(this.transactionMasterForm.value.transaction_date));
     this.transactionMaster = this.transactionMasterForm.value;
 
 
@@ -287,4 +280,9 @@ export class PurchaseComponent implements OnInit {
     return myDate.getFullYear() + '-' + (myDate.getMonth() + 1) + '-' + myDate.getDate();
   }
 
+  handleTransactionMasterDateChange($event: MatDatepickerInputEvent<unknown>) {
+    let val = this.transactionMasterForm.value.transaction_date;
+    val = formatDate(val, 'yyyy-MM-dd', 'en');
+    this.transactionMasterForm.controls.transaction_date.setValue(val);
+  }
 }
