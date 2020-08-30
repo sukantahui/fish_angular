@@ -203,7 +203,7 @@
 <!--This is developer div-->
 <div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch"  id="developer-div">
   <div fxLayout="column" fxFlex="25" class="mr-1">
-    purchaseMasterForm={{purchaseMasterForm.valid}}
+    transactionMasterForm={{transactionMasterForm.value | json}}
     <pre>
       purchaseMaster = {{purchaseMaster | json}}
     </pre>

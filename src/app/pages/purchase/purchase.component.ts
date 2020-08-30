@@ -74,6 +74,12 @@ export class PurchaseComponent implements OnInit {
     this.vendorService.getVendorUpdateListener().subscribe(response => {
       this.vendorList = response;
     });
+    // get purchaseMaster from localstorage
+    this.storage.get('purchaseMaster').subscribe((purchaseMaster: PurchaseMaster) => {
+      if (purchaseMaster){
+        this.purchaseMaster = purchaseMaster;
+      }
+    }, (error) => {this.purchaseDetails = [];});
     // get purchaseDetails from localstorage
     this.storage.get('purchaseDetails').subscribe((purchaseDetails: PurchaseDetail[]) => {
       if (purchaseDetails){
@@ -81,9 +87,7 @@ export class PurchaseComponent implements OnInit {
       }else{
         this.purchaseDetails = [];
       }
-    }, (error) => {
-      this.purchaseDetails = [];
-    });
+    }, (error) => {this.purchaseDetails = []; });
     // get transactionMaster from localstorage
     this.storage.get('transactionMaster').subscribe((transactionMaster: TransactionMaster) => {
       if (transactionMaster){
@@ -159,6 +163,7 @@ export class PurchaseComponent implements OnInit {
         amount: 0
       }
     );
+    this.storage.set('purchaseMaster', this.purchaseMaster).subscribe(() => {});
     this.storage.set('purchaseDetails', this.purchaseDetails).subscribe(() => {});
     this.storage.set('transactionMaster', this.transactionMaster).subscribe(() => {});
     this.storage.set('transactionDetails', this.transactionDetails).subscribe(() => {});
@@ -278,7 +283,7 @@ export class PurchaseComponent implements OnInit {
   handleTransactionMasterDateChange($event: MatDatepickerInputEvent<unknown>) {
     let val = this.transactionMasterForm.value.transaction_date;
     val = formatDate(val, 'yyyy-MM-dd', 'en');
-    this.transactionMasterForm.controls.transaction_date.setValue(val);
+    this.transactionMasterForm.patchValue({transaction_date: val});
   }
 
   editCurrentItem(item: PurchaseDetail) {
