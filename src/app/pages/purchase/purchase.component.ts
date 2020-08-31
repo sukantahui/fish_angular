@@ -179,6 +179,9 @@ export class PurchaseComponent implements OnInit {
       return total + (record.price * record.quantity - record.discount);
     }, 0);
     this.storage.set('totalPurchaseAmount', this.totalPurchaseAmount).subscribe(() => {});
+
+    // Changing current tab
+    this.currentTab = 1;
   }
   isCurrentTab(tab: number){
     return (tab === this.currentTab);
@@ -265,6 +268,7 @@ export class PurchaseComponent implements OnInit {
             this.storage.clear().subscribe(() => {});
             this.purchaseDetails = [];
             this.totalPurchaseAmount = 0;
+            this.currentTab = 2;
           }
         }, (error) => {
           Swal.fire({
