@@ -6,7 +6,7 @@
           <div mat-card-avatar class="example-header-image"></div>
           <mat-card-title>
             <div fxLayout="row" fxLayoutAlign="end center" fxFlexFill>
-              <div>1. One</div> <div>2. Two</div> <div>3. Three</div> <div>4. Four</div>
+              Purchase Entry
             </div>
 <!--            <div fxLayout="row" fxLayoutAlign="end center">-->
 <!--            <mat-checkbox  [(ngModel)]="isDiscountEnabled" fxFlex>Discount</mat-checkbox>-->
@@ -134,7 +134,7 @@
             Invoice Number: {{transactionMasterForm.value.transaction_number}}
           </div>
         </div>
-        <table class="table" id="purchase-table">
+        <table class="table" id="purchase-table" *ngIf="totalPurchaseAmount>0">
           <thead>
           <tr>
             <th>SL.</th>
