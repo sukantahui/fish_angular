@@ -15,6 +15,7 @@ import {GlobalVariable} from '../shared/global';
 import {formatDate} from '@angular/common';
 import {Product} from '../models/product.model';
 import {PurchaseVoucher} from '../models/purchaseVoucher.model';
+import {PurchaseTransactionDetail} from '../models/purchaseTransactionDetail';
 
 export class PurchaseRespose {
   success: number;
@@ -128,6 +129,19 @@ export class PurchaseService {
         this.purchaseVouchers.unshift(response.data);
         // this.vendorList.unshift(response.data);
         this.purchaseVoucherSubject.next([...this.purchaseVouchers]);
+      }));
+  }
+
+  getPurchaseDetailsByTransactionid(id: number){
+    // @ts-ignore
+    // @ts-ignore
+    // @ts-ignore
+    // @ts-ignore
+    // @ts-ignore
+    return this.http.get('http://127.0.0.1:8000/api/purchaseDetails/' + id)
+      .pipe(catchError(this.handleError), tap((response: {success: number, data: PurchaseTransactionDetail}) => {
+        // @ts-ignore
+        // console.log(response);
       }));
   }
 

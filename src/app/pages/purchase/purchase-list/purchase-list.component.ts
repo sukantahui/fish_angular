@@ -19,4 +19,9 @@ export class PurchaseListComponent implements OnInit {
     });
   }
 
+  getPurchaseInfoById(id: number) {
+    this.purchaseService.getPurchaseDetailsByTransactionid(id).subscribe(response => {
+      console.log(response);
+    });
+  }
 }

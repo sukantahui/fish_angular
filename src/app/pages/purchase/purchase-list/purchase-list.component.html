@@ -7,6 +7,7 @@
     <th>Bill Number</th>
     <th>Vendor</th>
     <th>Amount</th>
+    <th>Click here</th>
   </tr>
   </thead>
   <tbody>
@@ -17,6 +18,9 @@
     <td class="text-right">{{item.transaction_number}}</td>
     <td class="text-right">{{item.ledger_name}}</td>
     <td class="text-right">{{item.bill_amount | currency:"&#8377; "}}</td>
+    <td class="text-right">
+      <button mat-button (click)="getPurchaseInfoById(item.id)"  mat-stroked-button>Details</button>
+    </td>
   </tr>
   </tbody>
   <tfoot>
