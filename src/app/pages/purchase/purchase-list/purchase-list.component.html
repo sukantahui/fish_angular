@@ -3,18 +3,20 @@
   <thead>
   <tr>
     <th>SL.</th>
-    <th>Product Name</th>
-    <th>Quantity</th>
-    <th>Price</th>
+    <th>Date</th>
+    <th>Bill Number</th>
+    <th>Vendor</th>
+    <th>Amount</th>
   </tr>
   </thead>
   <tbody>
   <tr  *ngFor="let item of purchaseVouchers;let indexOfElement = index;">
 
     <td class="text-left" >{{indexOfElement+1}}</td>
-    <td class="text-left" >{{item.transaction_date}}</td>
+    <td class="text-left" >{{item.formatted_transaction_date}}</td>
     <td class="text-right">{{item.transaction_number}}</td>
-    <td class="text-right">{{item.transaction_details[0].ledger.ledger_name}}</td>
+    <td class="text-right">{{item.ledger_name}}</td>
+    <td class="text-right">{{item.bill_amount | currency:"&#8377; "}}</td>
   </tr>
   </tbody>
   <tfoot>
@@ -22,6 +24,4 @@
   </tr>
   </tfoot>
 </table>
-<pre>
-  PurchaseVoucher = {{purchaseVouchers | json}}
-</pre>
+
