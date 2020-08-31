@@ -2,6 +2,17 @@
   <div fxLayout="column" fxFlex="40" class="mr-1">
     <div id="left-details">
       <mat-card class="ml-2 mt-2 form-mat-card" >
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image"></div>
+          <mat-card-title>
+            <div fxLayout="row" fxLayoutAlign="end center" fxFlexFill>
+              <div>1. One</div> <div>2. Two</div> <div>3. Three</div> <div>4. Four</div>
+            </div>
+<!--            <div fxLayout="row" fxLayoutAlign="end center">-->
+<!--            <mat-checkbox  [(ngModel)]="isDiscountEnabled" fxFlex>Discount</mat-checkbox>-->
+<!--            </div>-->
+          </mat-card-title>
+        </mat-card-header>
       <div class="form-container">
         <form [formGroup] = transactionMasterForm>
           <div class="container" fxLayout="column" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">

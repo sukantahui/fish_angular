@@ -46,6 +46,7 @@ export class PurchaseComponent implements OnInit {
 
   // tslint:disable-next-line:max-line-length
   public temporaryForm: FormGroup;
+  isDiscountEnabled = false;
   // tslint:disable-next-line:max-line-length
   constructor(private purchaseService: PurchaseService, private vendorService: VendorService, private productService: ProductService, private storage: StorageMap) { }
 
