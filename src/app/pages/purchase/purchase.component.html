@@ -131,49 +131,52 @@
           </div>
           <!--  Right Side-->
           <div fxFlex="40" class="vendor-list">
-            Invoice Number: {{transactionMasterForm.value.transaction_number}}
+
           </div>
         </div>
-        <table class="table" id="purchase-table" *ngIf="totalPurchaseAmount>0">
-          <thead>
-          <tr>
-            <th>SL.</th>
-            <th>Product Name</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Disc</th>
-            <th>Amount</th>
-            <th colspan="1">Action</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr  *ngFor="let item of purchaseDetails;let indexOfElement = index;">
-
-            <td class="text-left" >{{indexOfElement+1}}</td>
-            <td class="text-left" >{{item.product.product_name}}</td>
-            <td class="text-right">{{item.quantity}} {{item.unit.unit_name}}</td>
-            <td class="text-right">{{item.price | currency:"&#8377; "}}</td>
-            <td class="text-right">{{item.discount | currency:"&#8377; "}}</td>
-            <td class="text-right">{{item.quantity*item.price - item.discount | currency:"&#8377; "}}</td>
-            <td>
-              <button mat-icon-button color="primary" aria-label="Edit Product" (click)="editCurrentItem(item)">
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button mat-icon-button color="warn" aria-label="Delete" (click)="deleteCurrentItem(item)">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </td>
-          </tr>
-          </tbody>
-          <tfoot>
+        <div id="purchase-detail-area" *ngIf="totalPurchaseAmount>0">
+          Invoice Number: {{transactionMasterForm.value.transaction_number}}
+          <table class="table" id="purchase-table">
+            <thead>
             <tr>
-              <td class="text-center" colspan="5">Total</td>
-              <td class="text-right">{{totalPurchaseAmount | currency:"&#8377; "}}</td>
+              <th>SL.</th>
+              <th>Product Name</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Disc</th>
+              <th>Amount</th>
+              <th colspan="1">Action</th>
             </tr>
-          </tfoot>
-        </table>
-        <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end" fxLayoutGap="10px" fxLayoutGap.xs="0" >
-          <button mat-button (click)="savePurchase()" [disabled]="false"  mat-stroked-button>Save Purchase</button>
+            </thead>
+            <tbody>
+            <tr  *ngFor="let item of purchaseDetails;let indexOfElement = index;">
+
+              <td class="text-left" >{{indexOfElement+1}}</td>
+              <td class="text-left" >{{item.product.product_name}}</td>
+              <td class="text-right">{{item.quantity}} {{item.unit.unit_name}}</td>
+              <td class="text-right">{{item.price | currency:"&#8377; "}}</td>
+              <td class="text-right">{{item.discount | currency:"&#8377; "}}</td>
+              <td class="text-right">{{item.quantity*item.price - item.discount | currency:"&#8377; "}}</td>
+              <td>
+                <button mat-icon-button color="primary" aria-label="Edit Product" (click)="editCurrentItem(item)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" aria-label="Delete" (click)="deleteCurrentItem(item)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td class="text-center" colspan="5">Total</td>
+                <td class="text-right">{{totalPurchaseAmount | currency:"&#8377; "}}</td>
+              </tr>
+            </tfoot>
+          </table>
+          <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end" fxLayoutGap="10px" fxLayoutGap.xs="0" >
+            <button mat-button (click)="savePurchase()" [disabled]="false"  mat-stroked-button>Save Purchase</button>
+          </div>
         </div>
       </mat-card-content>
        <mat-card-content *ngIf="isCurrentTab(2)">
