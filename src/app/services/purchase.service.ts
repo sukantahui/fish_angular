@@ -17,11 +17,6 @@ import {Product} from '../models/product.model';
 import {PurchaseVoucher} from '../models/purchaseVoucher.model';
 import {PurchaseTransactionDetail} from '../models/purchaseTransactionDetail';
 
-export class PurchaseRespose {
-  success: number;
-}
-
-
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +32,9 @@ export class PurchaseService {
   productCategoryList: ProductCategory[] = [];
   purchaseVouchers: PurchaseVoucher[] = [];
   purchaseVoucherSubject = new Subject<PurchaseVoucher[]>();
+
+  purchaseTransactionDetail: PurchaseTransactionDetail = null;
+  purchaseTransactionDetailObjectSubject = new Subject<any>();
 
   constructor(private http: HttpClient) {
     this.http.get(GlobalVariable.BASE_API_URL + '/productCategories')
@@ -114,6 +112,16 @@ export class PurchaseService {
   }
 
 
+  getPurchaseTransactionDetailObject(){
+    return this.purchaseTransactionDetail;
+  }
+  getPurchaseTransactionDetailObjectListener(){
+    return this.purchaseTransactionDetailObjectSubject.asObservable();
+  }
+
+
+
+
   // tslint:disable-next-line:max-line-length
   savePurchase(purchaseMaster: PurchaseMaster, purchaseDetails: PurchaseDetail[], transactionMaster: TransactionMaster, transactionDetails: TransactionDetail[]) {
     // tslint:disable-next-line:max-line-length
@@ -132,16 +140,11 @@ export class PurchaseService {
       }));
   }
 
-  getPurchaseDetailsByTransactionid(id: number){
-    // @ts-ignore
-    // @ts-ignore
-    // @ts-ignore
-    // @ts-ignore
-    // @ts-ignore
-    return this.http.get('http://127.0.0.1:8000/api/purchaseDetails/' + id)
+  getPurchaseDetailsByTransactionID(id: number){
+    return this.http.get<{success: number; data: PurchaseTransactionDetail}>('http://127.0.0.1:8000/api/purchaseDetails/' + id)
       .pipe(catchError(this.handleError), tap((response: {success: number, data: PurchaseTransactionDetail}) => {
-        // @ts-ignore
-        // console.log(response);
+        this.purchaseTransactionDetail = response.data;
+        this.purchaseTransactionDetailObjectSubject.next({...this.purchaseTransactionDetail});
       }));
   }
 

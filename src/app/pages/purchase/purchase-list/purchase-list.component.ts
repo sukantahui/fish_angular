@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {PurchaseVoucher} from '../../../models/purchaseVoucher.model';
 import {PurchaseService} from '../../../services/purchase.service';
+import {PurchaseTransactionDetail} from '../../../models/purchaseTransactionDetail';
 
 @Component({
   selector: 'app-purchase-list',
@@ -9,6 +10,7 @@ import {PurchaseService} from '../../../services/purchase.service';
 })
 export class PurchaseListComponent implements OnInit {
   purchaseVouchers: PurchaseVoucher[] = [];
+  public purchaseTransactionDetailObject: PurchaseTransactionDetail = null;
 
   constructor(private purchaseService: PurchaseService) { }
 
@@ -17,11 +19,15 @@ export class PurchaseListComponent implements OnInit {
     this.purchaseService.getPurchaseVoucherUpdateListener().subscribe((response: PurchaseVoucher[]) => {
       this.purchaseVouchers = response;
     });
+    // this.purchaseTransactionDetailObject = this.purchaseService.getPurchaseTransactionDetailObject();
+    this.purchaseService.getPurchaseTransactionDetailObjectListener().subscribe(response => {
+      this.purchaseTransactionDetailObject = response;
+      console.log(this.purchaseTransactionDetailObject);
+    });
   }
 
   getPurchaseInfoById(id: number) {
-    this.purchaseService.getPurchaseDetailsByTransactionid(id).subscribe(response => {
-      console.log(response);
+    this.purchaseService.getPurchaseDetailsByTransactionID(id).subscribe(response => {
     });
   }
 }
