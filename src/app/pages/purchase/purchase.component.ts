@@ -50,6 +50,8 @@ export class PurchaseComponent implements OnInit {
   public temporaryForm: FormGroup;
   isDiscountEnabled = false;
   // tslint:disable-next-line:max-line-length
+  private editableItemIndex = -1;
+  // tslint:disable-next-line:max-line-length
   constructor(private purchaseService: PurchaseService, private vendorService: VendorService, private productService: ProductService, private storage: StorageMap) { }
 
   ngOnInit(): void {
@@ -154,7 +156,12 @@ export class PurchaseComponent implements OnInit {
     index = this.unitList.findIndex(x => x.id === tempItem.unit_id);
     tempItem.unit = this.unitList[index];
     console.log(tempItem);
-    this.purchaseDetails.push(tempItem);
+    if (this.editableItemIndex === -1){
+      this.purchaseDetails.push(tempItem);
+    }else{
+      this.purchaseDetails[this.editableItemIndex] = tempItem;
+    }
+
     this.transactionMaster = this.transactionMasterForm.value;
 
 
@@ -189,6 +196,7 @@ export class PurchaseComponent implements OnInit {
 
     // Changing current tab
     this.currentTab = 1;
+    this.editableItemIndex = -1;
   }
   isCurrentTab(tab: number){
     return (tab === this.currentTab);
@@ -304,6 +312,7 @@ export class PurchaseComponent implements OnInit {
 
   editCurrentItem(item: PurchaseDetail) {
     console.log(item);
+    this.editableItemIndex = this.purchaseDetails.findIndex(x => x === item);
     this.purchaseDetailForm.setValue({id: item.id, purchase_master_id: item.purchase_master_id,
       product_id: item.product_id , unit_id: item.unit_id, quantity: item.quantity, price: item.price, discount: item.discount});
     this.temporaryForm.setValue({product_category_id: item.product.product_category_id});

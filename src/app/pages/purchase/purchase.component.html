@@ -201,16 +201,36 @@
             </div>
           </div>
 
-          <div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFill *ngFor="let item of purchaseTransactionDetail.purchase_master.purchase_details;let indexOfElement = index;">
-            <div fxLayout="column" fxFlex="10" class="mr-1">
-              {{indexOfElement+1}}
-            </div>
-            <div fxLayout="column" fxFlex="20" class="mr-1">
-              {{item.product.product_name}}
-            </div>
-            <div fxLayout="column" fxFlex="20" class="mr-1">
-              {{item.unit.unit_name}}
-            </div>
+          <div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFill>
+            <table class="table">
+              <thead>
+              <tr>
+                <th>SL.</th>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Disc</th>
+                <th>Amount</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr  *ngFor="let item of purchaseTransactionDetail.purchase_master.purchase_details;let indexOfElement = index;">
+                <td class="text-left" >{{indexOfElement+1}}</td>
+                <td class="text-left" >{{item.product.product_name}}</td>
+                <td class="text-right">{{item.quantity}} {{item.unit.unit_name}}</td>
+                <td class="text-right">{{item.price | currency:"&#8377; "}}</td>
+                <td class="text-right">{{item.discount | currency:"&#8377; "}}</td>
+                <td class="text-right">{{item.quantity*item.price - item.discount | currency:"&#8377; "}}</td>
+              </tr>
+              </tbody>
+              <tfoot>
+              <tr>
+                <td class="text-center" colspan="5">Total</td>
+                <td class="text-right">{{purchaseTransactionDetail.total_amount | currency:"&#8377; "}}</td>
+              </tr>
+              </tfoot>
+            </table>
+
           </div>
         </div>
 
@@ -237,12 +257,12 @@
 
 <!--This is developer div-->
 <div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch"  id="developer-div">
-  <div fxLayout="column" fxFlex="25" class="mr-1">
-    transactionMasterForm={{transactionMasterForm.value | json}}
-    <pre>
-      purchaseMaster = {{purchaseMaster | json}}
-    </pre>
-  </div>
+<!--  <div fxLayout="column" fxFlex="25" class="mr-1">-->
+<!--    transactionMasterForm={{transactionMasterForm.value | json}}-->
+<!--    <pre>-->
+<!--      purchaseMaster = {{purchaseMaster | json}}-->
+<!--    </pre>-->
+<!--  </div>-->
   <div fxLayout="column" fxFlex="25" class="mr-1">
     purchaseDetails={{purchaseDetailForm.valid}}
     <pre>
@@ -252,18 +272,18 @@
       purchaseDetails = {{purchaseDetails | json}}
     </pre>
   </div>
-  <div fxLayout="column" fxFlex="25" class="mr-1">
-    transactionMaster={{transactionMasterForm.valid}}
-    <pre>
-      transactionMaster = {{transactionMaster | json}}
-    </pre>
-  </div>
-  <div fxLayout="column" fxFlex="25" class="mr-1">
-    transactionDetails={{transactionDetailForm.valid}}
-    <pre>
-      transactionDetails = {{transactionDetails | json}}
-    </pre>
-  </div>
+<!--  <div fxLayout="column" fxFlex="25" class="mr-1">-->
+<!--    transactionMaster={{transactionMasterForm.valid}}-->
+<!--    <pre>-->
+<!--      transactionMaster = {{transactionMaster | json}}-->
+<!--    </pre>-->
+<!--  </div>-->
+<!--  <div fxLayout="column" fxFlex="25" class="mr-1">-->
+<!--    transactionDetails={{transactionDetailForm.valid}}-->
+<!--    <pre>-->
+<!--      transactionDetails = {{transactionDetails | json}}-->
+<!--    </pre>-->
+<!--  </div>-->
 </div>
 
 

@@ -11,6 +11,7 @@ import {PurchaseTransactionDetail} from '../../../models/purchaseTransactionDeta
 export class PurchaseListComponent implements OnInit {
   purchaseVouchers: PurchaseVoucher[] = [];
   public purchaseTransactionDetailObject: PurchaseTransactionDetail = null;
+  private totalPurchaseAmount: number;
 
   constructor(private purchaseService: PurchaseService) { }
 
@@ -28,6 +29,7 @@ export class PurchaseListComponent implements OnInit {
 
   getPurchaseInfoById(id: number) {
     this.purchaseService.getPurchaseDetailsByTransactionID(id).subscribe(response => {
+
     });
   }
 }
