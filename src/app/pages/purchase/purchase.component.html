@@ -185,6 +185,36 @@
          <app-purchase-list></app-purchase-list>
        </mat-card-content>
       <mat-card-content *ngIf="isCurrentTab(3)" id="purchase-bill">
+        <div fxLayout.xs="column" fxLayout="column" fxLayoutAlign="space-between stretch" fxFlexFill>
+          <!--row1-->
+          <div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFill style="border: 2px solid black">
+            <div fxLayout="column" fxFlex="60" class="mr-1">
+              <div>{{purchaseTransactionDetail.credit_transaction_details[0].ledger.billing_name}}</div>
+              <div>{{purchaseTransactionDetail.credit_transaction_details[0].ledger.state}}</div>
+              <div>{{purchaseTransactionDetail.credit_transaction_details[0].ledger.email}}</div>
+              <div>{{purchaseTransactionDetail.credit_transaction_details[0].ledger.mobile1}}</div>
+              <div>{{purchaseTransactionDetail.credit_transaction_details[0].ledger.mobile2}}</div>
+            </div>
+            <div fxLayout="column" fxFlex="40" class="mr-1">
+              <div>Bill No. : {{purchaseTransactionDetail.transaction_number}}</div>
+              <div>Date : {{purchaseTransactionDetail.transaction_date}}</div>
+            </div>
+          </div>
+
+          <div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFill *ngFor="let item of purchaseTransactionDetail.purchase_master.purchase_details;let indexOfElement = index;">
+            <div fxLayout="column" fxFlex="10" class="mr-1">
+              {{indexOfElement+1}}
+            </div>
+            <div fxLayout="column" fxFlex="20" class="mr-1">
+              {{item.product.product_name}}
+            </div>
+            <div fxLayout="column" fxFlex="20" class="mr-1">
+              {{item.unit.unit_name}}
+            </div>
+          </div>
+        </div>
+
+
         <pre>
             purchaseTransactionDetail = {{purchaseTransactionDetail | json}}
         </pre>
