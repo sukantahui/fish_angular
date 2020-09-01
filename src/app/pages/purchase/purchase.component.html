@@ -117,6 +117,7 @@
          <div>
            <button mat-button (click)="setCurrentTab(1)"  mat-stroked-button>Purchase Details</button>
            <button mat-button (click)="setCurrentTab(2)"  mat-stroked-button>Purchase List</button>
+           <button mat-button (click)="setCurrentTab(3)"  mat-stroked-button>Purchase Bill</button>
          </div>
        </mat-card-title>
       </mat-card-header>
@@ -183,7 +184,13 @@
          <h1>Purchase List</h1>
          <app-purchase-list></app-purchase-list>
        </mat-card-content>
-       <mat-card-actions>
+      <mat-card-content *ngIf="isCurrentTab(3)" id="purchase-bill">
+        <pre>
+            purchaseTransactionDetail = {{purchaseTransactionDetail | json}}
+        </pre>
+      </mat-card-content>
+
+      <mat-card-actions>
          <button mat-fab aria-label="Delete">
            <mat-icon>favorite</mat-icon>
          </button>

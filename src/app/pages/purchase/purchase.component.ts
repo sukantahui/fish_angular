@@ -15,6 +15,7 @@ import {StorageMap} from '@ngx-pwa/local-storage';
 import Swal from 'sweetalert2';
 import {formatDate} from '@angular/common';
 import {MatDatepickerInputEvent} from '@angular/material/datepicker';
+import {PurchaseTransactionDetail} from '../../models/purchaseTransactionDetail';
 
 
 
@@ -39,6 +40,7 @@ export class PurchaseComponent implements OnInit {
   purchaseDetails: PurchaseDetail[] = [];
   transactionMaster: TransactionMaster;
   transactionDetails: TransactionDetail[] = [];
+  purchaseTransactionDetail: PurchaseTransactionDetail;
   color = 'accent';
 
   currentTab = 1;
@@ -66,6 +68,11 @@ export class PurchaseComponent implements OnInit {
     this.unitList = this.productService.getUnits();
     this.productService.getUnitUpdateListener().subscribe((responseUnit: Unit[]) => {
       this.unitList = responseUnit;
+    });
+    // getting purchase transaction details as object
+    this.purchaseService.getPurchaseTransactionDetailObjectListener().subscribe(response => {
+      this.purchaseTransactionDetail = response;
+      this.currentTab = 3;
     });
     this.purchaseMasterForm = this.purchaseService.purchaseMasterForm;
     this.purchaseDetailForm = this.purchaseService.purchaseDetailForm;
