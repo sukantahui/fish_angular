@@ -188,7 +188,7 @@
        </mat-card-content>
       <mat-card-content *ngIf="isCurrentTab(3)" id="purchase-bill">
         <div fxLayout.xs="column" fxLayout="column" fxLayoutAlign="space-between stretch" fxFlexFill>
-          <div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFill>
+          <div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFill id="printable-purchase-bill">
             <table class="table">
               <thead>
               <tr>
@@ -233,7 +233,16 @@
               </tr>
               </tfoot>
             </table>
+          </div>
+          <div fxLayout.xs="column" fxLayout="row" fxFlexFill>
+            <div fxFlex="10" >
+              <button
+                mat-stroked-button
 
+                styleSheetFile="assets/print_style/purchase_bill/a4.css"
+                printSectionId="printable-purchase-bill"
+                ngxPrint><mat-icon>print</mat-icon></button>
+            </div>
           </div>
         </div>
       </mat-card-content>
