@@ -32,4 +32,5 @@ export class PurchaseTransactionDetail{
     purchase_details: {id: number; purchase_master_id: number; product_id: number; unit_id: number;
                   quantity: number; price: number; discount: number}[];
   };
+  total_amount: number;
 }

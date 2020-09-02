@@ -101,8 +101,8 @@
           </div>
         </form>
         <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end" fxLayoutGap="10px" fxLayoutGap.xs="0" >
-          <button mat-button (click)="addPurchase()" [disabled]="!isValidPurchasedForm()"  mat-stroked-button>Add</button>
-          <button mat-button (click)="clearAll()"  mat-stroked-button>Clear</button>
+          <button mat-button (click)="addPurchase()" [disabled]="!isValidPurchasedForm()"  mat-stroked-button>{{editableItemIndex === -1? "Add": "Update"}}</button>
+          <button mat-button (click)="clearForm()"  mat-stroked-button>Clear</button>
         </div>
       </div>
     </mat-card>
@@ -123,8 +123,6 @@
       </mat-card-header>
 
       <mat-card-content *ngIf="isCurrentTab(1)" id="purchase-details">
-        <h1>I am Purchase details</h1>
-
         <div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFill id="vendor-div">
           <!--  Left Side-->
           <div fxLayout="column" fxFlex="60" class="mr-1">
@@ -150,7 +148,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr  *ngFor="let item of purchaseDetails;let indexOfElement = index;">
+            <tr [ngStyle]="getBackgroundColor(indexOfElement)" *ngFor="let item of purchaseDetails;let indexOfElement = index;">
 
               <td class="text-left" >{{indexOfElement+1}}</td>
               <td class="text-left" >{{item.product.product_name}}</td>
@@ -257,12 +255,18 @@
 
 <!--This is developer div-->
 <div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch"  id="developer-div">
-<!--  <div fxLayout="column" fxFlex="25" class="mr-1">-->
-<!--    transactionMasterForm={{transactionMasterForm.value | json}}-->
-<!--    <pre>-->
-<!--      purchaseMaster = {{purchaseMaster | json}}-->
-<!--    </pre>-->
-<!--  </div>-->
+  <div fxLayout="column" fxFlex="25" class="mr-1">
+    <pre>
+      transactionMasterForm={{transactionMasterForm.valid | json}}
+      transactionMasterForm={{transactionDetailForm.valid | json}}
+      transactionMasterForm={{purchaseMasterForm.valid | json}}
+      transactionMasterForm={{purchaseDetailForm.valid | json}}
+    </pre>
+
+    <pre>
+      purchaseMaster = {{purchaseMaster | json}}
+    </pre>
+  </div>
   <div fxLayout="column" fxFlex="25" class="mr-1">
     purchaseDetails={{purchaseDetailForm.valid}}
     <pre>

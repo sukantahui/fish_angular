@@ -50,7 +50,10 @@ export class PurchaseComponent implements OnInit {
   public temporaryForm: FormGroup;
   isDiscountEnabled = false;
   // tslint:disable-next-line:max-line-length
-  private editableItemIndex = -1;
+  public editableItemIndex = -1;
+  // tslint:disable-next-line:max-line-length
+  // private defaultValues: {transactionMasterForm: any, transactionDetailsForm: any, purchaseMasterForm: any, purchaseDetailsForm: any};
+  private defaultValues: any;
   // tslint:disable-next-line:max-line-length
   constructor(private purchaseService: PurchaseService, private vendorService: VendorService, private productService: ProductService, private storage: StorageMap) { }
 
@@ -80,6 +83,14 @@ export class PurchaseComponent implements OnInit {
     this.purchaseDetailForm = this.purchaseService.purchaseDetailForm;
     this.transactionMasterForm = this.purchaseService.transactionMasterForm;
     this.transactionDetailForm = this.purchaseService.transactionDetailForm;
+
+    this.defaultValues = {
+      transactionMasterForm: this.purchaseService.transactionMasterForm.value,
+      transactionDetailsForm: this.purchaseService.transactionDetailForm.value,
+      purchaseMasterForm: this.purchaseService.purchaseMasterForm.value,
+      purchaseDetailsForm: this.purchaseService.purchaseDetailForm.value,
+    };
+
     this.vendorList = this.vendorService.getVendorList();
     this.vendorService.getVendorUpdateListener().subscribe(response => {
       this.vendorList = response;
@@ -155,11 +166,12 @@ export class PurchaseComponent implements OnInit {
     tempItem.product = this.productList[index];
     index = this.unitList.findIndex(x => x.id === tempItem.unit_id);
     tempItem.unit = this.unitList[index];
-    console.log(tempItem);
+
     if (this.editableItemIndex === -1){
       this.purchaseDetails.push(tempItem);
     }else{
       this.purchaseDetails[this.editableItemIndex] = tempItem;
+      this.editableItemIndex = -1;
     }
 
     this.transactionMaster = this.transactionMasterForm.value;
@@ -206,7 +218,7 @@ export class PurchaseComponent implements OnInit {
   }
 
   clearAll() {
-    this.storage.clear().subscribe(() => {});
+
   }
 
   isValidPurchasedForm(){
@@ -311,11 +323,30 @@ export class PurchaseComponent implements OnInit {
   }
 
   editCurrentItem(item: PurchaseDetail) {
-    console.log(item);
     this.editableItemIndex = this.purchaseDetails.findIndex(x => x === item);
     this.purchaseDetailForm.setValue({id: item.id, purchase_master_id: item.purchase_master_id,
       product_id: item.product_id , unit_id: item.unit_id, quantity: item.quantity, price: item.price, discount: item.discount});
     this.temporaryForm.setValue({product_category_id: item.product.product_category_id});
     this.productListByCategory = this.productList.filter(x => x.product_category_id === item.product.product_category_id);
+    this.getAmount();
+  }
+
+  getBackgroundColor(index: number) {
+    // tslint:disable-next-line:triple-equals
+    if (index == this.editableItemIndex){
+      return {
+        'background-color': 'rgba(200,200,200,.6)',
+        color: 'seashell'
+      };
+    }
+  }
+
+  clearForm() {
+    this.purchaseMasterForm.reset(this.defaultValues.purchaseMasterForm);
+    this.purchaseDetailForm.reset(this.defaultValues.purchaseDetailsForm);
+    this.transactionMasterForm.reset(this.defaultValues.transactionMasterForm);
+    this.transactionDetailForm.reset(this.defaultValues.transactionDetailsForm);
+    this.purchaseAmount = 0;
+    this.editableItemIndex = -1;
   }
 }
