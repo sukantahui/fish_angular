@@ -43,6 +43,7 @@ export class PurchaseComponent implements OnInit {
   purchaseTransactionDetail: PurchaseTransactionDetail;
   color = 'accent';
 
+
   currentTab = 1;
   public totalPurchaseAmount = 0;
 
