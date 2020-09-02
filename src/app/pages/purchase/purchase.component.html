@@ -228,6 +228,9 @@
                 <td class="text-center" colspan="5">Total</td>
                 <td class="text-right">{{purchaseTransactionDetail.total_amount | currency:"&#8377; "}}</td>
               </tr>
+              <tr>
+                <td colspan="3">In Words: Rupees {{getNumberToWords(purchaseTransactionDetail.total_amount)}} only</td>
+              </tr>
               </tfoot>
             </table>
 

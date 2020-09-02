@@ -41,6 +41,7 @@
     "ng2-search-filter": "^0.5.1",
     "ngx-pagination": "^5.0.0",
     "ngx-print": "^1.2.0-beta.4",
+    "number-to-words": "^1.2.4",
     "pdfmake": "^0.1.65",
     "rxjs": "~6.5.4",
     "sweetalert": "^2.1.2",

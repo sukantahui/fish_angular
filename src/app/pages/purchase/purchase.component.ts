@@ -19,6 +19,7 @@ import {PurchaseTransactionDetail} from '../../models/purchaseTransactionDetail'
 
 
 
+
 @Component({
   selector: 'app-purchase',
   templateUrl: './purchase.component.html',
@@ -59,6 +60,8 @@ export class PurchaseComponent implements OnInit {
   constructor(private purchaseService: PurchaseService, private vendorService: VendorService, private productService: ProductService, private storage: StorageMap) { }
 
   ngOnInit(): void {
+    // tslint:disable-next-line:prefer-const
+
     this.temporaryForm = new FormGroup({
       product_category_id: new FormControl(null)
     });
@@ -354,5 +357,10 @@ export class PurchaseComponent implements OnInit {
   cancelEditCurrentItem(item: PurchaseDetail) {
     this.editableItemIndex = -1;
     this.clearForm();
+  }
+
+  getNumberToWords(num: number){
+    const converter = require('number-to-words');
+    return converter.toWords(num);
   }
 }
