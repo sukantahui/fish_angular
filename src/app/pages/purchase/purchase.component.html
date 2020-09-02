@@ -188,24 +188,22 @@
        </mat-card-content>
       <mat-card-content *ngIf="isCurrentTab(3)" id="purchase-bill">
         <div fxLayout.xs="column" fxLayout="column" fxLayoutAlign="space-between stretch" fxFlexFill>
-          <!--row1-->
-          <div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFill style="border: 2px solid black">
-            <div fxLayout="column" fxFlex="60" class="mr-1">
-              <div>{{purchaseTransactionDetail.credit_transaction_details[0].ledger.billing_name}}</div>
-              <div>{{purchaseTransactionDetail.credit_transaction_details[0].ledger.state}}</div>
-              <div>{{purchaseTransactionDetail.credit_transaction_details[0].ledger.email}}</div>
-              <div>{{purchaseTransactionDetail.credit_transaction_details[0].ledger.mobile1}}</div>
-              <div>{{purchaseTransactionDetail.credit_transaction_details[0].ledger.mobile2}}</div>
-            </div>
-            <div fxLayout="column" fxFlex="40" class="mr-1">
-              <div>Bill No. : {{purchaseTransactionDetail.transaction_number}}</div>
-              <div>Date : {{purchaseTransactionDetail.transaction_date}}</div>
-            </div>
-          </div>
-
           <div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFill>
             <table class="table">
               <thead>
+              <tr>
+                <th>
+                  <div>{{purchaseTransactionDetail.credit_transaction_details[0].ledger.billing_name}}</div>
+                  <div>{{purchaseTransactionDetail.credit_transaction_details[0].ledger.state}}</div>
+                  <div>{{purchaseTransactionDetail.credit_transaction_details[0].ledger.email}}</div>
+                  <div>{{purchaseTransactionDetail.credit_transaction_details[0].ledger.mobile1}}</div>
+                  <div>{{purchaseTransactionDetail.credit_transaction_details[0].ledger.mobile2}}</div>
+                </th>
+                <th>
+                  <div>Bill No. : {{purchaseTransactionDetail.transaction_number}}</div>
+                  <div>Date : {{purchaseTransactionDetail.transaction_date}}</div>
+                </th>
+              </tr>
               <tr>
                 <th>SL.</th>
                 <th>Product Name</th>
