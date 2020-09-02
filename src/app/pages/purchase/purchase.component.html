@@ -204,23 +204,23 @@
                   <div>Date : {{purchaseTransactionDetail.transaction_date}}</div>
                 </th>
               </tr>
-              <tr>
-                <th>SL.</th>
-                <th>Product Name</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Disc</th>
-                <th>Amount</th>
+              <tr class="d-flex">
+                <th class="col-1">SL.</th>
+                <th class="col-5">Product Name</th>
+                <th class="col-1">Quantity</th>
+                <th class="col-2">Price</th>
+                <th class="col-1">Disc</th>
+                <th class="col-2">Amount</th>
               </tr>
               </thead>
               <tbody>
-              <tr  *ngFor="let item of purchaseTransactionDetail.purchase_master.purchase_details;let indexOfElement = index;">
-                <td class="text-left" >{{indexOfElement+1}}</td>
-                <td class="text-left" >{{item.product.product_name}}</td>
-                <td class="text-right">{{item.quantity}} {{item.unit.unit_name}}</td>
-                <td class="text-right">{{item.price | currency:"&#8377; "}}</td>
-                <td class="text-right">{{item.discount | currency:"&#8377; "}}</td>
-                <td class="text-right">{{item.quantity*item.price - item.discount | currency:"&#8377; "}}</td>
+              <tr class="d-flex"  *ngFor="let item of purchaseTransactionDetail.purchase_master.purchase_details;let indexOfElement = index;">
+                <td class="col-1 text-left" >{{indexOfElement+1}}</td>
+                <td class="col-3 text-left" >{{item.product.product_name}}</td>
+                <td class="col-1 text-right">{{item.quantity}} {{item.unit.unit_name}}</td>
+                <td class="col-2 text-right">{{item.price | currency:"&#8377; "}}</td>
+                <td class="col-1 text-right">{{item.discount | currency:"&#8377; "}}</td>
+                <td class="col-2 text-right">{{item.quantity*item.price - item.discount | currency:"&#8377; "}}</td>
               </tr>
               </tbody>
               <tfoot>
@@ -233,11 +233,6 @@
 
           </div>
         </div>
-
-
-        <pre>
-            purchaseTransactionDetail = {{purchaseTransactionDetail | json}}
-        </pre>
       </mat-card-content>
 
       <mat-card-actions>
