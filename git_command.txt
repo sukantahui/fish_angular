@@ -22,5 +22,5 @@ git difftool --staged HEAD
 Comparing difftool local to HEAD
 git difftool HEAD
 
-Comparing difftool local to stage
+//Comparing difftool local to stage
 git difftool
