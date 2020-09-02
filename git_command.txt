@@ -16,7 +16,7 @@ git config --global --list
 //git configuration file
 git config --global -e
 
-Comparing difftool with staging with HEAD
+//Comparing difftool with staging with HEAD
 git difftool --staged HEAD
 
 //Comparing difftool local to HEAD
