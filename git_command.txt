@@ -19,7 +19,7 @@ git config --global -e
 Comparing difftool with staging with HEAD
 git difftool --staged HEAD
 
-Comparing difftool local to HEAD
+//Comparing difftool local to HEAD
 git difftool HEAD
 
 //Comparing difftool local to stage
