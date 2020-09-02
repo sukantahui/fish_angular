@@ -10,7 +10,7 @@ git config --global difftool.p4merge.path "C:/Program Files/Perforce/p4merge.exe
 
 git config --global difftool.prompt false
 
-//too see configuration list
+/////too see configuration list
 git config --global --list
 
 //git configuration file
