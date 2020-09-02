@@ -157,9 +157,13 @@
               <td class="text-right">{{item.discount | currency:"&#8377; "}}</td>
               <td class="text-right">{{item.quantity*item.price - item.discount | currency:"&#8377; "}}</td>
               <td>
-                <button mat-icon-button color="primary" aria-label="Edit Product" (click)="editCurrentItem(item)">
+                <button mat-icon-button color="primary" aria-label="Edit Product" (click)="editCurrentItem(item)" *ngIf="editableItemIndex != indexOfElement">
                   <mat-icon>edit</mat-icon>
                 </button>
+                <button mat-icon-button color="primary" aria-label="Edit Product" (click)="cancelEditCurrentItem(item)" *ngIf="editableItemIndex == indexOfElement">
+                  <mat-icon>restore</mat-icon>
+                </button>
+
                 <button mat-icon-button color="warn" aria-label="Delete" (click)="deleteCurrentItem(item)">
                   <mat-icon>delete</mat-icon>
                 </button>

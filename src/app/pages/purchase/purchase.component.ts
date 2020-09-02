@@ -344,9 +344,14 @@ export class PurchaseComponent implements OnInit {
   clearForm() {
     this.purchaseMasterForm.reset(this.defaultValues.purchaseMasterForm);
     this.purchaseDetailForm.reset(this.defaultValues.purchaseDetailsForm);
-    this.transactionMasterForm.reset(this.defaultValues.transactionMasterForm);
-    this.transactionDetailForm.reset(this.defaultValues.transactionDetailsForm);
+    // this.transactionMasterForm.reset(this.defaultValues.transactionMasterForm);
+    // this.transactionDetailForm.reset(this.defaultValues.transactionDetailsForm);
     this.purchaseAmount = 0;
     this.editableItemIndex = -1;
+  }
+
+  cancelEditCurrentItem(item: PurchaseDetail) {
+    this.editableItemIndex = -1;
+    this.clearForm();
   }
 }
