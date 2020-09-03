@@ -37,4 +37,10 @@ export class PurchaseListComponent implements OnInit {
 
     });
   }
+
+  editPurchase(id: number) {
+    this.purchaseService.getPurchaseDetailsByTransactionID(id).subscribe(response => {
+      this.purchaseService.fillFormByUpdatebaleData(response);
+    });
+  }
 }

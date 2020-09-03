@@ -264,7 +264,7 @@
 </div>
 
 <!--This is developer div-->
-<div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch"  id="developer-div" *ngIf="false">
+<div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch"  id="developer-div" *ngIf="true">
   <div fxLayout="column" fxFlex="25" class="mr-1">
     <pre>
       transactionMasterForm={{transactionMasterForm.valid | json}}
@@ -274,7 +274,7 @@
     </pre>
 
     <pre>
-      purchaseMaster = {{purchaseMaster | json}}
+      purchaseMaster = {{purchaseMasterForm.value | json}}
     </pre>
   </div>
   <div fxLayout="column" fxFlex="25" class="mr-1">

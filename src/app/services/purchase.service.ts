@@ -148,6 +148,18 @@ export class PurchaseService {
       }));
   }
 
+
+  fillFormByUpdatebaleData(formData){
+    console.log('te4sting onke');
+    this.purchaseMasterForm.setValue({
+      id: null,
+      discount: 340,
+      round_off: 0,
+      loading_n_unloading_expenditure: 0,
+      comment: 0
+    });
+  }
+
   private handleError(errorResponse: HttpErrorResponse){
     if (errorResponse.error.message.includes('1062')){
       return throwError({success: 0, status: 'failed', message: 'Record already exists', statusText: ''});
