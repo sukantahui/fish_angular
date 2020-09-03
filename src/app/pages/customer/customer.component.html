@@ -7,14 +7,21 @@
         <form [formGroup] = customerForm (ngSubmit)="onSubmit()">
           <div class="container" fxLayout="column" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
               <mat-form-field>
-                <input matInput placeholder="Customer Name" formControlName="person_name">
-                <div class="container" fxLayout fxLayout.xs="column" fxLayoutAlign="end" fxLayoutGap="10px" fxLayoutGap.xs="0" *ngIf="!customerForm.get('person_name').valid && customerForm.get('person_name').touched">
-                  <mat-error *ngIf="customerForm.get('person_name').errors['required']">This field is Required</mat-error>
-                  <mat-error *ngIf="customerForm.get('person_name').errors['minlength']">Minimum length of name is {{customerForm.get('person_name').errors.minlength.requiredLength}}</mat-error>
-                  <mat-error *ngIf="customerForm.get('person_name').errors['maxlength']">Maximum length of name is {{customerForm.get('person_name').errors.maxlength.requiredLength}}</mat-error>
+                <input matInput placeholder="Customer Name" formControlName="ledger_name">
+                <div class="container" fxLayout fxLayout.xs="column" fxLayoutAlign="end" fxLayoutGap="10px" fxLayoutGap.xs="0" *ngIf="!customerForm.get('ledger_name').valid && customerForm.get('ledger_name').touched">
+                  <mat-error *ngIf="customerForm.get('ledger_name').errors['required']">This field is Required</mat-error>
+                  <mat-error *ngIf="customerForm.get('ledger_name').errors['minlength']">Minimum length of name is {{customerForm.get('ledger_name').errors.minlength.requiredLength}}</mat-error>
+                  <mat-error *ngIf="customerForm.get('ledger_name').errors['maxlength']">Maximum length of name is {{customerForm.get('ledger_name').errors.maxlength.requiredLength}}</mat-error>
                 </div>
               </mat-form-field>
-
+            <mat-form-field>
+              <input matInput placeholder="Billing Name" formControlName="billing_name">
+              <div class="container" fxLayout fxLayout.xs="column" fxLayoutAlign="end" fxLayoutGap="10px" fxLayoutGap.xs="0" *ngIf="!customerForm.get('billing_name').valid && customerForm.get('billing_name').touched">
+                <mat-error *ngIf="customerForm.get('billing_name').errors['required']">This field is Required</mat-error>
+                <mat-error *ngIf="customerForm.get('billing_name').errors['minlength']">Minimum length of name is {{customerForm.get('billing_name').errors.minlength.requiredLength}}</mat-error>
+                <mat-error *ngIf="customerForm.get('billing_name').errors['maxlength']">Maximum length of name is {{customerForm.get('billing_name').errors.maxlength.requiredLength}}</mat-error>
+              </div>
+            </mat-form-field>
               <mat-form-field>
                 <mat-placeholder>Email  <mat-icon> email</mat-icon></mat-placeholder>
                 <input matInput  formControlName="email">
@@ -68,6 +75,12 @@
                   <input matInput placeholder="PIN" formControlName="pin">
                 </mat-form-field>
             </div>
+            <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+              <mat-form-field fxFlex="30">
+                <input matInput placeholder="Opening Balance" formControlName="opening_balance">
+              </mat-form-field>
+
+            </div>
               <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end" fxLayoutGap="10px" fxLayoutGap.xs="0" >
                 <button mat-button  mat-stroked-button (click)="clearCustomerForm()">
                   Clear
@@ -80,6 +93,7 @@
                 </button>
               </div>
           </div>
+
         </form>
         <div class="alert alert-danger alert-dismissible fade show" *ngIf="currentEerror">
           <strong>Error!</strong> {{currentEerror.message}}
