@@ -372,4 +372,9 @@ export class PurchaseComponent implements OnInit {
     return converter.toWords(num);
   }
 
+  cancelPurchaseDetails() {
+    this.storage.delete('purchaseDetails').subscribe(() => {});
+    this.purchaseDetails = [];
+    this.totalPurchaseAmount = 0;
+  }
 }

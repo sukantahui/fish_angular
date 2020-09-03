@@ -177,7 +177,8 @@
               </tr>
             </tfoot>
           </table>
-          <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end" fxLayoutGap="10px" fxLayoutGap.xs="0" >
+          <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutGap="10px" fxLayoutGap.xs="0" >
+            <button mat-button (click)="cancelPurchaseDetails()"   mat-stroked-button>Delete all</button>
             <button mat-button (click)="savePurchase()" [disabled]="false"  mat-stroked-button>Save Purchase</button>
           </div>
         </div>
