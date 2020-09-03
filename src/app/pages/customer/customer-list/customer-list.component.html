@@ -33,7 +33,7 @@
       <tbody>
       <tr *ngFor="let customer of customerData | filter:searchTerm | paginate: { itemsPerPage: pageSize, currentPage: p }">
         <td>{{customer.id}}</td>
-        <td sortable-column="person_name">{{customer.person_name}}</td>
+        <td sortable-column="person_name">{{customer.ledger_name}}</td>
         <td>{{customer.email}}</td>
         <td>{{customer.mobile1}}</td>
         <td>{{customer.city}}</td>

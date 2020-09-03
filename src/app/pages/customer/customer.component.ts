@@ -29,6 +29,7 @@ export class CustomerComponent implements OnInit {
   customer: Customer;
   currentEerror: {status: number, message: string, statusText: string};
   customerCategoryData: CustomerCategory[];
+  private defaultFormValue: any;
 
   constructor(public customerService: CustomerService, private http: HttpClient, private _snackBar: MatSnackBar) {
     console.log('Customer Component calls');
@@ -45,8 +46,9 @@ export class CustomerComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.defaultFormValue = this.customerService.customerForm.value;
     this.customerCategoryData = this.customerService.getCustomerCategories();
-    console.log('Category',this.customerCategoryData);
+    console.log('Category', this.customerCategoryData);
     this.customerService.getCustomerCategoryUpdateListener()
       .subscribe((customersCategories: CustomerCategory[]) => {
         console.log('observable returned, now CustomerCategoryData will not be blank');
@@ -62,7 +64,7 @@ export class CustomerComponent implements OnInit {
   onSubmit() {
     console.log(this.customerForm.value);
     this.customerService.saveCustomer(this.customerForm.value);
-    this.customerForm.reset();
+    this.customerForm.reset(this.defaultFormValue);
   }
 
   myCustomValidation(control: FormControl): {[s: string]: boolean } {
