@@ -1,4 +1,4 @@
-http://xahlee.info/linux/git_head.html, (Here you will get most of the commands)
+http://xahlee.info/linux/git_head.html, (Here you will get most of the commands)  what is going on
 
 //How to configure p4merge
 git config --global merge.tool p4merge
