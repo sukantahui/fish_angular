@@ -42,6 +42,8 @@ import { DateFormat } from './date-format';
 import { VendorComponent } from './pages/vendor/vendor.component';
 import { PurchaseComponent } from './pages/purchase/purchase.component';
 import { PurchaseListComponent } from './pages/purchase/purchase-list/purchase-list.component';
+import {QRCodeModule} from 'angularx-qrcode';
+import {NgxBarcodeModule} from 'ngx-barcode';
 
 
 @NgModule({
@@ -80,7 +82,9 @@ import { PurchaseListComponent } from './pages/purchase/purchase-list/purchase-l
     HttpClientModule,
     NgxPrintModule,
     Ng2SearchPipeModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    QRCodeModule,
+    NgxBarcodeModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorInterceptor, multi: true},
               {provide: DateAdapter, useClass: DateFormat} ],

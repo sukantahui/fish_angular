@@ -192,12 +192,15 @@
             <table class="table">
               <thead>
               <tr>
-                <th colspan="4">
+                <th colspan="2">
                   <div>{{purchaseTransactionDetail.credit_transaction_details[0].ledger.billing_name}}</div>
                   <div>{{purchaseTransactionDetail.credit_transaction_details[0].ledger.state}}</div>
                   <div>{{purchaseTransactionDetail.credit_transaction_details[0].ledger.email}}</div>
                   <div>{{purchaseTransactionDetail.credit_transaction_details[0].ledger.mobile1}}</div>
                   <div>{{purchaseTransactionDetail.credit_transaction_details[0].ledger.mobile2}}</div>
+                </th>
+                <th colspan="2">
+                  <qrcode  [qrdata]="myAngularxQrCode" [width]="100" [errorCorrectionLevel]="'M'"></qrcode>
                 </th>
                 <th colspan="2">
                   <div>Bill No. : {{purchaseTransactionDetail.transaction_number}}</div>
@@ -230,6 +233,9 @@
               </tr>
               <tr>
                 <td colspan="3">In Words: Rupees {{getNumberToWords(purchaseTransactionDetail.total_amount)}} only</td>
+                <td colspan="3">
+                  <ngx-barcode [bc-value]="purchaseTransactionDetail.transaction_number" [bc-height]="30" [bc-display-value]="true"></ngx-barcode>
+                </td>
               </tr>
               </tfoot>
             </table>

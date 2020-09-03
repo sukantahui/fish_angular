@@ -56,6 +56,7 @@ export class PurchaseComponent implements OnInit {
   // tslint:disable-next-line:max-line-length
   // private defaultValues: {transactionMasterForm: any, transactionDetailsForm: any, purchaseMasterForm: any, purchaseDetailsForm: any};
   private defaultValues: any;
+  public myAngularxQrCode = 'India is great';
 
   printDivStyle = {
     table: {'border-collapse': 'collapse'},
@@ -63,12 +64,12 @@ export class PurchaseComponent implements OnInit {
     h2 : {border: 'solid 1px'},
     td: {border: '1px solid red', margin: '0px', padding: '3px'}
   };
+
   // tslint:disable-next-line:max-line-length
   constructor(private purchaseService: PurchaseService, private vendorService: VendorService, private productService: ProductService, private storage: StorageMap) { }
 
   ngOnInit(): void {
     // tslint:disable-next-line:prefer-const
-
     this.temporaryForm = new FormGroup({
       product_category_id: new FormControl(null)
     });
