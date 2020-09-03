@@ -229,10 +229,6 @@ export class PurchaseComponent implements OnInit {
     this.currentTab =  tab;
   }
 
-  clearAll() {
-
-  }
-
   isValidPurchasedForm(){
     // tslint:disable-next-line:max-line-length
     if (this.purchaseMasterForm.valid && this.purchaseDetailForm.valid && this.transactionMasterForm.valid && this.purchaseDetailForm.valid){
@@ -307,6 +303,10 @@ export class PurchaseComponent implements OnInit {
             this.storage.clear().subscribe(() => {});
             this.purchaseDetails = [];
             this.totalPurchaseAmount = 0;
+            this.purchaseMasterForm.reset(this.defaultValues.purchaseMasterForm);
+            this.purchaseDetailForm.reset(this.defaultValues.purchaseDetailsForm);
+            this.transactionMasterForm.reset(this.defaultValues.transactionMasterForm);
+            this.transactionDetailForm.reset(this.defaultValues.transactionDetailsForm);
             this.currentTab = 2;
           }
         }, (error) => {
