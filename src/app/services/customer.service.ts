@@ -20,7 +20,7 @@ export class CustomerService implements OnDestroy{
   private customerSub = new Subject<Customer[]>();
   customerForm: FormGroup;
   customerCategoryData: CustomerCategory[] = [];
-  private customerCategorySub = new Subject<CustomerCategory[]>()
+  private customerCategorySub = new Subject<CustomerCategory[]>();
 
   getCustomers(){
     // when no data it will return null;
