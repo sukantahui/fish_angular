@@ -377,4 +377,15 @@ export class PurchaseComponent implements OnInit {
     this.purchaseDetails = [];
     this.totalPurchaseAmount = 0;
   }
+  editPurchase() {
+    this.currentTab = 1;
+    this.purchaseMaster = {
+      id: this.purchaseTransactionDetail.purchase_master.id,
+      discount: this.purchaseTransactionDetail.purchase_master.discount,
+      round_off: this.purchaseTransactionDetail.purchase_master.round_off,
+      loading_n_unloading_expenditure: this.purchaseTransactionDetail.purchase_master.loading_n_unloading_expenditure,
+      comment: this.purchaseTransactionDetail.purchase_master.comment
+    };
+    this.purchaseMasterForm.setValue(this.purchaseMaster);
+  }
 }

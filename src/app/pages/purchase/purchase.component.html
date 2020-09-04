@@ -251,6 +251,9 @@
                 printSectionId="printable-purchase-bill"
                 ngxPrint><mat-icon>print</mat-icon></button>
             </div>
+            <div fxFlex="10">
+              <button (click)="editPurchase()" mat-button>Edit this Purchase</button>
+            </div>
           </div>
         </div>
       </mat-card-content>
@@ -275,7 +278,8 @@
     </pre>
 
     <pre>
-      purchaseMaster = {{purchaseMasterForm.value | json}}
+      purchaseMaster = {{purchaseMaster | json}}
+      purchaseMasterForm = {{purchaseMasterForm.value | json}}
     </pre>
   </div>
   <div fxLayout="column" fxFlex="25" class="mr-1">
