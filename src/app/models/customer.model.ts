@@ -17,7 +17,6 @@ export class Customer{
   opening_balance: number;
   transaction_type_id: number;
   constructor(public id: number, public ledger_name: string) {
-    this.ledger_group_id = 16;
+   this.ledger_group_id = 15;
   }
 }
-
