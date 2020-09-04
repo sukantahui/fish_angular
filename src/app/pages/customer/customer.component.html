@@ -85,10 +85,10 @@
                 <button mat-button  mat-stroked-button (click)="clearCustomerForm()">
                   Clear
                 </button>
-                <button mat-button  mat-stroked-button [disabled]="!customerForm.valid" >
+                <button mat-button  mat-stroked-button [disabled]="!customerForm.valid || customerForm.value.id" >
                     Save
                 </button>
-                <button mat-button type="button"  mat-stroked-button (click)="updateCustomer()" [disabled]="!customerForm.valid">
+                <button mat-button type="button"  mat-stroked-button (click)="updateCustomer()" [disabled]="!customerForm.valid || !customerForm.value.id">
                   Update
                 </button>
               </div>
