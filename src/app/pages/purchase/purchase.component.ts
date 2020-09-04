@@ -202,6 +202,7 @@ export class PurchaseComponent implements OnInit {
         amount: 0
       }
     );
+    console.log(this.purchaseMaster);
     this.storage.set('purchaseMaster', this.purchaseMaster).subscribe(() => {});
     this.storage.set('purchaseDetails', this.purchaseDetails).subscribe(() => {});
     this.storage.set('transactionMaster', this.transactionMaster).subscribe(() => {});
@@ -214,8 +215,12 @@ export class PurchaseComponent implements OnInit {
 
 
     this.totalPurchaseAmount = this.purchaseDetails.reduce( (total, record) => {
-      return total + (record.price * record.quantity - record.discount);
+      // @ts-ignore
+      return total + ((record.price * record.quantity) - record.discount);
     }, 0);
+
+    const round =  Math.round(this.totalPurchaseAmount) - this.totalPurchaseAmount;
+    this.purchaseMasterForm.patchValue({round_off: round.toFixed(2)});
     this.storage.set('totalPurchaseAmount', this.totalPurchaseAmount).subscribe(() => {});
 
     // Changing current tab
@@ -290,6 +295,7 @@ export class PurchaseComponent implements OnInit {
       // if selected yes
       if (result.value) {
         // will be saved from here
+        this.purchaseMaster = this.purchaseMasterForm.value;
         // tslint:disable-next-line:max-line-length
         this.purchaseService.savePurchase(this.purchaseMaster, this.purchaseDetails, this.transactionMaster, this.transactionDetails).subscribe(response => {
           if (response.success === 1){
