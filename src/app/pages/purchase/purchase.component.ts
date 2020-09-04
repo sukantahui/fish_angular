@@ -220,7 +220,7 @@ export class PurchaseComponent implements OnInit {
     }, 0);
 
     const round =  Math.round(this.totalPurchaseAmount) - this.totalPurchaseAmount;
-    this.purchaseMasterForm.patchValue({round_off: round.toFixed(2)});
+    this.purchaseMasterForm.patchValue({round_off: parseFloat(round.toFixed(2))});
     this.storage.set('totalPurchaseAmount', this.totalPurchaseAmount).subscribe(() => {});
 
     // Changing current tab

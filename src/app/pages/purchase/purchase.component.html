@@ -75,7 +75,7 @@
             </div>
             <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
               <mat-form-field fxFlex="15">
-                <input matInput placeholder="Quantity" type="number" formControlName="quantity" (change)="getAmount()" class="text-right">
+                <input matInput type="number" placeholder="Quantity" type="number" formControlName="quantity" (change)="getAmount()" class="text-right">
               </mat-form-field>
 
               <mat-form-field fxFlex="10">
@@ -88,14 +88,14 @@
               </mat-form-field>
 
               <mat-form-field fxFlex="15">
-                <input matInput placeholder="price" formControlName="price" (change)="getAmount()" class="text-right">
+                <input matInput type="number" placeholder="price" formControlName="price" (change)="getAmount()" class="text-right">
               </mat-form-field>
 
               <mat-form-field fxFlex="10">
-                <input matInput placeholder="discount" formControlName="discount" (change)="getAmount()" class="text-right">
+                <input matInput type="input" placeholder="discount" formControlName="discount" (change)="getAmount()" class="text-right">
               </mat-form-field>
               <mat-form-field fxFlex="20">
-                <input matInput placeholder="Total" [value]="purchaseAmount" readonly class="text-right">
+                <input matInput type="number" placeholder="Total" [value]="purchaseAmount" readonly class="text-right">
               </mat-form-field>
             </div>
           </div>
@@ -181,7 +181,7 @@
                 <td class="text-left" colspan="1">Less: Discount Received</td>
                 <td class="text-right">
                   <form [formGroup] = purchaseMasterForm>
-                    <input matInput placeholder="Bill Discount Received" formControlName="discount"  class="text-right">
+                    <input matInput type="number" placeholder="Bill Discount Received" formControlName="discount"  class="text-right">
                   </form>
                 </td>
               </tr>
@@ -190,9 +190,14 @@
                 <td class="text-left" colspan="1">Rounded Off</td>
                 <td class="text-right">
                   <form [formGroup] = purchaseMasterForm>
-                    <input matInput placeholder="Rounded Off" formControlName="round_off"  class="text-right">
+                    <input matInput type="number" placeholder="Rounded Off" formControlName="round_off"  class="text-right">
                   </form>
                 </td>
+              </tr>
+              <tr>
+                <td class="text-center" colspan="4"></td>
+                <td class="text-left" colspan="1">Final Bill</td>
+                <td class="text-right">{{(totalPurchaseAmount - purchaseMasterForm.value.discount+ purchaseMasterForm.value.round_off ) | currency:"&#8377; "}}</td>
               </tr>
             </tfoot>
           </table>
