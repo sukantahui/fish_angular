@@ -9,6 +9,7 @@ import {SncakBarComponent} from '../../common/sncak-bar/sncak-bar.component';
 import {Observable} from 'rxjs';
 import {AuthResponseData} from '../../services/auth.service';
 import {CustomerCategory} from '../../models/customerCategory.model';
+import Swal from 'sweetalert2';
 
 
 export class Profile {
@@ -65,6 +66,7 @@ export class CustomerComponent implements OnInit {
     console.log(this.customerForm.value);
     this.customerService.saveCustomer(this.customerForm.value);
     this.customerForm.reset(this.defaultFormValue);
+
   }
 
   myCustomValidation(control: FormControl): {[s: string]: boolean } {
@@ -80,26 +82,41 @@ export class CustomerComponent implements OnInit {
   }
 
   // this function will update the customer
+
   updateCustomer() {
-    let updateObserable = new Observable<any>();
-    updateObserable = this.customerService.updateCustomer(this.customerForm.value);
-
-
-    updateObserable.subscribe((response) => {
-      if (response.success === 1){
-        this._snackBar.openFromComponent(SncakBarComponent, {
-          duration: 4000, data: {message: 'Hello World!'}
-        });
+    Swal.fire({
+      title: 'Confirmation',
+      text: 'Do you sure to update this Customer',
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Update It!'
+    }).then((result) => {
+      // if selected yes
+      if (result.value) {
+        this.customerService.updateCustomer(this.customerForm.value)
+          .subscribe((response) => {
+            if (response.success === 1){
+              Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Customer has been Updated',
+                showConfirmButton: false,
+                timer: 3000
+              });
+            }
+          }, (error) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: error.message,
+              footer: '<a href>Why do I have this issue?</a>',
+              timer: 0
+            });
+          });
       }
-      this.currentEerror = null;
-    }, (error) => {
-      console.log('error occured ');
-      console.log(error);
-      this.currentEerror = error;
-      this._snackBar.openFromComponent(SncakBarComponent, {
-        duration: 4000, data: {message: error.message}
-      });
     });
-
   }
+
 }
