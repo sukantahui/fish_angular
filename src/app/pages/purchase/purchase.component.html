@@ -172,13 +172,13 @@
             </tbody>
             <tfoot>
               <tr>
-                <td class="text-center" colspan="4"></td>
-                <td class="text-left" colspan="1">Total</td>
+                <td class="text-center" colspan="2"></td>
+                <td class="text-left" colspan="2">Total</td>
                 <td class="text-right">{{totalPurchaseAmount | currency:"&#8377; "}}</td>
               </tr>
               <tr>
-                <td class="text-center" colspan="4"></td>
-                <td class="text-left" colspan="1">Less: Discount Received</td>
+                <td class="text-center" colspan="2"></td>
+                <td class="text-left" colspan="2">Less: Discount Received</td>
                 <td class="text-right">
                   <form [formGroup] = purchaseMasterForm>
                     <input matInput type="number" placeholder="Bill Discount Received" formControlName="discount"  class="text-right">
@@ -186,8 +186,8 @@
                 </td>
               </tr>
               <tr>
-                <td class="text-center" colspan="4"></td>
-                <td class="text-left" colspan="1">Rounded Off</td>
+                <td class="text-center" colspan="2"></td>
+                <td class="text-left" colspan="2">Rounded Off</td>
                 <td class="text-right">
                   <form [formGroup] = purchaseMasterForm>
                     <input matInput type="number" placeholder="Rounded Off" formControlName="round_off"  class="text-right">
@@ -195,8 +195,8 @@
                 </td>
               </tr>
               <tr>
-                <td class="text-center" colspan="4"></td>
-                <td class="text-left" colspan="1">Final Bill</td>
+                <td class="text-center" colspan="2"></td>
+                <td class="text-left" colspan="2">Final Bill</td>
                 <td class="text-right">{{(totalPurchaseAmount - purchaseMasterForm.value.discount+ purchaseMasterForm.value.round_off ) | currency:"&#8377; "}}</td>
               </tr>
             </tfoot>
