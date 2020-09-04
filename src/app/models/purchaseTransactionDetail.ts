@@ -1,4 +1,5 @@
-
+import {Product} from './product.model';
+import {Unit} from './unit.model';
 
 
 export class PurchaseTransactionDetail{
@@ -29,8 +30,16 @@ export class PurchaseTransactionDetail{
     round_off: number;
     loading_n_unloading_expenditure: number;
     comment: string;
-    purchase_details: {id: number; purchase_master_id: number; product_id: number; unit_id: number;
-                  quantity: number; price: number; discount: number}[];
+    purchase_details: {
+      id: number;
+      purchase_master_id: number;
+      product_id: number;
+      unit_id: number;
+      quantity: number;
+      price: number;
+      discount: number,
+      product: Product,
+      unit: Unit}[];
   };
   total_amount: number;
 }
