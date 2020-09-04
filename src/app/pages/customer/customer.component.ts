@@ -9,7 +9,7 @@ import {SncakBarComponent} from '../../common/sncak-bar/sncak-bar.component';
 import {Observable} from 'rxjs';
 import {AuthResponseData} from '../../services/auth.service';
 import {CustomerCategory} from '../../models/customerCategory.model';
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 
 
 export class Profile {
@@ -66,6 +66,7 @@ export class CustomerComponent implements OnInit {
     console.log(this.customerForm.value);
     this.customerService.saveCustomer(this.customerForm.value);
     this.customerForm.reset(this.defaultFormValue);
+
   }
 
   myCustomValidation(control: FormControl): {[s: string]: boolean } {
@@ -81,26 +82,6 @@ export class CustomerComponent implements OnInit {
   }
 
   // this function will update the customer
-  updateCustomerBk() {
-    let updateObserable = new Observable<any>();
-    updateObserable = this.customerService.updateCustomer(this.customerForm.value);
-
-    updateObserable.subscribe((response) => {
-      if (response.success === 1){
-        this._snackBar.openFromComponent(SncakBarComponent, {
-          duration: 4000, data: {message: 'Hello World!'}
-        });
-      }
-      this.currentEerror = null;
-    }, (error) => {
-      console.log('error occured ');
-      console.log(error);
-      this.currentEerror = error;
-      this._snackBar.openFromComponent(SncakBarComponent, {
-        duration: 4000, data: {message: error.message}
-      });
-    });
-  }
 
   updateCustomer() {
     Swal.fire({
