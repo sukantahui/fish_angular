@@ -64,12 +64,12 @@ export class VendorComponent implements OnInit {
   updateVendor() {
     Swal.fire({
       title: 'Confirmation',
-      text: 'Do you sure to add this product',
+      text: 'Do you sure to update this vendor',
       icon: 'info',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, Create It!'
+      confirmButtonText: 'Yes, Update It!'
     }).then((result) => {
       // if selected yes
       if (result.value) {

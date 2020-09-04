@@ -98,7 +98,7 @@ export class CustomerService implements OnDestroy{
       });
   }
   updateCustomer(customer){
-    return this.http.patch<CustomerResponseData>('http://127.0.0.1:8000/api/customers/' + customer.id, customer)
+    return this.http.patch<CustomerResponseData>('http://127.0.0.1:8000/api/customers/', customer)
       .pipe(catchError(this._serverError), tap((response: {success: number, data: Customer}) => {
         const index = this.customerData.findIndex(x => x.id === customer.id);
         this.customerData[index] = response.data;

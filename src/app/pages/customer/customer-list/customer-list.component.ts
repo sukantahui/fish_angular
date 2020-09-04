@@ -93,7 +93,7 @@ export class CustomerListComponent implements OnInit {
 
     const headers = ['person_name', 'email', 'mobile1'];
     // you can use this following code instead of alasql, customerData has morefield but you can select some of them
-    const selectedCustomer = this.customerData.map(({ person_name, email, mobile1 }) => ({ person_name, email, mobile1 }));
+    const selectedCustomer = this.customerData.map(({ ledger_name, email, mobile1 }) => ({ ledger_name, email, mobile1 }));
     // we can filter the array
     // selectedCustomer = selectedCustomer.filter((pilot) => pilot.email === 'feeney.anastasia@konopelski.com');
 
@@ -126,13 +126,13 @@ export class CustomerListComponent implements OnInit {
 
   exporttoExcel(){
     // tslint:disable-next-line:prefer-const
-    let headers = {person_name : 'Customer Name', email: 'Email', mobile1: 'contact'};
+    let headers = {ledger_name : 'Customer Name', email: 'Email', mobile1: 'contact'};
     // const selectedCustomer = alasql('select person_name as Customer, email, mobile1 as Contact from ?', [this.customerData]);
     // tslint:disable-next-line:max-line-length
     // const selectedCustomer = this.customerData.map(({person_name as Customer, email, mobile1}) = > ({person_name as Customer, email, mobile1}));
 
 
-    const selectedCustomer = this.customerData.map(({ person_name, email, mobile1 }) => ({ person_name, email, mobile1 }));
+    const selectedCustomer = this.customerData.map(({ ledger_name, email, mobile1 }) => ({ ledger_name, email, mobile1 }));
     this.excelService.exportAsExcelFile(selectedCustomer, 'testing');
   }
   // this function will fill the form using current customer record, update will be done from customerComponent's Update function
