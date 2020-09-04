@@ -44,6 +44,7 @@ import { PurchaseComponent } from './pages/purchase/purchase.component';
 import { PurchaseListComponent } from './pages/purchase/purchase-list/purchase-list.component';
 import {QRCodeModule} from 'angularx-qrcode';
 import {NgxBarcodeModule} from 'ngx-barcode';
+import { SaleComponent } from './pages/sale/sale.component';
 
 
 @NgModule({
@@ -66,7 +67,8 @@ import {NgxBarcodeModule} from 'ngx-barcode';
     LoaidngRollerComponent,
     VendorComponent,
     PurchaseComponent,
-    PurchaseListComponent
+    PurchaseListComponent,
+    SaleComponent
   ],
   imports: [
     BrowserModule,
