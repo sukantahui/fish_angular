@@ -114,22 +114,31 @@
 <div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch"  id="developer-div" *ngIf="true" >
     <div fxLayout="column" fxFlex="25" class="mr-1">
       <pre>
+        transactionMasterForm = {{transactionMasterForm.valid}}
         transactionMasterForm={{transactionMasterForm.value | json}}
+        transactionMaster={{transactionMaster | json}}
+
       </pre>
     </div>
     <div fxLayout="column" fxFlex="25" class="mr-1">
           <pre>
+            transactionDetailForm={{transactionDetailForm.valid}}
             transactionDetailForm={{transactionDetailForm.value | json}}
+            transactionDetail={{transactionDetail | json}}
           </pre>
     </div>
     <div fxLayout="column" fxFlex="25" class="mr-1">
           <pre>
+            saleMasterForm={{saleMasterForm.valid}}
             saleMasterForm={{saleMasterForm.value | json}}
+            saleMaster={{saleMaster | json}}
           </pre>
     </div>
     <div fxLayout="column" fxFlex="25" class="mr-1">
           <pre>
+            saleDetailForm={{saleDetailForm.valid}}
             saleDetailForm={{saleDetailForm.value | json}}
+            saleDetail={{saleDetail | json}}
           </pre>
     </div>
 

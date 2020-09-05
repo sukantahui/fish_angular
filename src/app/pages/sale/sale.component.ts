@@ -106,13 +106,21 @@ export class SaleComponent implements OnInit {
   }
 
   addSale() {
+    const  tempItem = '';
     this.saleMaster = this.saleMasterForm.value;
     this.saleDetail = this.saleDetailForm.value;
     this.transactionMaster = this.transactionMasterForm.value;
     this.transactionDetail = this.transactionDetailForm.value;
+    let index = this.productList.findIndex(x => x.id === this. saleDetail.product_id);
+    this.saleDetail.product = this.productList[index];
+    index = this.unitList.findIndex(x => x.id === this. saleDetail.unit_id);
+    this.saleDetail.unit = this.unitList[index];
   }
 
   isValidSaleForm() {
+    if (this.saleMasterForm.valid && this.saleDetailForm.valid && this.transactionMasterForm && this.transactionDetailForm){
+      return true;
+    }
     return false;
   }
 
