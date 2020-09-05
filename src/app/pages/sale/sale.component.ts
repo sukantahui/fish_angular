@@ -40,12 +40,13 @@ export class SaleComponent implements OnInit {
   public editableItemIndex: -1;
   // tslint:disable-next-line:max-line-length
   public saleMaster: SaleMaster;
-  public saleDetail: SaleDetail;
-  // tslint:disable-next-line:max-line-length
+    // tslint:disable-next-line:max-line-length
   public transactionMaster: TransactionMaster;
   // tslint:disable-next-line:max-line-length
   public transactionDetail: TransactionDetail;
   // tslint:disable-next-line:max-line-length
+  public totalSaleAmount = 0;
+  public saleDetails: SaleDetail[] = [];
   constructor(private saleService: SaleService, private customerService: CustomerService, private productService: ProductService, private storage: StorageMap , private productCategoryService: ProductCategoryService) { }
 
   ngOnInit(): void {
@@ -106,15 +107,12 @@ export class SaleComponent implements OnInit {
   }
 
   addSale() {
-    const  tempItem = '';
-    this.saleMaster = this.saleMasterForm.value;
-    this.saleDetail = this.saleDetailForm.value;
-    this.transactionMaster = this.transactionMasterForm.value;
-    this.transactionDetail = this.transactionDetailForm.value;
-    let index = this.productList.findIndex(x => x.id === this. saleDetail.product_id);
-    this.saleDetail.product = this.productList[index];
-    index = this.unitList.findIndex(x => x.id === this. saleDetail.unit_id);
-    this.saleDetail.unit = this.unitList[index];
+    const tempItem = this.saleDetailForm.value;
+    let index = this.productList.findIndex(x => x.id === tempItem.product_id);
+    tempItem.product = this.productList[index];
+    index = this.unitList.findIndex(x => x.id === tempItem.unit_id);
+    tempItem.unit = this.unitList[index];
+    this.saleDetails.push(tempItem);
   }
 
   isValidSaleForm() {
@@ -125,6 +123,22 @@ export class SaleComponent implements OnInit {
   }
 
   clearForm() {
+
+  }
+
+  getBackgroundColor(indexOfElement: number) {
+
+  }
+
+  editCurrentItem(item: SaleDetail) {
+
+  }
+
+  cancelEditCurrentItem(item: SaleDetail) {
+
+  }
+
+  deleteCurrentItem(item: SaleDetail) {
 
   }
 }
