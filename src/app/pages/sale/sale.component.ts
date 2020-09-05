@@ -3,13 +3,19 @@ import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 import {formatDate} from '@angular/common';
 import {FormControl, FormGroup} from '@angular/forms';
 import {ProductService} from '../../services/product.service';
+import {CustomerService} from '../../services/customer.service';
+import {PurchaseService} from '../../services/purchase.service';
 import {StorageMap} from '@ngx-pwa/local-storage';
 import {SaleService} from '../../services/sale.service';
-import {CustomerService} from '../../services/customer.service';
 import {Product} from '../../models/product.model';
 import {Unit} from '../../models/unit.model';
 import {Customer} from '../../models/customer.model';
 import {ProductCategory} from '../../models/productCategory.model';
+import {ProductCategoryService} from '../../services/product-category.service';
+import {SaleMaster} from '../../models/saleMaster.model';
+import {SaleDetail} from '../../models/saleDetail.model';
+import {TransactionMaster} from '../../models/transactionMaster.model';
+import {TransactionDetail} from '../../models/transactionDetail.model';
 
 @Component({
   selector: 'app-sale',
@@ -29,13 +35,28 @@ export class SaleComponent implements OnInit {
   public productListByCategory: Product[];
   public currentTab: number;
   // tslint:disable-next-line:max-line-length
-  constructor(private saleService: SaleService, private customerService: CustomerService, private productService: ProductService, private storage: StorageMap) { }
+  public saleAmount = 0;
+  // tslint:disable-next-line:max-line-length
+  public editableItemIndex: -1;
+  // tslint:disable-next-line:max-line-length
+  public saleMaster: SaleMaster;
+  public saleDetail: SaleDetail;
+  // tslint:disable-next-line:max-line-length
+  public transactionMaster: TransactionMaster;
+  // tslint:disable-next-line:max-line-length
+  public transactionDetail: TransactionDetail;
+  // tslint:disable-next-line:max-line-length
+  constructor(private saleService: SaleService, private customerService: CustomerService, private productService: ProductService, private storage: StorageMap , private productCategoryService: ProductCategoryService) { }
 
   ngOnInit(): void {
 
 
     this.temporaryForm = new FormGroup({
       product_category_id: new FormControl(null)
+    });
+    this.productCategoryList = this.productCategoryService.getProductCategories();
+    this.productCategoryService.getProductCategoryUpdateListener().subscribe(response => {
+      this.productCategoryList = response;
     });
     this.saleMasterForm = this.saleService.saleMasterForm;
     this.saleDetailForm = this.saleService.saleDetailForm;
@@ -73,5 +94,29 @@ export class SaleComponent implements OnInit {
   }
   setCurrentTab(tab: number){
     this.currentTab =  tab;
+  }
+
+  getAmount() {
+    // tslint:disable-next-line:max-line-length
+    const qty = this.saleDetailForm.value.quantity;
+    const price = this.saleDetailForm.value.price;
+    const discount = this.saleDetailForm.value.discount;
+    this.saleAmount = (qty * price) - discount;
+
+  }
+
+  addSale() {
+    this.saleMaster = this.saleMasterForm.value;
+    this.saleDetail = this.saleDetailForm.value;
+    this.transactionMaster = this.transactionMasterForm.value;
+    this.transactionDetail = this.transactionDetailForm.value;
+  }
+
+  isValidSaleForm() {
+    return false;
+  }
+
+  clearForm() {
+
   }
 }

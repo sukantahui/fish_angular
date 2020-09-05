@@ -6,7 +6,7 @@
           <div mat-card-avatar class="example-header-image"></div>
           <mat-card-title>
             <div fxLayout="row" fxLayoutAlign="end center" fxFlexFill>
-              Purchase Entry
+              Sale Entry
             </div>
           </mat-card-title>
         </mat-card-header>
@@ -25,7 +25,7 @@
                   <mat-datepicker #picker ></mat-datepicker>
                 </mat-form-field>
                 <!--Transaction Number or Bill Number-->
-                <mat-form-field fxFlex="40">
+                <mat-form-field fxFlex="40" *ngIf="false">
                   <input matInput placeholder="Invoice" formControlName="transaction_number">
                 </mat-form-field>
               </div>
@@ -35,9 +35,9 @@
             <div class="container" fxLayout="column" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
               <!--Transaction Date and Transaction Number-->
               <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
-                <!--Vendors list-->
+                <!--Customer list-->
                 <mat-form-field fxFlex="80">
-                  <mat-label>Vendor Name</mat-label>
+                  <mat-label>Customer Name</mat-label>
                   <mat-select  formControlName="ledger_id">
                     <mat-option *ngFor="let customer of customerList" [value]="customer.id">
                       {{customer.ledger_name}}
@@ -47,21 +47,21 @@
               </div>
             </div>
           </form>
-          <!--        purchase details form-->
+          <!--        sale details form-->
           <form [formGroup] = saleDetailForm>
             <div class="container" fxLayout="column" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
               <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
                 <form [formGroup] = temporaryForm>
                   <mat-form-field fxFlex="80">
                     <mat-label>Product category</mat-label>
-                    <mat-select  (selectionChange)="selectProductsByCategory($event)" formControlName="product_category_id">
+                    <mat-select (selectionChange)="selectProductsByCategory($event)"  formControlName="product_category_id">
                       <mat-option *ngFor="let category of productCategoryList" [value]="category.id">
                         {{category.category_name}}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
                 </form>
-                <mat-form-field fxFlex="40" *ngIf="productListByCategory.length>0">
+                <mat-form-field fxFlex="40" >
                   <mat-label>Product</mat-label>
                   <mat-select formControlName="product_id">
                     <mat-option *ngFor="let product of productListByCategory" [value]="product.id">
@@ -71,12 +71,36 @@
                 </mat-form-field>
               </div>
               <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+                <mat-form-field fxFlex="15">
+                  <input matInput type="number" placeholder="Quantity" type="number" formControlName="quantity" (change)="getAmount()" class="text-right">
+                </mat-form-field>
 
+                <mat-form-field fxFlex="10">
+                  <mat-label>Unit</mat-label>
+                  <mat-select formControlName="unit_id">
+                    <mat-option *ngFor="let unit of unitList" [value]="unit.id">
+                      {{unit.unit_name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field fxFlex="15">
+                  <input matInput type="number" placeholder="price" formControlName="price" (change)="getAmount()" class="text-right">
+                </mat-form-field>
+
+                <mat-form-field fxFlex="10">
+                  <input matInput type="input" placeholder="discount" formControlName="discount" (change)="getAmount()" class="text-right">
+                </mat-form-field>
+                <mat-form-field fxFlex="20">
+                  <input matInput type="number" placeholder="Total" [value]="saleAmount" readonly class="text-right">
+                </mat-form-field>
               </div>
             </div>
           </form>
-          <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end" fxLayoutGap="10px" fxLayoutGap.xs="0" >
 
+          <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end" fxLayoutGap="10px" fxLayoutGap.xs="0" >
+            <button mat-button (click)="clearForm()"  mat-stroked-button>Clear</button>
+            <button mat-button (click)="addSale()" [disabled]="!isValidSaleForm()"  mat-stroked-button>Add</button>
           </div>
         </div>
       </mat-card>
@@ -87,18 +111,26 @@
 </div>
 
 <!--This is developer div-->
-<div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch"  id="developer-div" *ngIf="true">
-  <div fxLayout="column" fxFlex="25" class="mr-1">
-    <pre>
-
-    </pre>
-
-    <pre>
-
-    </pre>
-  </div>
-  <div fxLayout="column" fxFlex="25" class="mr-1">
-
-  </div>
+<div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch"  id="developer-div" *ngIf="true" >
+    <div fxLayout="column" fxFlex="25" class="mr-1">
+      <pre>
+        transactionMasterForm={{transactionMasterForm.value | json}}
+      </pre>
+    </div>
+    <div fxLayout="column" fxFlex="25" class="mr-1">
+          <pre>
+            transactionDetailForm={{transactionDetailForm.value | json}}
+          </pre>
+    </div>
+    <div fxLayout="column" fxFlex="25" class="mr-1">
+          <pre>
+            saleMasterForm={{saleMasterForm.value | json}}
+          </pre>
+    </div>
+    <div fxLayout="column" fxFlex="25" class="mr-1">
+          <pre>
+            saleDetailForm={{saleDetailForm.value | json}}
+          </pre>
+    </div>
 
 </div>

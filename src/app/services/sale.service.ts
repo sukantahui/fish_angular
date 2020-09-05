@@ -48,7 +48,7 @@ export class SaleService {
       id: new FormControl(null),
       // this is original date
       transaction_date: new FormControl(val, [Validators.required]),
-      transaction_number: new FormControl(null, [Validators.required]),
+      transaction_number: new FormControl(null),
       voucher_id: new FormControl(2, [Validators.required, Validators.maxLength(20), Validators.minLength(2)]),           // purchase
       employee_id: new FormControl(this.userData.id)
     });
