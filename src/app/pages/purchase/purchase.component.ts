@@ -190,6 +190,12 @@ export class PurchaseComponent implements OnInit {
 
 
     this.transactionDetails = this.transactionDetailForm.value;
+    this.totalPurchaseAmount = this.purchaseDetails.reduce( (total, record) => {
+      // @ts-ignore
+      return total + ((record.price * record.quantity) - record.discount);
+    }, 0);
+    const round =  Math.round(this.totalPurchaseAmount) - this.totalPurchaseAmount;
+    this.purchaseMasterForm.patchValue({round_off: parseFloat(round.toFixed(2))});
     this.purchaseMaster = this.purchaseMasterForm.value;
     this.transactionDetails = [];
     this.transactionDetails.push(this.transactionDetailForm.value);
@@ -202,7 +208,7 @@ export class PurchaseComponent implements OnInit {
         amount: 0
       }
     );
-    console.log(this.purchaseMaster);
+
     this.storage.set('purchaseMaster', this.purchaseMaster).subscribe(() => {});
     this.storage.set('purchaseDetails', this.purchaseDetails).subscribe(() => {});
     this.storage.set('transactionMaster', this.transactionMaster).subscribe(() => {});
@@ -214,13 +220,7 @@ export class PurchaseComponent implements OnInit {
     this.purchaseAmount = 0;
 
 
-    this.totalPurchaseAmount = this.purchaseDetails.reduce( (total, record) => {
-      // @ts-ignore
-      return total + ((record.price * record.quantity) - record.discount);
-    }, 0);
 
-    const round =  Math.round(this.totalPurchaseAmount) - this.totalPurchaseAmount;
-    this.purchaseMasterForm.patchValue({round_off: parseFloat(round.toFixed(2))});
     this.storage.set('totalPurchaseAmount', this.totalPurchaseAmount).subscribe(() => {});
 
     // Changing current tab
