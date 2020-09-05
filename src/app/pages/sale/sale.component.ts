@@ -103,6 +103,7 @@ export class SaleComponent implements OnInit {
     const price = this.saleDetailForm.value.price;
     const discount = this.saleDetailForm.value.discount;
     this.saleAmount = (qty * price) - discount;
+    this.totalSaleAmount  = this.totalSaleAmount + this.saleAmount;
 
   }
 
