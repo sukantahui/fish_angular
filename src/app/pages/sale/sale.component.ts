@@ -98,14 +98,12 @@ export class SaleComponent implements OnInit {
   }
 
   getAmount() {
-    // tslint:disable-next-line:max-line-length
+   // tslint:disable-next-line:max-line-length
     const qty = this.saleDetailForm.value.quantity;
     const price = this.saleDetailForm.value.price;
     const discount = this.saleDetailForm.value.discount;
     this.saleAmount = (qty * price) - discount;
-    this.totalSaleAmount  = this.totalSaleAmount + this.saleAmount;
-
-  }
+   }
 
   addSale() {
     const tempItem = this.saleDetailForm.value;
@@ -114,6 +112,10 @@ export class SaleComponent implements OnInit {
     index = this.unitList.findIndex(x => x.id === tempItem.unit_id);
     tempItem.unit = this.unitList[index];
     this.saleDetails.push(tempItem);
+    this.totalSaleAmount = this.saleDetails.reduce( (total, record) => {
+      // @ts-ignore
+      return total + ((record.price * record.quantity) - record.discount);
+    }, 0);
   }
 
   isValidSaleForm() {

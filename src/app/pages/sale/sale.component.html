@@ -100,7 +100,7 @@
 
           <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end" fxLayoutGap="10px" fxLayoutGap.xs="0" >
             <button mat-button (click)="clearForm()"  mat-stroked-button>Clear</button>
-            <button mat-button (click)="addSale()" [disabled]="!isValidSaleForm()"  mat-stroked-button>Add</button>
+            <button mat-button (click)="addSale()" [disabled]="!isValidSaleForm()" mat-stroked-button>Add</button>
           </div>
         </div>
       </mat-card>
@@ -142,12 +142,12 @@
           </td>
         </tr>
         </tbody>
-<!--        <tfoot>-->
-<!--        <tr>-->
-<!--          <td class="text-left" colspan="2"></td>-->
-<!--          <td class="text-left" colspan="3">Total</td>-->
-<!--          <td class="text-right">{{totalSaleAmount | currency:"&#8377; "}}</td>-->
-<!--        </tr>-->
+        <tfoot>
+        <tr>
+          <td class="text-left" colspan="2"></td>
+          <td class="text-left" colspan="3">Total</td>
+          <td class="text-right">{{totalSaleAmount | currency:"&#8377; "}}</td>
+        </tr>
 <!--        <tr>-->
 <!--          <td class="text-left" colspan="2"></td>-->
 <!--          <td class="text-left" colspan="3">Less: Discount Received</td>-->
@@ -171,7 +171,7 @@
 <!--          <td class="text-left" colspan="3">Final Bill</td>-->
 <!--&lt;!&ndash;          <td class="text-right">{{(totalPurchaseAmount - purchaseMasterForm.value.discount+ purchaseMasterForm.value.round_off ) | currency:"&#8377; "}}</td>&ndash;&gt;-->
 <!--        </tr>-->
-<!--        </tfoot>-->
+       </tfoot>
       </table>
       <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutGap="10px" fxLayoutGap.xs="0" >
 <!--        <button mat-button (click)="cancelPurchaseDetails()"   mat-stroked-button>Delete all</button>-->
