@@ -109,7 +109,7 @@
   <div fxLayout="column" fxFlex="60" class="mr-1" id="right-div">
     <div id="sale-detail-area">
 <!--      Transaction number-->
-      <table class="table" id="sale-table">
+      <table class="table" id="sale-table" *ngIf="true">
         <thead>
         <tr>
           <th class="w-5">SL.</th>
@@ -164,34 +164,17 @@
             {{saleMaster.round_off}}
           </td>
         </tr>
-<!--        <tr>-->
-<!--          <td class="text-left" colspan="2"></td>-->
-<!--          <td class="text-left" colspan="3">Less: Discount Received</td>-->
-<!--          <td class="text-right">-->
-<!--            <form [formGroup] = saleMasterForm>-->
-<!--              <input matInput type="number" placeholder="Bill Discount Received" formControlName="discount"  class="text-right">-->
-<!--            </form>-->
-<!--          </td>-->
-<!--        </tr>-->
-<!--        <tr>-->
-<!--          <td class="text-left" colspan="2"></td>-->
-<!--          <td class="text-left" colspan="3">Rounded Off</td>-->
-<!--          <td class="text-right">-->
-<!--            <form [formGroup] = saleMasterForm>-->
-<!--              <input matInput type="number" placeholder="Rounded Off" formControlName="round_off"  class="text-right">-->
-<!--            </form>-->
-<!--          </td>-->
-<!--        </tr>-->
-<!--        <tr>-->
-<!--          <td class="text-left" colspan="2"></td>-->
-<!--          <td class="text-left" colspan="3">Final Bill</td>-->
-<!--&lt;!&ndash;          <td class="text-right">{{(totalPurchaseAmount - purchaseMasterForm.value.discount+ purchaseMasterForm.value.round_off ) | currency:"&#8377; "}}</td>&ndash;&gt;-->
-<!--        </tr>-->
+
+        <tr>
+          <td class="text-left" colspan="2"></td>
+          <td class="text-left" colspan="3">Final Bill</td>
+          <td class="text-right">{{(totalSaleAmount - saleMasterForm.value.discount+ saleMasterForm.value.round_off ) | currency:"&#8377; "}}</td>
+        </tr>
        </tfoot>
       </table>
       <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutGap="10px" fxLayoutGap.xs="0" >
 <!--        <button mat-button (click)="cancelPurchaseDetails()"   mat-stroked-button>Delete all</button>-->
-<!--        <button mat-button (click)="savePurchase()" [disabled]="false"  mat-stroked-button>Save Purchase</button>-->
+        <button mat-button (click)="saveSale()" [disabled]="false"  mat-stroked-button>Save Purchase</button>
       </div>
     </div>
   </div>

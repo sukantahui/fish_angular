@@ -112,7 +112,7 @@ export class PurchaseComponent implements OnInit {
       if (purchaseMaster){
         this.purchaseMaster = purchaseMaster;
       }
-    }, (error) => {this.purchaseDetails = [];});
+    }, (error) => {});
     // get purchaseDetails from localstorage
     this.storage.get('purchaseDetails').subscribe((purchaseDetails: PurchaseDetail[]) => {
       if (purchaseDetails){

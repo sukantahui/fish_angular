@@ -17,6 +17,15 @@ import {SaleDetail} from '../../models/saleDetail.model';
 import {TransactionMaster} from '../../models/transactionMaster.model';
 import {TransactionDetail} from '../../models/transactionDetail.model';
 
+export interface SaleContainer{
+  saleMaster: SaleMaster;
+  saleDetails: SaleDetail[];
+  transactionMaster: TransactionMaster;
+  transactionDetails: TransactionDetail[];
+  totalSaleAmount: number;
+}
+
+
 @Component({
   selector: 'app-sale',
   templateUrl: './sale.component.html',
@@ -43,14 +52,16 @@ export class SaleComponent implements OnInit {
     // tslint:disable-next-line:max-line-length
   public transactionMaster: TransactionMaster;
   // tslint:disable-next-line:max-line-length
-  public transactionDetail: TransactionDetail;
+  public transactionDetails: TransactionDetail[];
   // tslint:disable-next-line:max-line-length
   public totalSaleAmount = 0;
   public saleDetails: SaleDetail[] = [];
+  // tslint:disable-next-line:max-line-length
+  public saleContainer: SaleContainer;
+  // tslint:disable-next-line:max-line-length
   constructor(private saleService: SaleService, private customerService: CustomerService, private productService: ProductService, private storage: StorageMap , private productCategoryService: ProductCategoryService) { }
 
   ngOnInit(): void {
-
 
     this.temporaryForm = new FormGroup({
       product_category_id: new FormControl(null)
@@ -77,6 +88,17 @@ export class SaleComponent implements OnInit {
     this.customerService.getCustomerUpdateListener().subscribe(response => {
       this.customerList = response;
     });
+    // get saleMaster from storageMap
+    this.storage.get('saleContainer').subscribe((saleContainer: SaleContainer) => {
+      if (saleContainer){
+        this.saleContainer = saleContainer;
+        this.saleMaster = this.saleContainer.saleMaster;
+        this.saleDetails = this.saleDetails;
+        this.transactionMaster = this.transactionMaster;
+        this.transactionDetails = this.saleContainer.transactionDetails;
+      }
+    }, (error) => {});
+
   }
 
   selectProductsByCategory(event: any) {
@@ -118,6 +140,13 @@ export class SaleComponent implements OnInit {
     }, 0);
     const round =  Math.round(this.totalSaleAmount) - this.totalSaleAmount;
     this.saleMasterForm.patchValue({round_off: parseFloat(round.toFixed(2))});
+    this.saleMaster = this.saleMasterForm.value;
+    this.transactionMaster = this.transactionMasterForm.value;
+    this.transactionDetails.push(this.transactionDetailForm.value);
+    // @ts-ignore
+    // tslint:disable-next-line:max-line-length
+    this.saleContainer = {saleMaster: this.saleMaster, saleDetails: this.saleDetails, transactionMaster: this.transactionMaster, transactionDetail: this.transactionDetails};
+    this.storage.set('saleContainer', this.saleContainer).subscribe(() => {});
   }
 
   isValidSaleForm() {
@@ -144,6 +173,10 @@ export class SaleComponent implements OnInit {
   }
 
   deleteCurrentItem(item: SaleDetail) {
+
+  }
+
+  saveSale() {
 
   }
 }
