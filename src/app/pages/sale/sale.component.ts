@@ -116,6 +116,8 @@ export class SaleComponent implements OnInit {
       // @ts-ignore
       return total + ((record.price * record.quantity) - record.discount);
     }, 0);
+    const round =  Math.round(this.totalSaleAmount) - this.totalSaleAmount;
+    this.saleMasterForm.patchValue({round_off: parseFloat(round.toFixed(2))});
   }
 
   isValidSaleForm() {
