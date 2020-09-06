@@ -97,7 +97,6 @@ export class SaleComponent implements OnInit {
         this.transactionMaster = this.saleContainer.transactionMaster;
         this.transactionDetails = this.saleContainer.transactionDetails;
       }
-      console.log(this.saleMaster);
     }, (error) => {});
 
   }
@@ -146,7 +145,7 @@ export class SaleComponent implements OnInit {
     this.transactionDetails.push(this.transactionDetailForm.value);
     // @ts-ignore
     // tslint:disable-next-line:max-line-length
-    this.saleContainer = {saleMaster: this.saleMaster, saleDetails: this.saleDetails, transactionMaster: this.transactionMaster, transactionDetail: this.transactionDetails};
+    this.saleContainer = {saleMaster: this.saleMaster, saleDetails: this.saleDetails, transactionMaster: this.transactionMaster, transactionDetails: this.transactionDetails};
     this.storage.set('saleContainer', this.saleContainer).subscribe(() => {});
   }
 
