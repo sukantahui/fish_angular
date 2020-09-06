@@ -72,7 +72,7 @@
               </div>
               <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
                 <mat-form-field fxFlex="15">
-                  <input matInput type="number" placeholder="Quantity" type="number" formControlName="quantity" (change)="getAmount()" class="text-right">
+                  <input matInput type="number" placeholder="Quantity" type="number" (click)="$event.target.select()" formControlName="quantity" (change)="getAmount()" class="text-right">
                 </mat-form-field>
 
                 <mat-form-field fxFlex="10">
@@ -85,11 +85,11 @@
                 </mat-form-field>
 
                 <mat-form-field fxFlex="15">
-                  <input matInput type="number" placeholder="price" formControlName="price" (change)="getAmount()" class="text-right">
+                  <input matInput type="number" (click)="$event.target.select()" placeholder="price" formControlName="price" (change)="getAmount()" class="text-right">
                 </mat-form-field>
 
                 <mat-form-field fxFlex="10">
-                  <input matInput type="input" placeholder="discount" formControlName="discount" (change)="getAmount()" class="text-right">
+                  <input matInput type="input" (click)="$event.target.select()" placeholder="discount" formControlName="discount" (change)="getAmount()" class="text-right">
                 </mat-form-field>
                 <mat-form-field fxFlex="20">
                   <input matInput type="number" placeholder="Total" [value]="purchaseAmount" readonly class="text-right">
