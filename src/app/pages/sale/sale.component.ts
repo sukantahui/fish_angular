@@ -4,7 +4,6 @@ import {formatDate} from '@angular/common';
 import {FormControl, FormGroup} from '@angular/forms';
 import {ProductService} from '../../services/product.service';
 import {CustomerService} from '../../services/customer.service';
-import {PurchaseService} from '../../services/purchase.service';
 import {StorageMap} from '@ngx-pwa/local-storage';
 import {SaleService} from '../../services/sale.service';
 import {Product} from '../../models/product.model';
@@ -91,11 +90,15 @@ export class SaleComponent implements OnInit {
     // get saleMaster from storageMap
     this.storage.get('saleContainer').subscribe((saleContainer: SaleContainer) => {
       if (saleContainer){
+        console.log(saleContainer);
         this.saleContainer = saleContainer;
         this.saleMaster = this.saleContainer.saleMaster;
         this.saleDetails = this.saleContainer.saleDetails;
         this.transactionMaster = this.saleContainer.transactionMaster;
         this.transactionDetails = this.saleContainer.transactionDetails;
+      }else{
+        this.saleDetails = [];
+        this.transactionDetails = [];
       }
     }, (error) => {});
 
@@ -142,10 +145,19 @@ export class SaleComponent implements OnInit {
     this.saleMasterForm.patchValue({round_off: parseFloat(round.toFixed(2))});
     this.saleMaster = this.saleMasterForm.value;
     this.transactionMaster = this.transactionMasterForm.value;
+    this.transactionDetails = [];
     this.transactionDetails.push(this.transactionDetailForm.value);
-    // @ts-ignore
+    this.transactionDetails.push(
+      {
+        id: null,
+        transaction_master_id: null,
+        transaction_type_id: 2,
+        ledger_id: 4,
+        amount: 0
+      });
     // tslint:disable-next-line:max-line-length
-    this.saleContainer = {saleMaster: this.saleMaster, saleDetails: this.saleDetails, transactionMaster: this.transactionMaster, transactionDetails: this.transactionDetails};
+    this.saleContainer = {saleMaster: this.saleMaster, saleDetails: this.saleDetails, transactionMaster: this.transactionMaster,
+      transactionDetails: this.transactionDetails, totalSaleAmount: this.totalSaleAmount};
     this.storage.set('saleContainer', this.saleContainer).subscribe(() => {});
   }
 
