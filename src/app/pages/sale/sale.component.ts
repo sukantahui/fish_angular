@@ -41,7 +41,7 @@ export class SaleComponent implements OnInit {
   public unitList: Unit[];
   public customerList: Customer[];
   public temporaryForm: FormGroup;
-  public productListByCategory: Product[];
+  public productListByCategory: Product[] = [];
   public currentTab: number;
   // tslint:disable-next-line:max-line-length
   public saleAmount = 0;
@@ -52,7 +52,7 @@ export class SaleComponent implements OnInit {
     // tslint:disable-next-line:max-line-length
   public transactionMaster: TransactionMaster;
   // tslint:disable-next-line:max-line-length
-  public transactionDetails: TransactionDetail[];
+  public transactionDetails: TransactionDetail[] = [];
   // tslint:disable-next-line:max-line-length
   public totalSaleAmount = 0;
   public saleDetails: SaleDetail[] = [];
@@ -93,10 +93,11 @@ export class SaleComponent implements OnInit {
       if (saleContainer){
         this.saleContainer = saleContainer;
         this.saleMaster = this.saleContainer.saleMaster;
-        this.saleDetails = this.saleDetails;
-        this.transactionMaster = this.transactionMaster;
+        this.saleDetails = this.saleContainer.saleDetails;
+        this.transactionMaster = this.saleContainer.transactionMaster;
         this.transactionDetails = this.saleContainer.transactionDetails;
       }
+      console.log(this.saleMaster);
     }, (error) => {});
 
   }
