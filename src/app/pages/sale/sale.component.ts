@@ -15,6 +15,7 @@ import {SaleMaster} from '../../models/saleMaster.model';
 import {SaleDetail} from '../../models/saleDetail.model';
 import {TransactionMaster} from '../../models/transactionMaster.model';
 import {TransactionDetail} from '../../models/transactionDetail.model';
+import Swal from "sweetalert2";
 
 export interface SaleContainer{
   saleMaster: SaleMaster;
@@ -54,10 +55,12 @@ export class SaleComponent implements OnInit {
   public transactionDetails: TransactionDetail[] = [];
   // tslint:disable-next-line:max-line-length
   public totalSaleAmount = 0;
+  public addDiscount = 0;
   public saleDetails: SaleDetail[] = [];
   // tslint:disable-next-line:max-line-length
   public saleContainer: SaleContainer;
   // tslint:disable-next-line:max-line-length
+  private defaultValues: any;
   constructor(private saleService: SaleService, private customerService: CustomerService, private productService: ProductService, private storage: StorageMap , private productCategoryService: ProductCategoryService) { }
 
   ngOnInit(): void {
@@ -96,6 +99,7 @@ export class SaleComponent implements OnInit {
         this.saleDetails = this.saleContainer.saleDetails;
         this.transactionMaster = this.saleContainer.transactionMaster;
         this.transactionDetails = this.saleContainer.transactionDetails;
+        this.totalSaleAmount = this.saleContainer.totalSaleAmount;
       }else{
         this.saleDetails = [];
         this.transactionDetails = [];
@@ -189,6 +193,62 @@ export class SaleComponent implements OnInit {
   }
 
   saveSale() {
+    // sale will be saved from here
+    Swal.fire({
+      title: 'Confirmation',
+      text: 'Do you sure to Save',
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Save It!'
+    }).then((result) => {
+      // if selected yes
+      if (result.value) {
+        // will be saved from here
+        this.saleMaster = this.saleMasterForm.value;
+        // tslint:disable-next-line:max-line-length
+        this.saleService.saveSale(this.saleMaster, this.saleDetails, this.transactionMaster, this.transactionDetails).subscribe(response => {
+          if (response.success === 1){
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'Purchase saved',
+              showConfirmButton: false,
+              timer: 3000
+            });
+            this.storage.clear().subscribe(() => {});
+            this.saleDetails = [];
+            this.totalSaleAmount = 0;
+            this.saleMasterForm.reset(this.defaultValues.purchaseMasterForm);
+            this.saleDetailForm.reset(this.defaultValues.purchaseDetailsForm);
+            this.transactionMasterForm.reset(this.defaultValues.transactionMasterForm);
+            this.transactionDetailForm.reset(this.defaultValues.transactionDetailsForm);
+            this.currentTab = 2;
+          }
+        }, (error) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: error.message,
+            footer: '<a href>Why do I have this issue?</a>',
+            timer: 0
+          });
+        });
+      }else{
+        // will not be saved
+      }
+    });
+  }
+
+  addDiscountInStorage() {
+    this.saleMaster.discount = this.saleMasterForm.value.discount;
+    this.storage.get('saleContainer').subscribe((saleContainer: SaleContainer) => {
+      if (saleContainer){
+         this.saleContainer.saleMaster.discount = this.saleMaster.discount;
+      }
+    }, (error) => {});
+
 
   }
 }

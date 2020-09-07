@@ -2,7 +2,20 @@ import { Injectable } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {formatDate} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
+import {PurchaseMaster} from '../models/purchaseMaster.model';
+import {PurchaseDetail} from '../models/purchaseDetail.model';
+import {TransactionMaster} from '../models/transactionMaster.model';
+import {TransactionDetail} from '../models/transactionDetail.model';
+import {PurchaseVoucher} from '../models/purchaseVoucher.model';
+import {catchError, tap} from 'rxjs/operators';
+import {SaleMaster} from '../models/saleMaster.model';
+import {SaleDetail} from '../models/saleDetail.model';
+import {Subject} from 'rxjs';
 
+
+class SaleVoucher {
+
+}
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +27,8 @@ export class SaleService {
   public saleMasterForm: FormGroup;
   public saleDetailForm: FormGroup;
   public userData: {id: number, personName: string, _authKey: string, personTypeId: number};
-
+  saleVouchers: SaleVoucher[] = [];
+  saleVoucherSubject = new Subject<SaleVoucher[]>();
 
   constructor(private http: HttpClient) {
 
@@ -59,5 +73,23 @@ export class SaleService {
       ledger_id: new FormControl(null, [Validators.required]),           // purchase
       amount: new FormControl(0)
     });
+  }
+
+  // tslint:disable-next-line:max-line-length
+  saveSale(saleMaster: SaleMaster, saleDetails: SaleDetail[], transactionMaster: TransactionMaster, transactionDetails: TransactionDetail[]) {
+    // tslint:disable-next-line:max-line-length
+    return this.http.post<{ success: number, data: SaleVoucher }>('http://127.0.0.1:8000/api/sales',
+      {
+        purchase_master: saleMaster,
+        purchase_details: saleDetails,
+        transaction_master: transactionMaster,
+        transaction_details: transactionDetails
+      })
+      .pipe(catchError(this.handleError), tap((response: {success: number, data: PurchaseVoucher}) => {
+        console.log(response.data);
+        this.saleVouchers.unshift(response.data);
+        // this.vendorList.unshift(response.data);
+        this.saleVoucherSubject.next([...this.saleVouchers]);
+      }));
   }
 }

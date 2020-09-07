@@ -153,7 +153,7 @@
           <td class="text-left" colspan="3">Less: Discount Received</td>
           <td class="text-right">
             <form [formGroup] = saleMasterForm>
-              <input matInput type="number" placeholder="Bill Discount Received" formControlName="discount"  class="text-right">
+              <input matInput type="number" placeholder="Bill Discount Received" value="{{addDiscount?addDiscount:0}}" formControlName="discount" (change)="addDiscountInStorage()" class="text-right">
             </form>
           </td>
         </tr>
