@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {formatDate} from '@angular/common';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {PurchaseMaster} from '../models/purchaseMaster.model';
 import {PurchaseDetail} from '../models/purchaseDetail.model';
 import {TransactionMaster} from '../models/transactionMaster.model';
@@ -10,7 +10,7 @@ import {PurchaseVoucher} from '../models/purchaseVoucher.model';
 import {catchError, tap} from 'rxjs/operators';
 import {SaleMaster} from '../models/saleMaster.model';
 import {SaleDetail} from '../models/saleDetail.model';
-import {Subject} from 'rxjs';
+import {Subject, throwError} from 'rxjs';
 
 
 class SaleVoucher {
@@ -91,5 +91,38 @@ export class SaleService {
         // this.vendorList.unshift(response.data);
         this.saleVoucherSubject.next([...this.saleVouchers]);
       }));
+  }
+
+  private handleError(errorResponse: HttpErrorResponse){
+    if (errorResponse.error.message.includes('1062')){
+      return throwError({success: 0, status: 'failed', message: 'Record already exists', statusText: ''});
+    }else if (errorResponse.error.message.includes('1451')){
+      return throwError({success: 0, status: 'failed', message: 'This record can not be deleted', statusText: ''});
+    }else {
+      return throwError(errorResponse.error.message);
+    }
+  }
+
+  private serverError(err: any) {
+    console.log('sever error:', err);  // debug
+    if (err instanceof Response) {
+      return throwError({success: 0, status: err.status, message: 'Backend Server is not Working', statusText: err.statusText});
+      // if you're using lite-server, use the following line
+      // instead of the line above:
+      // return Observable.throw(err.text() || 'backend server error');
+    }
+    if (err.status === 0){
+      // tslint:disable-next-line:label-position
+      return throwError ({success: 0, status: err.status, message: 'Backend Server is not Working', statusText: err.statusText});
+    }
+    if (err.status === 401){
+      // tslint:disable-next-line:label-position
+      return throwError ({success: 0, status: err.status, message: 'Your are not authorised', statusText: err.statusText});
+    }
+    if (err.status === 500){
+      // tslint:disable-next-line:label-position
+      return throwError ({success: 0, status: err.status, message: 'Server error', statusText: err.statusText});
+    }
+    return throwError(err);
   }
 }

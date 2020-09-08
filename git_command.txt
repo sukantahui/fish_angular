@@ -39,3 +39,7 @@ git branch -m <current_branch> <new_name>
 
 // creating new branch and checking out there
 
+
+
+// removing current commit and return to last repository, number is used to go backward step
+git reset --hard HEAD~1
