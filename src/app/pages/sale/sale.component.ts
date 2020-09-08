@@ -61,6 +61,7 @@ export class SaleComponent implements OnInit {
   public saleContainer: SaleContainer;
   // tslint:disable-next-line:max-line-length
   private defaultValues: any;
+  private finalBillAmount = 0;
   constructor(private saleService: SaleService, private customerService: CustomerService, private productService: ProductService, private storage: StorageMap , private productCategoryService: ProductCategoryService) { }
 
   ngOnInit(): void {
@@ -149,6 +150,8 @@ export class SaleComponent implements OnInit {
     this.saleMasterForm.patchValue({round_off: parseFloat(round.toFixed(2))});
     this.saleMaster = this.saleMasterForm.value;
     this.transactionMaster = this.transactionMasterForm.value;
+    this.finalBillAmount = parseFloat((this.totalSaleAmount - this.saleMaster.discount + this.saleMaster.round_off).toFixed(2));
+    this.transactionDetailForm.patchValue({amount: this.finalBillAmount});
     this.transactionDetails = [];
     this.transactionDetails.push(this.transactionDetailForm.value);
     this.transactionDetails.push(
@@ -157,7 +160,7 @@ export class SaleComponent implements OnInit {
         transaction_master_id: null,
         transaction_type_id: 2,
         ledger_id: 4,
-        amount: 0
+        amount: this.finalBillAmount
       });
     // tslint:disable-next-line:max-line-length
     this.saleContainer = {saleMaster: this.saleMaster, saleDetails: this.saleDetails, transactionMaster: this.transactionMaster,
@@ -243,6 +246,9 @@ export class SaleComponent implements OnInit {
 
   addDiscountInStorage() {
     this.saleMaster.discount = this.saleMasterForm.value.discount;
+    this.finalBillAmount = parseFloat((this.totalSaleAmount - this.saleMaster.discount + this.saleMaster.round_off).toFixed(2));
+    this.transactionDetails[1].amount = this.finalBillAmount;
+    this.transactionDetails[0].amount = this.finalBillAmount;
     this.storage.get('saleContainer').subscribe((saleContainer: SaleContainer) => {
       if (saleContainer){
          this.saleContainer.saleMaster.discount = this.saleMaster.discount;
