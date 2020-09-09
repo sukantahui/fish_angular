@@ -60,7 +60,7 @@ export class SaleComponent implements OnInit {
   // tslint:disable-next-line:max-line-length
   public saleContainer: SaleContainer;
   // tslint:disable-next-line:max-line-length
-  private defaultValues: any;
+  public defaultValues: any;
   private finalBillAmount = 0;
   constructor(private saleService: SaleService, private customerService: CustomerService, private productService: ProductService, private storage: StorageMap , private productCategoryService: ProductCategoryService) { }
 
@@ -106,9 +106,13 @@ export class SaleComponent implements OnInit {
         this.transactionDetails = [];
       }
     }, (error) => {});
-
+    this.defaultValues = {
+      saleMasterForm : this.saleService.saleMasterForm.value,
+      saleDetailsForm : this.saleService.saleDetailForm.value,
+      transactionMasterForm : this.saleService.transactionMasterForm.value,
+      transactionDetailsForm : this.saleService.transactionDetailForm
+    };
   }
-
   selectProductsByCategory(event: any) {
     const category_id = event.value;
     this.productListByCategory = this.productList.filter(x => x.product_category_id === category_id);
@@ -134,7 +138,6 @@ export class SaleComponent implements OnInit {
     const discount = this.saleDetailForm.value.discount;
     this.saleAmount = (qty * price) - discount;
    }
-
   addSale() {
     const tempItem = this.saleDetailForm.value;
     let index = this.productList.findIndex(x => x.id === tempItem.product_id);
@@ -216,18 +219,20 @@ export class SaleComponent implements OnInit {
             Swal.fire({
               position: 'top-end',
               icon: 'success',
-              title: 'Purchase saved',
+              title: 'Sale saved',
               showConfirmButton: false,
               timer: 3000
             });
             this.storage.clear().subscribe(() => {});
             this.saleDetails = [];
             this.totalSaleAmount = 0;
-            this.saleMasterForm.reset(this.defaultValues.purchaseMasterForm);
-            this.saleDetailForm.reset(this.defaultValues.purchaseDetailsForm);
+            this.saleAmount = 0;
+            this.saleMaster.round_off = 0;
+            this.saleMasterForm.reset(this.defaultValues.saleMasterForm);
+            this.saleDetailForm.reset(this.defaultValues.saleDetailsForm);
             this.transactionMasterForm.reset(this.defaultValues.transactionMasterForm);
             this.transactionDetailForm.reset(this.defaultValues.transactionDetailsForm);
-            this.currentTab = 2;
+            this.temporaryForm.reset();
           }
         }, (error) => {
           Swal.fire({

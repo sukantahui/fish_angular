@@ -78,14 +78,14 @@ export class SaleService {
   // tslint:disable-next-line:max-line-length
   saveSale(saleMaster: SaleMaster, saleDetails: SaleDetail[], transactionMaster: TransactionMaster, transactionDetails: TransactionDetail[]) {
     // tslint:disable-next-line:max-line-length
-    return this.http.post<{ success: number, data: SaleVoucher }>('http://127.0.0.1:8000/api/sales',
+    return this.http.post<{ success: number, data: SaleVoucher }>('http://127.0.0.1:8000/api/dev/sales',
       {
-        purchase_master: saleMaster,
-        purchase_details: saleDetails,
+        sale_master: saleMaster,
+        sale_details: saleDetails,
         transaction_master: transactionMaster,
         transaction_details: transactionDetails
       })
-      .pipe(catchError(this.handleError), tap((response: {success: number, data: PurchaseVoucher}) => {
+      .pipe(catchError(this.handleError), tap((response: {success: number, data: SaleVoucher}) => {
         console.log(response.data);
         this.saleVouchers.unshift(response.data);
         // this.vendorList.unshift(response.data);
