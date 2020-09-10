@@ -63,13 +63,13 @@ export class SaleService {
       // this is original date
       transaction_date: new FormControl(val, [Validators.required]),
       transaction_number: new FormControl(null),
-      voucher_id: new FormControl(2, [Validators.required, Validators.maxLength(20), Validators.minLength(2)]),           // purchase
+      voucher_id: new FormControl(1, [Validators.required, Validators.maxLength(20), Validators.minLength(2)]),           // purchase
       employee_id: new FormControl(this.userData.id)
     });
     this.transactionDetailForm = new FormGroup({
       id: new FormControl(null),
       transaction_master_id: new FormControl(null),
-      transaction_type_id: new FormControl(2),
+      transaction_type_id: new FormControl(1),
       ledger_id: new FormControl(null, [Validators.required]),           // purchase
       amount: new FormControl(0)
     });
