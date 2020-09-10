@@ -15,7 +15,7 @@ import {SaleMaster} from '../../models/saleMaster.model';
 import {SaleDetail} from '../../models/saleDetail.model';
 import {TransactionMaster} from '../../models/transactionMaster.model';
 import {TransactionDetail} from '../../models/transactionDetail.model';
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 
 export interface SaleContainer{
   saleMaster: SaleMaster;
@@ -110,7 +110,7 @@ export class SaleComponent implements OnInit {
       saleMasterForm : this.saleService.saleMasterForm.value,
       saleDetailsForm : this.saleService.saleDetailForm.value,
       transactionMasterForm : this.saleService.transactionMasterForm.value,
-      transactionDetailsForm : this.saleService.transactionDetailForm
+      transactionDetailsForm : this.saleService.transactionDetailForm.value
     };
   }
   selectProductsByCategory(event: any) {
@@ -179,7 +179,7 @@ export class SaleComponent implements OnInit {
   }
 
   clearForm() {
-
+    this.storage.delete('saleContainer').subscribe(() => {});
   }
 
   getBackgroundColor(indexOfElement: number) {
@@ -197,6 +197,7 @@ export class SaleComponent implements OnInit {
   deleteCurrentItem(item: SaleDetail) {
 
   }
+
 
   saveSale() {
     // sale will be saved from here
@@ -223,8 +224,10 @@ export class SaleComponent implements OnInit {
               showConfirmButton: false,
               timer: 3000
             });
-            this.storage.clear().subscribe(() => {});
+            // this.storage.clear().subscribe(() => {});
+            this.clearForm();
             this.saleDetails = [];
+            this.transactionDetails = [];
             this.totalSaleAmount = 0;
             this.saleAmount = 0;
             this.saleMaster.round_off = 0;
