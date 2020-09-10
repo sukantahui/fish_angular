@@ -393,5 +393,15 @@ export class PurchaseComponent implements OnInit {
       comment: this.purchaseTransactionDetail.purchase_master.comment
     };
     this.purchaseMasterForm.setValue(this.purchaseMaster);
+    this.transactionMaster = {
+      id: this.purchaseTransactionDetail.id,
+      transaction_date: this.purchaseTransactionDetail.transaction_date,
+      transaction_number: this.purchaseTransactionDetail.transaction_number,
+      voucher_id: 2,
+      purchase_master_id: this.purchaseTransactionDetail.purchase_master_id,
+      sale_master_id: null,
+      employee_id: this.purchaseTransactionDetail.employee_id,
+    };
+    this.transactionMasterForm.setValue(this.transactionMaster);
   }
 }
