@@ -426,4 +426,8 @@ export class PurchaseComponent implements OnInit {
     };
 
   }
+
+  updatePurchase() {
+    console.log('purchase will be updated');
+  }
 }
