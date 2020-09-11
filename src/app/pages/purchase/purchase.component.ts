@@ -412,5 +412,9 @@ export class PurchaseComponent implements OnInit {
     this.transactionDetails.push(tempTransactionDetail);
     this.transactionDetailForm.setValue(tempTransactionDetail);
     this.purchaseDetails = this.purchaseTransactionDetail.purchase_master.purchase_details;
+    this.totalPurchaseAmount = this.purchaseDetails.reduce( (total, record) => {
+      // @ts-ignore
+      return total + ((record.price * record.quantity) - record.discount);
+    }, 0);
   }
 }
