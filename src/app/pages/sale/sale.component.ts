@@ -16,6 +16,7 @@ import {SaleDetail} from '../../models/saleDetail.model';
 import {TransactionMaster} from '../../models/transactionMaster.model';
 import {TransactionDetail} from '../../models/transactionDetail.model';
 import Swal from 'sweetalert2';
+import {SaleVoucher} from '../../models/saleVoucher.model';
 
 export interface SaleContainer{
   saleMaster: SaleMaster;
@@ -62,6 +63,7 @@ export class SaleComponent implements OnInit {
   // tslint:disable-next-line:max-line-length
   public defaultValues: any;
   private finalBillAmount = 0;
+  public saleVouchers: SaleVoucher[] = [];
   constructor(private saleService: SaleService, private customerService: CustomerService, private productService: ProductService, private storage: StorageMap , private productCategoryService: ProductCategoryService) { }
 
   ngOnInit(): void {
@@ -112,6 +114,11 @@ export class SaleComponent implements OnInit {
       transactionMasterForm : this.saleService.transactionMasterForm.value,
       transactionDetailsForm : this.saleService.transactionDetailForm.value
     };
+
+    this.saleVouchers = this.saleService.getSaleVoucherList();
+    this.saleService.getSaleVoucherUpdateListener().subscribe((response: SaleVoucher[]) => {
+
+    });
   }
   selectProductsByCategory(event: any) {
     const category_id = event.value;
@@ -262,7 +269,6 @@ export class SaleComponent implements OnInit {
          this.saleContainer.saleMaster.discount = this.saleMaster.discount;
       }
     }, (error) => {});
-
 
   }
 }
