@@ -386,7 +386,7 @@ export class PurchaseComponent implements OnInit {
   editPurchase() {
     this.currentTab = 1;
     this.purchaseMaster = {
-      id: this.purchaseTransactionDetail.purchase_master.id,
+      id: this.purchaseTransactionDetail.purchase_master_id,
       discount: this.purchaseTransactionDetail.purchase_master.discount,
       round_off: this.purchaseTransactionDetail.purchase_master.round_off,
       loading_n_unloading_expenditure: this.purchaseTransactionDetail.purchase_master.loading_n_unloading_expenditure,
@@ -398,10 +398,19 @@ export class PurchaseComponent implements OnInit {
       transaction_date: this.purchaseTransactionDetail.transaction_date,
       transaction_number: this.purchaseTransactionDetail.transaction_number,
       voucher_id: 2,
-      purchase_master_id: this.purchaseTransactionDetail.purchase_master_id,
-      sale_master_id: null,
       employee_id: this.purchaseTransactionDetail.employee_id,
     };
     this.transactionMasterForm.setValue(this.transactionMaster);
+    this.transactionDetails = [];
+    const tempTransactionDetail = {
+      id: this.purchaseTransactionDetail.credit_transaction_details[0].id,
+      transaction_master_id: this.purchaseTransactionDetail.credit_transaction_details[0].transaction_master_id,
+      transaction_type_id: this.purchaseTransactionDetail.credit_transaction_details[0].transaction_type_id,
+      ledger_id: this.purchaseTransactionDetail.credit_transaction_details[0].ledger_id,
+      amount: 0
+    };
+    this.transactionDetails.push(tempTransactionDetail);
+    this.transactionDetailForm.setValue(tempTransactionDetail);
+    this.purchaseDetails = this.purchaseTransactionDetail.purchase_master.purchase_details;
   }
 }

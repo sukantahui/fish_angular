@@ -130,7 +130,7 @@
 
             </div>
           </div>
-          <div id="purchase-detail-area" *ngIf="totalPurchaseAmount>0">
+          <div id="purchase-detail-area" *ngIf="true">
             Invoice Number: {{transactionMasterForm.value.transaction_number}}
             <table class="table" id="purchase-table">
               <thead>
@@ -294,12 +294,11 @@
     </pre>
 
     <pre>
-      purchaseMaster = {{purchaseMaster | json}}
       purchaseMasterForm = {{purchaseMasterForm.value | json}}
     </pre>
   </div>
   <div fxLayout="column" fxFlex="25" class="mr-1">
-    purchaseDetails={{purchaseDetailForm.valid}}
+
     <pre>
       purchaseDetailForm = {{purchaseDetailForm.value | json}}
     </pre>
@@ -307,18 +306,18 @@
       purchaseDetails = {{purchaseDetails | json}}
     </pre>
   </div>
-  <!--  <div fxLayout="column" fxFlex="25" class="mr-1">-->
-  <!--    transactionMaster={{transactionMasterForm.valid}}-->
-  <!--    <pre>-->
-  <!--      transactionMaster = {{transactionMaster | json}}-->
-  <!--    </pre>-->
-  <!--  </div>-->
-  <!--  <div fxLayout="column" fxFlex="25" class="mr-1">-->
-  <!--    transactionDetails={{transactionDetailForm.valid}}-->
-  <!--    <pre>-->
-  <!--      transactionDetails = {{transactionDetails | json}}-->
-  <!--    </pre>-->
-  <!--  </div>-->
+    <div fxLayout="column" fxFlex="25" class="mr-1">
+      transactionMaster={{transactionMasterForm.valid}}
+      <pre>
+        transactionMaster = {{transactionMaster | json}}
+      </pre>
+    </div>
+    <div fxLayout="column" fxFlex="25" class="mr-1">
+      transactionDetails={{transactionDetailForm.valid}}
+      <pre>
+        transactionDetails = {{transactionDetails | json}}
+      </pre>
+    </div>
 </div>
 
 
