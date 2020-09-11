@@ -130,7 +130,7 @@
 
             </div>
           </div>
-          <div id="purchase-detail-area" *ngIf="true">
+          <div id="purchase-detail-area" *ngIf="purchaseContainer!=null">
             Invoice Number: {{transactionMasterForm.value.transaction_number}}
             <table class="table" id="purchase-table">
               <thead>
@@ -145,7 +145,7 @@
               </tr>
               </thead>
               <tbody>
-              <tr [ngStyle]="getBackgroundColor(indexOfElement)" *ngFor="let item of purchaseDetails;let indexOfElement = index;">
+              <tr [ngStyle]="getBackgroundColor(indexOfElement)" *ngFor="let item of purchaseContainer.pd;let indexOfElement = index;">
 
                 <td class="text-left" >{{indexOfElement+1}}</td>
                 <td class="text-left" >{{item.product.product_name}}</td>
@@ -170,7 +170,7 @@
               <tr>
                 <td class="text-left" colspan="2"></td>
                 <td class="text-left" colspan="3">Total</td>
-                <td class="text-right">{{totalPurchaseAmount | currency:"&#8377; "}}</td>
+                <td class="text-right">{{purchaseContainer.currentPurchaseTotal | currency:"&#8377; "}}</td>
               </tr>
               <tr>
                 <td class="text-left" colspan="2"></td>
@@ -183,19 +183,21 @@
               </tr>
               <tr>
                 <td class="text-left" colspan="2"></td>
-                <td class="text-left" colspan="3">Rounded Off</td>
-                <td class="text-right">{{purchaseMaster.round_off | currency:"&#8377; "}}</td>
+                <td class="text-left" colspan="3">{{purchaseContainer.roundOffValue<0? "Less: Rounded Off" : "Add: Rounded Off"}}</td>
+                <td class="text-right">{{purchaseContainer.roundOffValue | currency:"&#8377; "}}</td>
               </tr>
               <tr>
                 <td class="text-left" colspan="2"></td>
                 <td class="text-left" colspan="3">Final Bill</td>
-                <td class="text-right">{{(totalPurchaseAmount - purchaseMasterForm.value.discount+ purchaseMaster.round_off ) | currency:"&#8377; "}}</td>
+                <td class="text-right">{{(purchaseContainer.currentPurchaseTotal - purchaseMasterForm.value.discount+ purchaseContainer.roundOffValue ) | currency:"&#8377; "}}</td>
               </tr>
               </tfoot>
             </table>
             <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutGap="10px" fxLayoutGap.xs="0" >
               <button mat-button (click)="cancelPurchaseDetails()"   mat-stroked-button>Delete all</button>
-              <button mat-button (click)="savePurchase()" [disabled]="false"  mat-stroked-button>Save Purchase</button>
+              <button mat-button *ngIf="!purchaseContainer.pm.id" (click)="savePurchase()" [disabled]="false"  mat-stroked-button>Save Purchase</button>
+              <button mat-button *ngIf="purchaseContainer.pm.id" (click)="savePurchase()" [disabled]="false"  mat-stroked-button>Update Purchase</button>
+
             </div>
           </div>
         </mat-card-content>
@@ -295,6 +297,7 @@
 
     <pre>
       purchaseMasterForm = {{purchaseMasterForm.value | json}}
+      purchaseContainer = {{purchaseContainer | json}}
     </pre>
   </div>
   <div fxLayout="column" fxFlex="25" class="mr-1">

@@ -42,6 +42,8 @@ export class PurchaseComponent implements OnInit {
   transactionMaster: TransactionMaster;
   transactionDetails: TransactionDetail[] = [];
   purchaseTransactionDetail: PurchaseTransactionDetail;
+  // tslint:disable-next-line:max-line-length
+  purchaseContainer: {tm: TransactionMaster, td: TransactionDetail[], pm: PurchaseMaster, pd: PurchaseDetail[], currentPurchaseTotal: number, roundOffValue: number};
   color = 'accent';
 
 
@@ -108,53 +110,20 @@ export class PurchaseComponent implements OnInit {
       this.vendorList = response;
     });
     // get purchaseMaster from localstorage
-    this.storage.get('purchaseMaster').subscribe((purchaseMaster: PurchaseMaster) => {
-      if (purchaseMaster){
-        this.purchaseMaster = purchaseMaster;
+    this.storage.get('purchaseContainer').subscribe((purchaseContainer: any) => {
+      if (purchaseContainer){
+        this.purchaseContainer = purchaseContainer;
+        this.purchaseMaster = purchaseContainer.pm;
+        this.purchaseDetails = purchaseContainer.pd;
+        this.transactionMaster = purchaseContainer.tm;
+        this.transactionDetails = purchaseContainer.td;
+
+        this.transactionMasterForm.setValue(purchaseContainer.tm);
+        this.transactionDetailForm.setValue(purchaseContainer.td[0]);
+        this.purchaseMasterForm.setValue(purchaseContainer.pm);
+        this.purchaseDetailForm.setValue(purchaseContainer.pd);
       }
     }, (error) => {});
-    // get purchaseDetails from localstorage
-    this.storage.get('purchaseDetails').subscribe((purchaseDetails: PurchaseDetail[]) => {
-      if (purchaseDetails){
-        this.purchaseDetails = purchaseDetails;
-      }else{
-        this.purchaseDetails = [];
-      }
-    }, (error) => {this.purchaseDetails = []; });
-    // get transactionMaster from localstorage
-    this.storage.get('transactionMaster').subscribe((transactionMaster: TransactionMaster) => {
-      if (transactionMaster){
-        this.transactionMaster = transactionMaster;
-        this.transactionMasterForm.setValue(this.transactionMaster);
-      }else{
-        // this.transactionMaster = [];
-      }
-    }, (error) => {
-      // this.transactionMaster = [];
-    });
-
-
-// get transactionDetails from localstorage
-    this.storage.get('transactionDetails').subscribe((transactionDetails: TransactionDetail[]) => {
-      if (transactionDetails){
-        this.transactionDetails = transactionDetails;
-        this.transactionDetailForm.setValue(this.transactionDetails[0]);
-      }else{
-        this.transactionDetails = [];
-      }
-    }, (error) => {
-      this.transactionDetails = [];
-    });
-    // get  totalPurchaseAmount
-    this.storage.get('totalPurchaseAmount').subscribe((totalPurchaseAmount: number) => {
-      if (totalPurchaseAmount){
-        this.totalPurchaseAmount = totalPurchaseAmount;
-      }else{
-        this.totalPurchaseAmount = 0;
-      }
-    }, (error) => {
-      this.totalPurchaseAmount = 0;
-    });
   }
 
 
@@ -187,17 +156,20 @@ export class PurchaseComponent implements OnInit {
     }
 
     this.transactionMaster = this.transactionMasterForm.value;
-
-
     this.transactionDetails = this.transactionDetailForm.value;
-    this.totalPurchaseAmount = this.purchaseDetails.reduce( (total, record) => {
+
+    let currentPurchaseTotal = this.purchaseDetails.reduce( (total, record) => {
       // @ts-ignore
       return total + ((record.price * record.quantity) - record.discount);
     }, 0);
-    const round =  Math.round(this.totalPurchaseAmount) - this.totalPurchaseAmount;
-    this.purchaseMasterForm.patchValue({round_off: parseFloat(round.toFixed(2))});
+    currentPurchaseTotal = parseFloat(currentPurchaseTotal.toFixed(2));
+
+    const round =  Math.round(currentPurchaseTotal) - currentPurchaseTotal;
+    const roundOffValue = parseFloat(round.toFixed(2));
+    this.purchaseMasterForm.patchValue({round_off: roundOffValue});
     this.purchaseMaster = this.purchaseMasterForm.value;
     this.transactionDetails = [];
+    this.transactionDetailForm.patchValue({amount: currentPurchaseTotal - roundOffValue});
     this.transactionDetails.push(this.transactionDetailForm.value);
     this.transactionDetails.push(
       {
@@ -205,14 +177,28 @@ export class PurchaseComponent implements OnInit {
         transaction_master_id: null,
         transaction_type_id: 1,
         ledger_id: 3,
-        amount: 0
+        amount: currentPurchaseTotal - roundOffValue
       }
     );
 
-    this.storage.set('purchaseMaster', this.purchaseMaster).subscribe(() => {});
-    this.storage.set('purchaseDetails', this.purchaseDetails).subscribe(() => {});
-    this.storage.set('transactionMaster', this.transactionMaster).subscribe(() => {});
-    this.storage.set('transactionDetails', this.transactionDetails).subscribe(() => {});
+
+    this.purchaseContainer = {
+      tm: this.transactionMaster,
+      td: this.transactionDetails,
+      pm: this.purchaseMaster,
+      pd: this.purchaseDetails,
+      currentPurchaseTotal,
+      roundOffValue,
+    };
+
+
+    // this.storage.set('purchaseMaster', this.purchaseMaster).subscribe(() => {});
+    // this.storage.set('purchaseDetails', this.purchaseDetails).subscribe(() => {});
+    // this.storage.set('transactionMaster', this.transactionMaster).subscribe(() => {});
+    // this.storage.set('transactionDetails', this.transactionDetails).subscribe(() => {});
+
+    this.storage.set('purchaseContainer', this.purchaseContainer).subscribe(() => {});
+
     this.purchaseDetailForm.reset();
     this.purchaseDetailForm.patchValue({unit_id: 3, discount: 0});
     this.temporaryForm.reset();
@@ -379,8 +365,16 @@ export class PurchaseComponent implements OnInit {
   }
 
   cancelPurchaseDetails() {
-    this.storage.delete('purchaseDetails').subscribe(() => {});
+    this.storage.delete('purchaseContainer').subscribe(() => {});
+    this.transactionMaster = null;
+    this.transactionDetails = [];
+    this.purchaseMaster = null;
     this.purchaseDetails = [];
+    this.purchaseContainer = null;
+    this.transactionMasterForm.setValue(this.defaultValues.transactionMasterForm);
+    this.transactionDetailForm.setValue(this.defaultValues.transactionMasterForm);
+    this.purchaseContainer = null;
+
     this.totalPurchaseAmount = 0;
   }
   editPurchase() {
@@ -412,9 +406,24 @@ export class PurchaseComponent implements OnInit {
     this.transactionDetails.push(tempTransactionDetail);
     this.transactionDetailForm.setValue(tempTransactionDetail);
     this.purchaseDetails = this.purchaseTransactionDetail.purchase_master.purchase_details;
-    this.totalPurchaseAmount = this.purchaseDetails.reduce( (total, record) => {
+
+    let currentPurchaseTotal = this.purchaseDetails.reduce( (total, record) => {
       // @ts-ignore
       return total + ((record.price * record.quantity) - record.discount);
     }, 0);
+    currentPurchaseTotal = parseFloat(currentPurchaseTotal.toFixed(2));
+
+    const round =  Math.round(currentPurchaseTotal) - currentPurchaseTotal;
+    const roundOffValue = parseFloat(round.toFixed(2));
+
+    this.purchaseContainer = {
+      tm: this.transactionMaster,
+      td: this.transactionDetails,
+      pm: this.purchaseMaster,
+      pd: this.purchaseDetails,
+      currentPurchaseTotal,
+      roundOffValue,
+    };
+
   }
 }
