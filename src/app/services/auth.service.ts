@@ -9,6 +9,7 @@ import {GlobalVariable} from '../shared/global';
 
 // it will be used at the time of login, check login response of API using insomnia first
 export interface AuthResponseData {
+  success: number;
   token: {
             headers: object,
             original: {
@@ -53,17 +54,20 @@ export class AuthService {
   login(loginData){
     return this.http.post<AuthResponseData>(GlobalVariable.BASE_API_URL + '/login', loginData)
       .pipe(catchError(this.handleError), tap(resData => {
-        // tslint:disable-next-line:max-line-length
-          const user = new User(resData.user.id,
-                  resData.user.person_name,
-                  resData.token.original.access_token,
-                  resData.user.person_type_id);
-          this.user.next(user); // here two user is used one is user and another user is subject of rxjs
-          localStorage.setItem('user', JSON.stringify(user));
+        // tslint:disable-next-line:max-line-length triple-equals
+          if (resData.success === 1) {
+            const user = new User(resData.user.id,
+              resData.user.person_name,
+              resData.token.original.access_token,
+              resData.user.person_type_id);
+            this.user.next(user); // here two user is used one is user and another user is subject of rxjs
+            localStorage.setItem('user', JSON.stringify(user));
+          }
       }));  // this.handleError is a method created by me
   }
 
   private handleError(errorResponse: HttpErrorResponse){
+
     return throwError(errorResponse.error.message);
   }
 

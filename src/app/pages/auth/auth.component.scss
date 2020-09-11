@@ -2,6 +2,7 @@
   display: flex;
   justify-content: center;
   margin: 100px 0px;
+  height: 90vh;
 }
 
 .mat-form-field {
@@ -28,13 +29,14 @@ mat-card-content {
 }
 
 body{
-  background: linear-gradient(90deg, rgba(0,212,255,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+  //background: linear-gradient(90deg, rgba(0,212,255,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
 }
 
 
 #login-outer-div{
+  border-radius: 30px;
   padding: 10px;
-  background: linear-gradient(90deg, rgba(10, 22, 36, 0.56) 0%, rgb(11, 98, 121) 35%, rgba(0,212,255,1) 80%);;
+  background: linear-gradient(90deg, rgba(10, 22, 36, 0.06) 0%, rgba(11, 98, 121,.2) 35%, rgba(197, 195, 198,.2) 80%);;
 }
 
 
