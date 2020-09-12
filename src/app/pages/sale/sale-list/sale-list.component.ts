@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {SaleVoucher} from '../../../models/saleVoucher.model';
+import {PurchaseVoucher} from '../../../models/purchaseVoucher.model';
+import {PurchaseTransactionDetail} from '../../../models/purchaseTransactionDetail';
+import {FormControl} from '@angular/forms';
+import {SaleService} from '../../../services/sale.service';
+import {catchError, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-sale-list',
@@ -7,17 +12,17 @@ import {SaleVoucher} from '../../../models/saleVoucher.model';
   styleUrls: ['./sale-list.component.scss']
 })
 export class SaleListComponent implements OnInit {
-  searchTerm: any;
-  pageSize: any;
-  p: string | number;
-  saleVouchers: SaleVoucher;
-
-  constructor() { }
+  saleVouchers: SaleVoucher[] = [];
+  constructor(private saleService: SaleService) { }
 
   ngOnInit(): void {
+    this.saleVouchers = this.saleService.getSaleVoucherList();
+    this.saleService.getSaleVoucherUpdateListener().subscribe((response: SaleVoucher[]) => {
+      this.saleVouchers = response;
+    });
   }
 
-  getSaleInfoById(id: any) {
+  getSaleInfoById(id: number) {
     
   }
 }

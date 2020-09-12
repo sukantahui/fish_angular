@@ -1,36 +1,18 @@
-<form class="example-form">
-  <div class="container" fxLayout fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="30px" fxLayoutGap.xs="0">
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="Search..." [(ngModel)]="searchTerm" name="search" type="text" autofocus>
-    </mat-form-field>
 
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="Items per page" [(ngModel)]="pageSize" name="PageSize" type="text">
-    </mat-form-field>
 
-    <mat-form-field class="example-full-width">
-      <mat-label>Choose a date</mat-label>
-      <input matInput [matDatepicker]="picker">
-      <mat-datepicker-toggle matSuffix [for]="picker">
-        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-      </mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-  </div>
-</form>
-<table class="table" id="purchase-list-table">
+<table class="table" id="sale-list-table">
   <thead>
   <tr>
     <th>SL.</th>
     <th>Date</th>
     <th>Bill Number</th>
-    <th>Vendor</th>
+    <th>Customer</th>
     <th>Amount</th>
     <th>Click here</th>
   </tr>
   </thead>
   <tbody>
-  <tr  *ngFor="let item of saleVouchers| filter:searchTerm | paginate: { itemsPerPage: pageSize, currentPage: p };let indexOfelement = index;">
+  <tr  *ngFor="let item of saleVouchers ;let indexOfelement = index;">
 
     <td class="text-left" >{{indexOfelement+1}}</td>
     <td class="text-left" >{{item.formatted_transaction_date}}</td>
@@ -38,7 +20,7 @@
     <td class="text-right">{{item.ledger_name}}</td>
     <td class="text-right">{{item.bill_amount | currency:"&#8377; "}}</td>
     <td class="text-right">
-      <button mat-button (click)="getSaleInfoById(item.id)"  mat-stroked-button>Details</button>
+      <button mat-button (click)="getSaleInfoById(item.id)" mat-stroked-button>Details</button>
     </td>
   </tr>
   </tbody>
@@ -47,21 +29,4 @@
   </tr>
   </tfoot>
 </table>
-<div fxLayout.xs="column" fxLayout="column" fxFlexFill>
-  <!--    https://www.npmjs.com/package/ngx-pagination-->
-  <!--    npm i ngx-pagination-->
-  <pagination-controls (pageChange)="p = $event"></pagination-controls>
-  <pagination-controls  id="some_id"
-                        (pageChange)="p=($event)"
-                        maxSize="5"
-                        directionLinks="true"
-                        autoHide="true"
-                        responsive="true"
-                        previousLabel="Previous"
-                        nextLabel="Next"
-                        screenReaderPaginationLabel="Pagination"
-                        screenReaderPageLabel="page"
-                        screenReaderCurrentLabel="You're on page">
-  </pagination-controls>
-</div>
 
