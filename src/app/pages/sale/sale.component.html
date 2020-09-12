@@ -107,76 +107,94 @@
     </div>
   </div>
   <div fxLayout="column" fxFlex="60" class="mr-1" id="right-div">
-    <div id="sale-detail-area">
-<!--      Transaction number-->
-      <table class="table" id="sale-table" *ngIf="saleMaster">
-        <thead>
-        <tr>
-          <th class="w-5">SL.</th>
-          <th class="w-25">Product Name</th>
-          <th class="w-15">Quantity</th>
-          <th class="w-15">Price</th>
-          <th class="w-15">Disc</th>
-          <th class="w-15">Amount</th>
-          <th class="w-10" colspan="1">Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr [ngStyle]="getBackgroundColor(indexOfElement)" *ngFor="let item of saleDetails;let indexOfElement = index;">
-          <td class="text-left" >{{indexOfElement+1}}</td>
-          <td class="text-left" >{{item.product.product_name}}</td>
-          <td class="text-right">{{item.quantity}} {{item.unit.unit_name}}</td>
-          <td class="text-right">{{item.price | currency:"&#8377; "}}</td>
-          <td class="text-right">{{item.discount | currency:"&#8377; "}}</td>
-          <td class="text-right">{{item.quantity*item.price - item.discount | currency:"&#8377; "}}</td>
-          <td>
-            <button mat-icon-button color="primary" aria-label="Edit Product" (click)="editCurrentItem(item)" *ngIf="editableItemIndex != indexOfElement">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button color="primary" aria-label="Edit Product" (click)="cancelEditCurrentItem(item)" *ngIf="editableItemIndex == indexOfElement">
-              <mat-icon>restore</mat-icon>
-            </button>
-            <button mat-icon-button color="warn" aria-label="Delete" (click)="deleteCurrentItem(item)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </td>
-        </tr>
-        </tbody>
-        <tfoot>
-        <tr>
-          <td class="text-left" colspan="2"></td>
-          <td class="text-left" colspan="3">Total</td>
-          <td class="text-right">{{totalSaleAmount | currency:"&#8377; "}}</td>
-        </tr>
-        <tr>
-          <td class="text-left" colspan="2"></td>
-          <td class="text-left" colspan="3">Less: Discount Received</td>
-          <td class="text-right">
-            <form [formGroup] = saleMasterForm>
-              <input matInput type="number" placeholder="Bill Discount Received" value="{{addDiscount?addDiscount:0}}" formControlName="discount" (change)="addDiscountInStorage()" class="text-right">
-            </form>
-          </td>
-        </tr>
-        <tr>
-          <td class="text-left" colspan="2"></td>
-          <td class="text-left" colspan="3">Round Off</td>
-          <td class="text-right">
-            {{saleMaster.round_off}}
-          </td>
-        </tr>
+    <mat-card class="example-card">
 
-        <tr>
-          <td class="text-left" colspan="2"></td>
-          <td class="text-left" colspan="3">Final Bill</td>
-          <td class="text-right">{{(totalSaleAmount - saleMasterForm.value.discount+ saleMasterForm.value.round_off ) | currency:"&#8377; "}}</td>
-        </tr>
-       </tfoot>
-      </table>
-      <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutGap="10px" fxLayoutGap.xs="0" >
-<!--        <button mat-button (click)="cancelPurchaseDetails()"   mat-stroked-button>Delete all</button>-->
-        <button mat-button (click)="saveSale()" [disabled]="false"  mat-stroked-button>Save Purchase</button>
-      </div>
-    </div>
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>
+          <div>
+            <button mat-button (click)="setCurrentTab(1)"  mat-stroked-button>Sale Details</button>
+            <button mat-button (click)="setCurrentTab(2)"  mat-stroked-button>Sale List</button>
+            <button mat-button (click)="setCurrentTab(3)"  mat-stroked-button>Sale Bill</button>
+          </div>
+        </mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content *ngIf="isCurrentTab(1)" id="sale-detail-area">
+        <!--      Transaction number-->
+        <table class="table" id="sale-table" *ngIf="saleMaster">
+          <thead>
+          <tr>
+            <th class="w-5">SL.</th>
+            <th class="w-25">Product Name</th>
+            <th class="w-15">Quantity</th>
+            <th class="w-15">Price</th>
+            <th class="w-15">Disc</th>
+            <th class="w-15">Amount</th>
+            <th class="w-10" colspan="1">Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr [ngStyle]="getBackgroundColor(indexOfElement)" *ngFor="let item of saleDetails;let indexOfElement = index;">
+            <td class="text-left" >{{indexOfElement+1}}</td>
+            <td class="text-left" >{{item.product.product_name}}</td>
+            <td class="text-right">{{item.quantity}} {{item.unit.unit_name}}</td>
+            <td class="text-right">{{item.price | currency:"&#8377; "}}</td>
+            <td class="text-right">{{item.discount | currency:"&#8377; "}}</td>
+            <td class="text-right">{{item.quantity*item.price - item.discount | currency:"&#8377; "}}</td>
+            <td>
+              <button mat-icon-button color="primary" aria-label="Edit Product" (click)="editCurrentItem(item)" *ngIf="editableItemIndex != indexOfElement">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="primary" aria-label="Edit Product" (click)="cancelEditCurrentItem(item)" *ngIf="editableItemIndex == indexOfElement">
+                <mat-icon>restore</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" aria-label="Delete" (click)="deleteCurrentItem(item)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </tr>
+          </tbody>
+          <tfoot>
+          <tr>
+            <td class="text-left" colspan="2"></td>
+            <td class="text-left" colspan="3">Total</td>
+            <td class="text-right">{{totalSaleAmount | currency:"&#8377; "}}</td>
+          </tr>
+          <tr>
+            <td class="text-left" colspan="2"></td>
+            <td class="text-left" colspan="3">Less: Discount Received</td>
+            <td class="text-right">
+              <form [formGroup] = saleMasterForm>
+                <input matInput type="number" placeholder="Bill Discount Received" value="{{addDiscount?addDiscount:0}}" formControlName="discount" (change)="addDiscountInStorage()" class="text-right">
+              </form>
+            </td>
+          </tr>
+          <tr>
+            <td class="text-left" colspan="2"></td>
+            <td class="text-left" colspan="3">Round Off</td>
+            <td class="text-right">
+              {{saleMaster.round_off}}
+            </td>
+          </tr>
+
+          <tr>
+            <td class="text-left" colspan="2"></td>
+            <td class="text-left" colspan="3">Final Bill</td>
+            <td class="text-right">{{(totalSaleAmount - saleMasterForm.value.discount+ saleMasterForm.value.round_off ) | currency:"&#8377; "}}</td>
+          </tr>
+          </tfoot>
+        </table>
+        <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutGap="10px" fxLayoutGap.xs="0" >
+          <!--        <button mat-button (click)="cancelPurchaseDetails()"   mat-stroked-button>Delete all</button>-->
+          <button mat-button (click)="saveSale()" [disabled]="false"  mat-stroked-button>Save Sale</button>
+        </div>
+        </mat-card-content>
+      </mat-card>
+
+    <mat-card-content *ngIf="isCurrentTab(2)" id="sale-list-area">
+      <app-sale-list></app-sale-list>
+    </mat-card-content>
   </div>
 </div>
 

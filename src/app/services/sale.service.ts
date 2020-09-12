@@ -12,11 +12,9 @@ import {SaleMaster} from '../models/saleMaster.model';
 import {SaleDetail} from '../models/saleDetail.model';
 import {Subject, throwError} from 'rxjs';
 import {GlobalVariable} from '../shared/global';
+import {SaleVoucher} from '../models/saleVoucher.model';
 
 
-class SaleVoucher {
-
-}
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +31,7 @@ export class SaleService {
 
   constructor(private http: HttpClient) {
 
-    this.http.get(GlobalVariable.BASE_API_URL + 'dev/sales')
+    this.http.get(GlobalVariable.BASE_API_URL + '/sales')
       .subscribe((response: {success: number, data: SaleVoucher[]}) => {
         const {data} = response;
         this.saleVouchers = data;
