@@ -196,6 +196,65 @@
       <h1>Sale List</h1>
       <app-sale-list></app-sale-list>
     </mat-card-content>
+
+    <mat-card-content *ngIf="isCurrentTab(3)" id="purchase-bill">
+      <mat-card class="example-card">
+        <mat-card-header>
+          <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+            <!--Customer list-->
+            <div fxLayout="column" fxFlex="40" class="mr-1">
+              <span>{{saleTransactionDetail.sale_master.billing_name}}</span><br>
+              <span>{{saleTransactionDetail.sale_master.email}}</span><br>
+              <span>{{saleTransactionDetail.sale_master.address1}}</span><br>
+              <span>{{saleTransactionDetail.sale_master.mobile1}}</span><br>
+            </div>
+            <div fxLayout="column" fxFlex="40" class="mr-1">
+
+            </div>
+            <div fxLayout="column" fxFlex="40" class="mr-1">
+              <span class="font-weight-bold">{{saleTransactionDetail.sale_master.transaction_number}}</span><br>
+              <span>{{saleTransactionDetail.sale_master.transaction_date}}</span><br>
+            </div>
+          </div>
+        </mat-card-header>
+        <mat-card-content>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Discount</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let item of saleTransactionDetail.sale_details">
+              <tr>
+                <td>{{item.product_name}}</td>
+                <td>{{item.quantity}}</td>
+                <td>{{item.price}}</td>
+                <td>{{item.discount}}</td>
+                <td>{{item.total}}</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="4"></td>
+                <td>{{saleTransactionDetail.sale_master.bill_total}}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button>Print</button>
+          <button mat-button>Save to Excel</button>
+        </mat-card-actions>
+      </mat-card>
+
+      <pre>
+        {{saleTransactionDetail | json}}
+      </pre>
+    </mat-card-content>
   </div>
 </div>
 

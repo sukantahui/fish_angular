@@ -5,6 +5,7 @@ import {PurchaseTransactionDetail} from '../../../models/purchaseTransactionDeta
 import {FormControl} from '@angular/forms';
 import {SaleService} from '../../../services/sale.service';
 import {catchError, tap} from 'rxjs/operators';
+import {SaleTransactionDetail} from '../../../models/saleTransactionDetail';
 
 @Component({
   selector: 'app-sale-list',
@@ -13,6 +14,7 @@ import {catchError, tap} from 'rxjs/operators';
 })
 export class SaleListComponent implements OnInit {
   saleVouchers: SaleVoucher[] = [];
+  private saleTransactionDetail: SaleTransactionDetail;
   constructor(private saleService: SaleService) { }
 
   ngOnInit(): void {
@@ -23,6 +25,9 @@ export class SaleListComponent implements OnInit {
   }
 
   getSaleInfoById(id: number) {
-    
+    // @ts-ignore
+    this.saleService.getSaleDetailsByTransactionId(id).subscribe((response: SaleTransactionDetail) => {
+      this.saleTransactionDetail = response;
+    });
   }
 }

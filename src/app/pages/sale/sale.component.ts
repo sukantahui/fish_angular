@@ -17,6 +17,7 @@ import {TransactionMaster} from '../../models/transactionMaster.model';
 import {TransactionDetail} from '../../models/transactionDetail.model';
 import Swal from 'sweetalert2';
 import {SaleVoucher} from '../../models/saleVoucher.model';
+import {SaleTransactionDetail} from "../../models/saleTransactionDetail";
 
 export interface SaleContainer{
   saleMaster: SaleMaster;
@@ -64,6 +65,8 @@ export class SaleComponent implements OnInit {
   public defaultValues: any;
   private finalBillAmount = 0;
   public saleVouchers: SaleVoucher[] = [];
+  saleTransactionDetail: SaleTransactionDetail;
+  // tslint:disable-next-line:max-line-length
   constructor(private saleService: SaleService, private customerService: CustomerService, private productService: ProductService, private storage: StorageMap , private productCategoryService: ProductCategoryService) { }
 
   ngOnInit(): void {
@@ -119,7 +122,12 @@ export class SaleComponent implements OnInit {
     this.saleService.getSaleVoucherUpdateListener().subscribe((response: SaleVoucher[]) => {
 
     });
-  }
+    this.saleService.getSaleDetailsByTransactionUpdateListener().subscribe((response: SaleTransactionDetail) => {
+      this.saleTransactionDetail = response;
+      this.currentTab = 3;
+    });
+
+  }// end of ngOnIt
   selectProductsByCategory(event: any) {
     const category_id = event.value;
     this.productListByCategory = this.productList.filter(x => x.product_category_id === category_id);

@@ -13,6 +13,7 @@ import {SaleDetail} from '../models/saleDetail.model';
 import {Subject, throwError} from 'rxjs';
 import {GlobalVariable} from '../shared/global';
 import {SaleVoucher} from '../models/saleVoucher.model';
+import {SaleTransactionDetail} from '../models/saleTransactionDetail';
 
 
 
@@ -27,7 +28,9 @@ export class SaleService {
   public saleDetailForm: FormGroup;
   public userData: {id: number, personName: string, _authKey: string, personTypeId: number};
   public saleVouchers: SaleVoucher[] = [];
+  public saleTransactionDetail: SaleTransactionDetail;
   saleVoucherSubject = new Subject<SaleVoucher[]>();
+  saleTransactionDetailSubject = new Subject<any>();
 
   constructor(private http: HttpClient) {
 
@@ -96,6 +99,17 @@ export class SaleService {
         // this.vendorList.unshift(response.data);
         this.saleVoucherSubject.next([...this.saleVouchers]);
       }));
+  }
+
+  getSaleDetailsByTransactionId(id: number){
+    return this.http.get<{success: number; data: SaleTransactionDetail}>('http://127.0.0.1:8000/api/sales/' + id)
+      .pipe(catchError(this.handleError), tap((response: {success: number, data: SaleTransactionDetail}) => {
+        this.saleTransactionDetail = response.data;
+        this.saleTransactionDetailSubject.next({...this.saleTransactionDetail});
+      }));
+  }
+  getSaleDetailsByTransactionUpdateListener(){
+    return this.saleTransactionDetailSubject.asObservable();
   }
 
   getSaleVoucherUpdateListener(){
