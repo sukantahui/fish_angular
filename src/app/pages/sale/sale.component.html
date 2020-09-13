@@ -135,20 +135,20 @@
             <table class="table table-responsive p-0 m-0">
               <thead>
               <tr>
-                <th >Product Name</th>
-                <th class="text-right">Quantity</th>
-                <th class="text-right">Price</th>
-                <th class="text-right">Discount</th>
-                <th class="text-right">Total</th>
+                <th class="p-0">Product Name</th>
+                <th class="text-right p-0">Quantity</th>
+                <th class="text-right p-0">Price</th>
+                <th class="text-right p-0">Discount</th>
+                <th class="text-right p-0">Total</th>
               </tr>
               </thead>
               <tbody *ngFor="let item of saleTransactionDetail.sale_details">
               <tr>
                 <td>{{item.product_name}}</td>
-                <td class="text-right">{{item.quantity}}</td>
-                <td class="text-right">{{item.price | currency:"&#8377; "}}</td>
-                <td class="text-right">{{item.discount | currency: "&#8377; "}}</td>
-                <td class="text-right">{{item.total | currency: "&#8377; "}}</td>
+                <td class="text-right p-0">{{item.quantity}}</td>
+                <td class="text-right p-0">{{item.price | currency:"&#8377; "}}</td>
+                <td class="text-right p-0">{{item.discount | currency: "&#8377; "}}</td>
+                <td class="text-right p-0">{{item.total | currency: "&#8377; "}}</td>
               </tr>
               </tbody>
               <tfoot>
