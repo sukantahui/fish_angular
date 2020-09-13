@@ -197,23 +197,28 @@
       <app-sale-list></app-sale-list>
     </mat-card-content>
 
-    <mat-card-content *ngIf="isCurrentTab(3)" id="purchase-bill">
+    <mat-card-content *ngIf="isCurrentTab(3)" id="sale-bill">
       <mat-card class="example-card">
+      <mat-card-content id="sale-printable-bill">
         <mat-card-header>
+
           <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
             <!--Customer list-->
-            <div fxLayout="column" fxFlex="40" class="mr-1">
-              <span>{{saleTransactionDetail.sale_master.billing_name}}</span><br>
-              <span>{{saleTransactionDetail.sale_master.email}}</span><br>
-              <span>{{saleTransactionDetail.sale_master.address1}}</span><br>
-              <span>{{saleTransactionDetail.sale_master.mobile1}}</span><br>
+            <div fxLayout="column" fxFlex="40" class="mr-1 m-0 p-0">
+              <span class="font-weight-bold">{{saleTransactionDetail.sale_master.billing_name}}</span>
+              <span class="font-weight-bold">{{saleTransactionDetail.sale_master.state}}</span>
+              <span class="font-weight-bold">{{saleTransactionDetail.sale_master.email}}</span>
+              <span class="font-weight-bold">{{saleTransactionDetail.sale_master.address1}}</span>
+              <span class="font-weight-bold">{{saleTransactionDetail.sale_master.mobile1}}</span>
             </div>
             <div fxLayout="column" fxFlex="40" class="mr-1">
-
+              <th colspan="2">
+                <qrcode  [qrdata]="saleTransactionDetail.sale_master.transaction_number" [width]="100" [errorCorrectionLevel]="'M'"></qrcode>
+              </th>
             </div>
             <div fxLayout="column" fxFlex="40" class="mr-1">
-              <span class="font-weight-bold">{{saleTransactionDetail.sale_master.transaction_number}}</span><br>
-              <span>{{saleTransactionDetail.sale_master.transaction_date}}</span><br>
+              <span class="font-weight-bold">Bill No: &nbsp; {{saleTransactionDetail.sale_master.transaction_number}}</span>
+              <span class="font-weight-bold">Bill Date:&nbsp; {{saleTransactionDetail.sale_master.transaction_date | date : "MMMM d, y"}}</span>
             </div>
           </div>
         </mat-card-header>
@@ -222,32 +227,44 @@
             <thead>
               <tr>
                 <th>Product Name</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Discount</th>
-                <th>Total</th>
+                <th class="text-right">Quantity</th>
+                <th class="text-right">Price</th>
+                <th class="text-right">Discount</th>
+                <th class="text-right">Total</th>
               </tr>
             </thead>
             <tbody *ngFor="let item of saleTransactionDetail.sale_details">
               <tr>
-                <td>{{item.product_name}}</td>
-                <td>{{item.quantity}}</td>
-                <td>{{item.price}}</td>
-                <td>{{item.discount}}</td>
-                <td>{{item.total}}</td>
+                <td width="400px">{{item.product_name}}</td>
+                <td class="text-right" width="100px">{{item.quantity}}</td>
+                <td class="text-right" width="150px">{{item.price | currency:"&#8377; "}}</td>
+                <td class="text-right" width="150px">{{item.discount | currency: "&#8377; "}}</td>
+                <td class="text-right">{{item.total | currency: "&#8377; "}}</td>
               </tr>
             </tbody>
             <tfoot>
               <tr>
-                <td colspan="4"></td>
-                <td>{{saleTransactionDetail.sale_master.bill_total}}</td>
+                <td colspan="4">Total</td>
+                <td class="text-right font-weight-bold">{{saleTransactionDetail.sale_master.bill_total | currency: "&#8377; "}}</td>
+              </tr>
+              <tr>
+                <td colspan="3">In Words: Rupees {{getNumberToWords(saleTransactionDetail.sale_master.bill_total)}} only</td>
+                <td colspan="3">
+                  <ngx-barcode [bc-value]="saleTransactionDetail.sale_master.transaction_number" [bc-height]="30" [bc-display-value]="true"></ngx-barcode>
+                </td>
               </tr>
             </tfoot>
           </table>
         </mat-card-content>
+      </mat-card-content>
         <mat-card-actions>
-          <button mat-button>Print</button>
-          <button mat-button>Save to Excel</button>
+          <button
+            mat-stroked-button
+
+            styleSheetFile="assets/print_style/sale_bill/a4.css"
+            printSectionId="sale-printable-bill"
+            ngxPrint><mat-icon>print</mat-icon></button>
+
         </mat-card-actions>
       </mat-card>
 

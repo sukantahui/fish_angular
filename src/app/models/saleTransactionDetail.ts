@@ -13,6 +13,7 @@ export class SaleTransactionDetail{
     po: string,
     area: string,
     city: string,
+    state: string,
     pin: string                                      ,
     discount: number,
     round_off: number,

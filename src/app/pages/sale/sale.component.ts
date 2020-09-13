@@ -65,6 +65,7 @@ export class SaleComponent implements OnInit {
   public defaultValues: any;
   private finalBillAmount = 0;
   public saleVouchers: SaleVoucher[] = [];
+  public myAngularxQrCode = 'India is great';
   saleTransactionDetail: SaleTransactionDetail;
   // tslint:disable-next-line:max-line-length
   constructor(private saleService: SaleService, private customerService: CustomerService, private productService: ProductService, private storage: StorageMap , private productCategoryService: ProductCategoryService) { }
@@ -145,7 +146,10 @@ export class SaleComponent implements OnInit {
   setCurrentTab(tab: number){
     this.currentTab =  tab;
   }
-
+  getNumberToWords(num: number){
+    const converter = require('number-to-words');
+    return converter.toWords(num);
+  }
   getAmount() {
    // tslint:disable-next-line:max-line-length
     const qty = this.saleDetailForm.value.quantity;
