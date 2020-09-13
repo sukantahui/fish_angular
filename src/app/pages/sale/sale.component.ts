@@ -66,6 +66,7 @@ export class SaleComponent implements OnInit {
   private finalBillAmount = 0;
   public saleVouchers: SaleVoucher[] = [];
   public myAngularxQrCode = 'India is great';
+  public showBillDiv = false;
   saleTransactionDetail: SaleTransactionDetail;
   // tslint:disable-next-line:max-line-length
   constructor(private saleService: SaleService, private customerService: CustomerService, private productService: ProductService, private storage: StorageMap , private productCategoryService: ProductCategoryService) { }
@@ -125,7 +126,8 @@ export class SaleComponent implements OnInit {
     });
     this.saleService.getSaleDetailsByTransactionUpdateListener().subscribe((response: SaleTransactionDetail) => {
       this.saleTransactionDetail = response;
-      this.currentTab = 3;
+      // this.currentTab = 3;
+      this.showBillDiv = true;
     });
 
   }// end of ngOnIt
