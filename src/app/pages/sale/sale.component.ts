@@ -17,7 +17,7 @@ import {TransactionMaster} from '../../models/transactionMaster.model';
 import {TransactionDetail} from '../../models/transactionDetail.model';
 import Swal from 'sweetalert2';
 import {SaleVoucher} from '../../models/saleVoucher.model';
-import {SaleTransactionDetail} from "../../models/saleTransactionDetail";
+import {SaleTransactionDetail} from '../../models/saleTransactionDetail';
 
 export interface SaleContainer{
   saleMaster: SaleMaster;
@@ -44,7 +44,7 @@ export class SaleComponent implements OnInit {
   public customerList: Customer[];
   public temporaryForm: FormGroup;
   public productListByCategory: Product[] = [];
-  public currentTab: number;
+  public currentTab = 2;
   // tslint:disable-next-line:max-line-length
   public saleAmount = 0;
   // tslint:disable-next-line:max-line-length
@@ -158,6 +158,9 @@ export class SaleComponent implements OnInit {
     this.saleAmount = (qty * price) - discount;
    }
   addSale() {
+    if (this.currentTab !== 1){
+      this.currentTab = 1;
+    }
     const tempItem = this.saleDetailForm.value;
     let index = this.productList.findIndex(x => x.id === tempItem.product_id);
     tempItem.product = this.productList[index];

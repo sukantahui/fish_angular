@@ -1,7 +1,9 @@
 <div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFill id="purchase-div">
-  <div fxLayout="column" fxFlex="40" class="mr-1">
+  <div fxLayout="column" fxFlex="50" class="mr-1">
     <div id="left-details">
-      <mat-card class="ml-2 mt-2 form-mat-card" >
+
+<!--      add new sale products-->
+      <mat-card *ngIf="currentTab==1" class="ml-2 mt-2 form-mat-card" >
         <mat-card-header>
           <div mat-card-avatar class="example-header-image"></div>
           <mat-card-title>
@@ -104,18 +106,89 @@
           </div>
         </div>
       </mat-card>
+
+      <mat-card *ngIf="currentTab==3" class="example-card">
+        <mat-card-content id="sale1-printable-bill">
+          <mat-card-header>
+
+            <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+              <!--Customer list-->
+              <div fxLayout="column" fxFlex="40" class="mr-1 m-0 p-0">
+                <span class="font-weight-bold">{{saleTransactionDetail.sale_master.billing_name}}</span>
+                <span class="font-weight-bold">{{saleTransactionDetail.sale_master.state}}</span>
+                <span class="font-weight-bold">{{saleTransactionDetail.sale_master.email}}</span>
+                <span class="font-weight-bold">{{saleTransactionDetail.sale_master.address1}}</span>
+                <span class="font-weight-bold">{{saleTransactionDetail.sale_master.mobile1}}</span>
+              </div>
+              <div fxLayout="column" fxFlex="40" class="mr-1">
+                <th colspan="2">
+                  <qrcode  [qrdata]="saleTransactionDetail.sale_master.transaction_number" [width]="100" [errorCorrectionLevel]="'M'"></qrcode>
+                </th>
+              </div>
+              <div fxLayout="column" fxFlex="40" class="mr-1">
+                <span class="font-weight-bold">Bill No: &nbsp; {{saleTransactionDetail.sale_master.transaction_number}}</span>
+                <span class="font-weight-bold">Bill Date:&nbsp; {{saleTransactionDetail.sale_master.transaction_date | date : "MMMM d, y"}}</span>
+              </div>
+            </div>
+          </mat-card-header>
+          <mat-card-content>
+            <table class="table table-responsive p-0 m-0">
+              <thead>
+              <tr>
+                <th >Product Name</th>
+                <th class="text-right">Quantity</th>
+                <th class="text-right">Price</th>
+                <th class="text-right">Discount</th>
+                <th class="text-right">Total</th>
+              </tr>
+              </thead>
+              <tbody *ngFor="let item of saleTransactionDetail.sale_details">
+              <tr>
+                <td>{{item.product_name}}</td>
+                <td class="text-right">{{item.quantity}}</td>
+                <td class="text-right">{{item.price | currency:"&#8377; "}}</td>
+                <td class="text-right">{{item.discount | currency: "&#8377; "}}</td>
+                <td class="text-right">{{item.total | currency: "&#8377; "}}</td>
+              </tr>
+              </tbody>
+              <tfoot>
+              <tr>
+                <td colspan="4">Total</td>
+                <td class="text-right font-weight-bold">{{saleTransactionDetail.sale_master.bill_total | currency: "&#8377; "}}</td>
+              </tr>
+              <tr>
+                <td colspan="3">In Words: Rupees {{getNumberToWords(saleTransactionDetail.sale_master.bill_total)}} only</td>
+                <td colspan="3">
+                  <ngx-barcode [bc-value]="saleTransactionDetail.sale_master.transaction_number" [bc-height]="30" [bc-display-value]="true"></ngx-barcode>
+                </td>
+              </tr>
+              </tfoot>
+            </table>
+          </mat-card-content>
+        </mat-card-content>
+        <mat-card-actions>
+          <button
+            mat-stroked-button
+
+            styleSheetFile="assets/print_style/sale_bill/a4.css"
+            printSectionId="sale-printable-bill"
+            ngxPrint><mat-icon>print</mat-icon></button>
+
+        </mat-card-actions>
+      </mat-card>
+
     </div>
   </div>
-  <div fxLayout="column" fxFlex="60" class="mr-1" id="right-div">
+  <div fxLayout="column" fxFlex="50" class="mr-1" id="right-div">
     <mat-card class="example-card">
 
       <mat-card-header>
         <div mat-card-avatar class="example-header-image"></div>
         <mat-card-title>
           <div>
-            <button mat-button (click)="setCurrentTab(1)"  mat-stroked-button>Sale Details</button>
+            <button mat-button (click)="setCurrentTab(1)"  mat-stroked-button>New Sale</button>
             <button mat-button (click)="setCurrentTab(2)"  mat-stroked-button>Sale List</button>
-            <button mat-button (click)="setCurrentTab(3)"  mat-stroked-button>Sale Bill</button>
+            <button mat-button (click)="setCurrentTab(3)"  mat-stroked-button>Show Bill</button>
           </div>
         </mat-card-title>
       </mat-card-header>
