@@ -36,7 +36,7 @@ export class AuthComponent implements OnInit {
         this.isLoading = false;
         // tslint:disable-next-line:triple-equals
         if (response.user.person_type_id == 1){
-          this.router.navigate(['/owner']);
+          this.router.navigate(['/owner']).then(r => {});
         }
       }else{
         alert('Check user id or Password');

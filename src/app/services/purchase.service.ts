@@ -16,6 +16,7 @@ import {formatDate} from '@angular/common';
 import {Product} from '../models/product.model';
 import {PurchaseVoucher} from '../models/purchaseVoucher.model';
 import {PurchaseTransactionDetail} from '../models/purchaseTransactionDetail';
+import {Router} from '@angular/router';
 
 
 @Injectable({
@@ -36,19 +37,19 @@ export class PurchaseService {
   purchaseTransactionDetail: PurchaseTransactionDetail = null;
   purchaseTransactionDetailObjectSubject = new Subject<any>();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     this.http.get(GlobalVariable.BASE_API_URL + '/productCategories')
-      .subscribe((response: {success: number, data: ProductCategory[]}) => {
+      .pipe(catchError(this.handleError), tap((response: {success: number, data: ProductCategory[]}) => {
         const {data} = response;
         this.productCategoryList = data;
         this.productCategorySubject.next([...this.productCategoryList]);
-      });
+      })).subscribe();
     this.http.get(GlobalVariable.BASE_API_URL + '/purchases')
-      .subscribe((response: {success: number, data: PurchaseVoucher[]}) => {
+      .pipe(catchError(this.handleError), tap((response: {success: number, data: PurchaseVoucher[]}) => {
         const {data} = response;
         this.purchaseVouchers = data;
         this.purchaseVoucherSubject.next([...this.purchaseVouchers]);
-      });
+      })).subscribe();
 
     this.userData = JSON.parse(localStorage.getItem('user'));
     if (!this.userData){
@@ -133,7 +134,6 @@ export class PurchaseService {
         transaction_details: transactionDetails
       })
       .pipe(catchError(this.handleError), tap((response: {success: number, data: PurchaseVoucher}) => {
-        console.log(response.data);
         this.purchaseVouchers.unshift(response.data);
         // this.vendorList.unshift(response.data);
         this.purchaseVoucherSubject.next([...this.purchaseVouchers]);
@@ -150,7 +150,6 @@ export class PurchaseService {
 
 
   fillFormByUpdatebaleData(formData){
-    console.log('te4sting onke');
     this.purchaseMasterForm.setValue({
       id: null,
       discount: 340,
@@ -161,6 +160,17 @@ export class PurchaseService {
   }
 
   private handleError(errorResponse: HttpErrorResponse){
+    // when your api server is not working
+    if (errorResponse.status === 0){
+      alert('your API is not working');
+    }
+    if (errorResponse.status === 401){
+      alert(errorResponse.error.message);
+      // this.router.navigate(['/auth']).then();
+      this.router.navigate(['/owner']).then(r => {console.log(r); });
+      location.reload();
+    }
+
     if (errorResponse.error.message.includes('1062')){
       return throwError({success: 0, status: 'failed', message: 'Record already exists', statusText: ''});
     }else if (errorResponse.error.message.includes('1451')){
