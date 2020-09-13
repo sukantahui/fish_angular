@@ -38,6 +38,13 @@ export class PurchaseService {
   purchaseTransactionDetailObjectSubject = new Subject<any>();
 
   constructor(private http: HttpClient, private router: Router) {
+
+    this.http.get(GlobalVariable.BASE_API_URL + '/me')
+      .pipe(catchError(this.handleError), tap((response: any) => {
+          console.log('checking authentication');
+          console.log(response);
+      })).subscribe();
+
     this.http.get(GlobalVariable.BASE_API_URL + '/productCategories')
       .pipe(catchError(this.handleError), tap((response: {success: number, data: ProductCategory[]}) => {
         const {data} = response;
