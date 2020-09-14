@@ -44,7 +44,7 @@ export class SaleComponent implements OnInit {
   public customerList: Customer[];
   public temporaryForm: FormGroup;
   public productListByCategory: Product[] = [];
-  public currentTab = 2;
+  public currentTab = 1;
   // tslint:disable-next-line:max-line-length
   public saleAmount = 0;
   // tslint:disable-next-line:max-line-length
@@ -108,6 +108,8 @@ export class SaleComponent implements OnInit {
         this.transactionMaster = this.saleContainer.transactionMaster;
         this.transactionDetails = this.saleContainer.transactionDetails;
         this.totalSaleAmount = this.saleContainer.totalSaleAmount;
+
+        this.transactionDetailForm.reset(this.saleContainer.transactionDetails[0]);
       }else{
         this.saleDetails = [];
         this.transactionDetails = [];
@@ -117,12 +119,13 @@ export class SaleComponent implements OnInit {
       saleMasterForm : this.saleService.saleMasterForm.value,
       saleDetailsForm : this.saleService.saleDetailForm.value,
       transactionMasterForm : this.saleService.transactionMasterForm.value,
-      transactionDetailsForm : this.saleService.transactionDetailForm.value
+      transactionDetailsForm : this.saleService.transactionDetailForm.value,
+      temporaryForm: this.temporaryForm.value
     };
 
     this.saleVouchers = this.saleService.getSaleVoucherList();
     this.saleService.getSaleVoucherUpdateListener().subscribe((response: SaleVoucher[]) => {
-
+        this.saleVouchers = response;
     });
     this.saleService.getSaleDetailsByTransactionUpdateListener().subscribe((response: SaleTransactionDetail) => {
       this.saleTransactionDetail = response;
@@ -193,6 +196,7 @@ export class SaleComponent implements OnInit {
     this.saleContainer = {saleMaster: this.saleMaster, saleDetails: this.saleDetails, transactionMaster: this.transactionMaster,
       transactionDetails: this.transactionDetails, totalSaleAmount: this.totalSaleAmount};
     this.storage.set('saleContainer', this.saleContainer).subscribe(() => {});
+    this.clearForm();
   }
 
   isValidSaleForm() {
@@ -203,7 +207,10 @@ export class SaleComponent implements OnInit {
   }
 
   clearForm() {
-    this.storage.delete('saleContainer').subscribe(() => {});
+    // this.storage.delete('saleContainer').subscribe(() => {});
+    this.saleDetailForm.reset(this.defaultValues.saleDetailsForm);
+    this.temporaryForm.reset(this.defaultValues.temporaryForm);
+    this.saleAmount = 0;
   }
 
   getBackgroundColor(indexOfElement: number) {
@@ -248,8 +255,8 @@ export class SaleComponent implements OnInit {
               showConfirmButton: false,
               timer: 3000
             });
-            // this.storage.clear().subscribe(() => {});
-            this.clearForm();
+            this.currentTab = 2;
+            this.storage.delete('saleContainer').subscribe(() => {});
             this.saleDetails = [];
             this.transactionDetails = [];
             this.totalSaleAmount = 0;
@@ -288,4 +295,30 @@ export class SaleComponent implements OnInit {
     }, (error) => {});
 
   }
+
+    cancelSaleDetails() {
+      Swal.fire({
+        title: 'Confirmation',
+        text: 'Do you sure to delete all entry?',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, Delete all!'
+      }).then((result) => {
+        if (result.value) {
+          this.storage.delete('saleContainer').subscribe(() => {
+          });
+          this.transactionMaster = null;
+          this.transactionDetails = [];
+          this.saleMaster = null;
+          this.saleDetails = [];
+          this.saleContainer = null;
+          this.transactionMasterForm.reset(this.defaultValues.transactionMasterForm);
+          this.transactionDetailForm.reset(this.defaultValues.transactionMasterForm);
+          this.saleContainer = null;
+          this.totalSaleAmount = 0;
+        }
+      });
+    }
 }

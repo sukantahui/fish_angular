@@ -371,8 +371,8 @@ export class PurchaseComponent implements OnInit {
     this.purchaseMaster = null;
     this.purchaseDetails = [];
     this.purchaseContainer = null;
-    this.transactionMasterForm.setValue(this.defaultValues.transactionMasterForm);
-    this.transactionDetailForm.setValue(this.defaultValues.transactionMasterForm);
+    this.transactionMasterForm.reset(this.defaultValues.transactionMasterForm);
+    this.transactionDetailForm.reset(this.defaultValues.transactionMasterForm);
     this.purchaseContainer = null;
 
     this.totalPurchaseAmount = 0;

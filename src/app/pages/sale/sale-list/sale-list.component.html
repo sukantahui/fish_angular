@@ -12,7 +12,7 @@
   </tr>
   </thead>
   <tbody>
-  <tr  *ngFor="let item of saleVouchers ;let indexOfelement = index;">
+  <tr  *ngFor="let item of saleVouchers | paginate: { itemsPerPage: pageSize, currentPage: p };let indexOfelement = index;">
 
     <td class="text-left" >{{indexOfelement+1}}</td>
     <td class="text-left" >{{item.formatted_transaction_date}}</td>
@@ -29,4 +29,20 @@
   </tr>
   </tfoot>
 </table>
-
+<div fxLayout.xs="column" fxLayout="column" fxFlexFill>
+  <!--    https://www.npmjs.com/package/ngx-pagination-->
+  <!--    npm i ngx-pagination-->
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  <pagination-controls  id="some_id"
+                        (pageChange)="p=($event)"
+                        maxSize="5"
+                        directionLinks="true"
+                        autoHide="true"
+                        responsive="true"
+                        previousLabel="Previous"
+                        nextLabel="Next"
+                        screenReaderPaginationLabel="Pagination"
+                        screenReaderPageLabel="page"
+                        screenReaderCurrentLabel="You're on page">
+  </pagination-controls>
+</div>

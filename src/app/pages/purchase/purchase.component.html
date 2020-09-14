@@ -98,8 +98,8 @@
             </div>
           </form>
           <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end" fxLayoutGap="10px" fxLayoutGap.xs="0" >
-            <button mat-button (click)="addPurchase()" [disabled]="!isValidPurchasedForm()"  mat-stroked-button>{{editableItemIndex === -1? "Add": "Update"}}</button>
             <button mat-button (click)="clearForm()"  mat-stroked-button>Clear</button>
+            <button mat-button (click)="addPurchase()" [disabled]="!isValidPurchasedForm()"  mat-stroked-button>{{editableItemIndex === -1? "Add": "Update"}}</button>
           </div>
         </div>
       </mat-card>

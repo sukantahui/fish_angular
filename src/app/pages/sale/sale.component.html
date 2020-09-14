@@ -194,7 +194,7 @@
 
       <mat-card-content *ngIf="isCurrentTab(1)" id="sale-detail-area">
         <!--      Transaction number-->
-        <table class="table" id="sale-table" *ngIf="saleMaster">
+        <table class="table" id="sale-table" *ngIf="saleDetails.length">
           <thead>
           <tr>
             <th class="w-5">SL.</th>
@@ -258,9 +258,10 @@
           </tfoot>
         </table>
         <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutGap="10px" fxLayoutGap.xs="0" >
-          <!--        <button mat-button (click)="cancelPurchaseDetails()"   mat-stroked-button>Delete all</button>-->
-          <button *ngIf="saleDetails.length" mat-button (click)="saveSale()" [disabled]="false"  mat-stroked-button>Save Sale</button>
+          <button *ngIf="saleDetails.length" mat-button (click)="cancelSaleDetails()"   mat-button color="warn">Delete all</button>
+          <button *ngIf="saleDetails.length" mat-button (click)="saveSale()" [disabled]="false"  mat-button color="primary">Save Sale</button>
         </div>
+
         </mat-card-content>
       </mat-card>
 

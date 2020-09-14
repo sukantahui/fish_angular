@@ -94,7 +94,6 @@ export class SaleService {
         transaction_details: transactionDetails
       })
       .pipe(catchError(this.handleError), tap((response: {success: number, data: SaleVoucher}) => {
-        console.log(response.data);
         this.saleVouchers.unshift(response.data);
         // this.vendorList.unshift(response.data);
         this.saleVoucherSubject.next([...this.saleVouchers]);

@@ -15,6 +15,9 @@ import {SaleTransactionDetail} from '../../../models/saleTransactionDetail';
 export class SaleListComponent implements OnInit {
   saleVouchers: SaleVoucher[] = [];
   private saleTransactionDetail: SaleTransactionDetail;
+  p = 1;
+  page: number;
+  pageSize = 5;
   constructor(private saleService: SaleService) { }
 
   ngOnInit(): void {
