@@ -18,6 +18,7 @@ import {TransactionDetail} from '../../models/transactionDetail.model';
 import Swal from 'sweetalert2';
 import {SaleVoucher} from '../../models/saleVoucher.model';
 import {SaleTransactionDetail} from '../../models/saleTransactionDetail';
+import {PurchaseDetail} from '../../models/purchaseDetail.model';
 
 export interface SaleContainer{
   saleMaster: SaleMaster;
@@ -225,10 +226,51 @@ export class SaleComponent implements OnInit {
 
   }
 
+
   deleteCurrentItem(item: SaleDetail) {
-
+    Swal.fire({
+      title: 'Confirmation',
+      text: 'Do you sure to delete ' + item.product.product_name,
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Delete It!'
+    }).then((result) => {
+      // if selected yes
+      if (result.value) {
+        console.log('Item will be deleted');
+        // tslint:disable-next-line:triple-equals
+        let index = this.saleDetails.findIndex(x => x === item);
+        this.saleDetails.splice(index, 1);
+        this.storage.get('saleContainer').subscribe((saleContainer: SaleContainer) => {
+          if (saleContainer){
+            console.log(saleContainer);
+            this.saleContainer = saleContainer;
+            this.saleMaster = this.saleContainer.saleMaster;
+            index = this.saleContainer.saleDetails.findIndex(x => x.product_id === item.product_id && x.quantity === item.quantity);
+            // console.log('Sales details', this.saleContainer.saleDetails);
+            // console.log('Sales item', item);
+            // console.log('Sales index', index);
+            this.totalSaleAmount = this.saleDetails.reduce( (total, record) => {
+              return total + (record.price * record.quantity - record.discount);
+            }, 0);
+            console.log(this.totalSaleAmount - this.saleMasterForm.value.discount + this.saleMasterForm.value.round_off);
+            const round =  Math.round(this.totalSaleAmount) - this.totalSaleAmount;
+            this.saleMasterForm.patchValue({round_off : round.toFixed(2)});
+            this.saleMaster = this.saleMasterForm.value;
+            this.saleContainer.saleMaster = this.saleMaster;
+            this.saleContainer.totalSaleAmount = this.totalSaleAmount;
+            this.saleContainer.saleDetails.splice(index, 1);
+            this.storage.set('saleContainer', this.saleContainer).subscribe(() => {});
+            console.log('sale container', this.saleContainer.saleDetails);
+          }
+        }, (error) => {});
+      }else{
+        console.log('Item will not be deleted');
+      }
+    });
   }
-
 
   saveSale() {
     // sale will be saved from here
