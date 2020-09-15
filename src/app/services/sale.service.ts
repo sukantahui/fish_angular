@@ -57,7 +57,7 @@ export class SaleService {
     });
     this.saleDetailForm = new FormGroup({
       id: new FormControl(null),
-      purchase_master_id: new FormControl(null),
+      sale_master_id: new FormControl(null),
       product_id: new FormControl(null, [Validators.required]),
       unit_id: new FormControl(3, [Validators.required]),
       quantity: new FormControl(null, [Validators.required]),

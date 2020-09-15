@@ -49,7 +49,7 @@ export class SaleComponent implements OnInit {
   // tslint:disable-next-line:max-line-length
   public saleAmount = 0;
   // tslint:disable-next-line:max-line-length
-  public editableItemIndex: -1;
+  public editableItemIndex = -1;
   // tslint:disable-next-line:max-line-length
   public saleMaster: SaleMaster;
     // tslint:disable-next-line:max-line-length
@@ -70,6 +70,7 @@ export class SaleComponent implements OnInit {
   public showBillDiv = false;
   saleTransactionDetail: SaleTransactionDetail;
   // tslint:disable-next-line:max-line-length
+  public editableSaleItemIndex: number;
   constructor(private saleService: SaleService, private customerService: CustomerService, private productService: ProductService, private storage: StorageMap , private productCategoryService: ProductCategoryService) { }
 
   ngOnInit(): void {
@@ -171,7 +172,12 @@ export class SaleComponent implements OnInit {
     tempItem.product = this.productList[index];
     index = this.unitList.findIndex(x => x.id === tempItem.unit_id);
     tempItem.unit = this.unitList[index];
-    this.saleDetails.push(tempItem);
+    if (this.editableItemIndex === -1){
+      this.saleDetails.push(tempItem);
+    }else{
+      this.saleDetails[this.editableItemIndex] = tempItem;
+      this.editableItemIndex = -1;
+    }
     this.totalSaleAmount = this.saleDetails.reduce( (total, record) => {
       // @ts-ignore
       return total + ((record.price * record.quantity) - record.discount);
@@ -197,6 +203,7 @@ export class SaleComponent implements OnInit {
       transactionDetails: this.transactionDetails, totalSaleAmount: this.totalSaleAmount};
     this.storage.set('saleContainer', this.saleContainer).subscribe(() => {});
     this.clearForm();
+    this.editableItemIndex = -1;
   }
 
   isValidSaleForm() {
@@ -217,14 +224,20 @@ export class SaleComponent implements OnInit {
 
   }
 
-  editCurrentItem(item: SaleDetail) {
-
-  }
-
   cancelEditCurrentItem(item: SaleDetail) {
 
   }
-
+  editCurrentItem(item: SaleDetail) {
+    console.log('Items', item);
+    this.editableSaleItemIndex = this.saleDetails.findIndex(x => x === item);
+    console.log('Index', this.editableSaleItemIndex);
+    this.editableItemIndex = this.editableSaleItemIndex;
+    this.saleDetailForm.setValue({id: item.id, sale_master_id: item. sale_master_id,
+    product_id: item.product_id , unit_id: item.unit_id, quantity: item.quantity, price: item.price, discount: item.discount});
+    this.temporaryForm.setValue({product_category_id: item.product.product_category_id});
+    this.productListByCategory = this.productList.filter(x => x.product_category_id === item.product.product_category_id);
+    this.getAmount();
+  }
 
   deleteCurrentItem(item: SaleDetail) {
     Swal.fire({
@@ -251,6 +264,10 @@ export class SaleComponent implements OnInit {
             }, 0);
             const round =  Math.round(this.totalSaleAmount) - this.totalSaleAmount;
             this.saleMasterForm.patchValue({round_off : parseFloat(round.toFixed(2))});
+            this.finalBillAmount = parseFloat((this.totalSaleAmount - this.saleMaster.discount + this.saleMaster.round_off).toFixed(2));
+            this.transactionDetailForm.patchValue({amount: this.finalBillAmount});
+            this.transactionDetails[0].amount = this.finalBillAmount;
+            this.transactionDetails[1].amount = this.finalBillAmount;
             this.saleMaster = this.saleMasterForm.value;
             this.saleContainer.saleMaster = this.saleMaster;
             this.saleContainer.totalSaleAmount = this.totalSaleAmount;
