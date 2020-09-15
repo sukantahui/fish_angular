@@ -102,7 +102,6 @@ export class SaleComponent implements OnInit {
     // get saleMaster from storageMap
     this.storage.get('saleContainer').subscribe((saleContainer: SaleContainer) => {
       if (saleContainer){
-        console.log(saleContainer);
         this.saleContainer = saleContainer;
         this.saleMaster = this.saleContainer.saleMaster;
         this.saleDetails = this.saleContainer.saleDetails;
@@ -239,31 +238,24 @@ export class SaleComponent implements OnInit {
     }).then((result) => {
       // if selected yes
       if (result.value) {
-        console.log('Item will be deleted');
         // tslint:disable-next-line:triple-equals
         let index = this.saleDetails.findIndex(x => x === item);
         this.saleDetails.splice(index, 1);
         this.storage.get('saleContainer').subscribe((saleContainer: SaleContainer) => {
           if (saleContainer){
-            console.log(saleContainer);
             this.saleContainer = saleContainer;
             this.saleMaster = this.saleContainer.saleMaster;
             index = this.saleContainer.saleDetails.findIndex(x => x.product_id === item.product_id && x.quantity === item.quantity);
-            // console.log('Sales details', this.saleContainer.saleDetails);
-            // console.log('Sales item', item);
-            // console.log('Sales index', index);
             this.totalSaleAmount = this.saleDetails.reduce( (total, record) => {
               return total + (record.price * record.quantity - record.discount);
             }, 0);
-            console.log(this.totalSaleAmount - this.saleMasterForm.value.discount + this.saleMasterForm.value.round_off);
             const round =  Math.round(this.totalSaleAmount) - this.totalSaleAmount;
-            this.saleMasterForm.patchValue({round_off : round.toFixed(2)});
+            this.saleMasterForm.patchValue({round_off : parseFloat(round.toFixed(2))});
             this.saleMaster = this.saleMasterForm.value;
             this.saleContainer.saleMaster = this.saleMaster;
             this.saleContainer.totalSaleAmount = this.totalSaleAmount;
             this.saleContainer.saleDetails.splice(index, 1);
             this.storage.set('saleContainer', this.saleContainer).subscribe(() => {});
-            console.log('sale container', this.saleContainer.saleDetails);
           }
         }, (error) => {});
       }else{
