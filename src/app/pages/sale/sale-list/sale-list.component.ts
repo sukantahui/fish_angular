@@ -18,6 +18,8 @@ export class SaleListComponent implements OnInit {
   p = 1;
   page: number;
   pageSize = 5;
+  searchTerm: any;
+  counter: number;
   constructor(private saleService: SaleService) { }
 
   ngOnInit(): void {

@@ -1,5 +1,27 @@
 
+<mat-card class="bg-light">
+  <h1>Sale List</h1>
+  <form class="example-form">
+    <div class="container" fxLayout fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="30px" fxLayoutGap.xs="0">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Search..." [(ngModel)]="searchTerm" name="search" type="text" autofocus>
+      </mat-form-field>
 
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Items per page" [(ngModel)]="pageSize" name="PageSize" type="text">
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Choose a date</mat-label>
+        <input matInput [matDatepicker]="picker">
+        <mat-datepicker-toggle matSuffix [for]="picker">
+          <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </form>
+  <mat-card-content>
 <table class="table" id="sale-list-table">
   <thead>
   <tr>
@@ -12,7 +34,7 @@
   </tr>
   </thead>
   <tbody>
-  <tr  *ngFor="let item of saleVouchers | paginate: { itemsPerPage: pageSize, currentPage: p };let indexOfelement = index;">
+  <tr  *ngFor="let item of saleVouchers | paginate: { itemsPerPage: pageSize, currentPage: p };let indexOfelement =index;">
 
     <td class="text-left" >{{indexOfelement+1}}</td>
     <td class="text-left" >{{item.formatted_transaction_date}}</td>
@@ -32,7 +54,7 @@
 <div fxLayout.xs="column" fxLayout="column" fxFlexFill>
   <!--    https://www.npmjs.com/package/ngx-pagination-->
   <!--    npm i ngx-pagination-->
-  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  <pagination-controls (pageChange)="p = $event; counter=p"></pagination-controls>
   <pagination-controls  id="some_id"
                         (pageChange)="p=($event)"
                         maxSize="5"
@@ -46,3 +68,5 @@
                         screenReaderCurrentLabel="You're on page">
   </pagination-controls>
 </div>
+  </mat-card-content>
+</mat-card>

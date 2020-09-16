@@ -71,6 +71,8 @@ export class SaleComponent implements OnInit {
   saleTransactionDetail: SaleTransactionDetail;
   // tslint:disable-next-line:max-line-length
   public editableSaleItemIndex: number;
+  public leftDiv = 40;
+  public rightDiv = 60;
   constructor(private saleService: SaleService, private customerService: CustomerService, private productService: ProductService, private storage: StorageMap , private productCategoryService: ProductCategoryService) { }
 
   ngOnInit(): void {
@@ -151,6 +153,12 @@ export class SaleComponent implements OnInit {
   }
   setCurrentTab(tab: number){
     this.currentTab =  tab;
+    if (this.currentTab === 1){
+      this.leftDiv = 45;
+    }else if (this.currentTab === 2){
+      this.leftDiv = 55;
+    }
+    this.rightDiv = 100 - this.leftDiv;
   }
   getNumberToWords(num: number){
     const converter = require('number-to-words');
@@ -264,10 +272,14 @@ export class SaleComponent implements OnInit {
             }, 0);
             const round =  Math.round(this.totalSaleAmount) - this.totalSaleAmount;
             this.saleMasterForm.patchValue({round_off : parseFloat(round.toFixed(2))});
-            this.finalBillAmount = parseFloat((this.totalSaleAmount - this.saleMaster.discount + this.saleMaster.round_off).toFixed(2));
-            this.transactionDetailForm.patchValue({amount: this.finalBillAmount});
-            this.transactionDetails[0].amount = this.finalBillAmount;
+            this.saleMaster.discount = this.saleMasterForm.value.discount;
+            this.finalBillAmount = (this.totalSaleAmount - this.saleMaster.discount + this.saleMaster.round_off);
             this.transactionDetails[1].amount = this.finalBillAmount;
+            this.transactionDetails[0].amount = this.finalBillAmount;
+            this.transactionDetailForm.reset(this.transactionDetails[0]);
+            this.saleContainer.transactionDetails = this.transactionDetails;
+            this.storage.set('saleContainer', this.saleContainer).subscribe(() => {});
+            this.transactionDetailForm.patchValue({amount: this.finalBillAmount});
             this.saleMaster = this.saleMasterForm.value;
             this.saleContainer.saleMaster = this.saleMaster;
             this.saleContainer.totalSaleAmount = this.totalSaleAmount;

@@ -1,5 +1,5 @@
 <div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFill id="purchase-div">
-  <div fxLayout="column" fxFlex="40" class="mr-1">
+  <div fxLayout="column" fxFlex="{{leftDiv}}" class="mr-1">
     <div id="left-details">
 
 <!--      add new sale products-->
@@ -179,7 +179,7 @@
 
     </div>
   </div>
-  <div fxLayout="column" fxFlex="60" class="mr-1" id="right-div">
+  <div fxLayout="column" fxFlex="{{rightDiv}}" class="mr-1" id="right-div">
     <mat-card class="example-card">
 
       <mat-card-header>
@@ -266,7 +266,6 @@
       </mat-card>
 
     <mat-card-content *ngIf="isCurrentTab(2)" id="sale-list-area">
-      <h1>Sale List</h1>
       <app-sale-list></app-sale-list>
     </mat-card-content>
   </div>
