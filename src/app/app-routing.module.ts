@@ -9,6 +9,7 @@ import {OwnerComponent} from './pages/owner/owner.component';
 import {VendorComponent} from './pages/vendor/vendor.component';
 import {PurchaseComponent} from './pages/purchase/purchase.component';
 import {SaleComponent} from './pages/sale/sale.component';
+import {PaymentComponent} from './pages/payment/payment.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -18,7 +19,8 @@ const routes: Routes = [
   {path: 'auth', component: AuthComponent},
   {path: 'owner', canActivate:  [AuthGuardService], component: OwnerComponent},
   {path: 'purchase', canActivate:  [AuthGuardService], component: PurchaseComponent},
-  {path: 'sale', canActivate:  [AuthGuardService], component: SaleComponent}
+  {path: 'sale', canActivate:  [AuthGuardService], component: SaleComponent},
+  {path: 'payment', canActivate:  [AuthGuardService], component: PaymentComponent}
 ];
 
 @NgModule({

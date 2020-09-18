@@ -47,6 +47,7 @@ import {NgxBarcodeModule} from 'ngx-barcode';
 import { SaleComponent } from './pages/sale/sale.component';
 import { SaleListComponent } from './pages/sale/sale-list/sale-list.component';
 import { FooterComponent } from './pages/footer/footer.component';
+import { PaymentComponent } from './pages/payment/payment.component';
 
 
 @NgModule({
@@ -72,7 +73,8 @@ import { FooterComponent } from './pages/footer/footer.component';
     PurchaseListComponent,
     SaleComponent,
     SaleListComponent,
-    FooterComponent
+    FooterComponent,
+    PaymentComponent
   ],
   imports: [
     BrowserModule,
