@@ -1,0 +1,116 @@
+<div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch" fxFlexFill id="payment-div">
+  <div fxLayout="column" fxFlex="40" class="mr-1">
+    <div id="left-details">
+
+      <!--      add new sale products-->
+      <mat-card class="ml-2 mt-2 form-mat-card" >
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image"></div>
+          <mat-card-title>
+            <div fxLayout="row" fxLayoutAlign="end center" fxFlexFill>
+              Payment Entry
+            </div>
+          </mat-card-title>
+        </mat-card-header>
+        <div class="form-container">
+          <form [formGroup] = transactionMasterForm>
+            <div class="container" fxLayout="column" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+              <!--Transaction Date and Transaction Number-->
+              <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+                <!--Transaction Date-->
+                <mat-form-field class="example-full-width" fxFlex="40">
+                  <mat-label>Choose a date</mat-label>
+                  <input matInput [matDatepicker]="picker" (dateChange)="handleTransactionMasterDateChange($event)" formControlName="transaction_date" >
+                  <mat-datepicker-toggle matSuffix [for]="picker">
+                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #picker ></mat-datepicker>
+                </mat-form-field>
+                <!--Transaction Number or Bill Number-->
+                <mat-form-field fxFlex="40" *ngIf="false">
+                  <input matInput placeholder="Invoice" formControlName="transaction_number">
+                </mat-form-field>
+              </div>
+            </div>
+          </form>
+          <form [formGroup] = transactionDetailForm>
+            <div class="container" fxLayout="column" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+              <!--Transaction Date and Transaction Number-->
+              <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+                <!--Customer list-->
+                <mat-form-field fxFlex="80">
+                  <mat-label>Customer Name</mat-label>
+                  <mat-select  formControlName="ledger_id">
+                    <mat-option *ngFor="let vendor of vendorList" [value]="vendor.id">
+                      {{vendor.ledger_name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </form>
+          <!--        sale details form-->
+
+
+
+        </div>
+      </mat-card>
+
+
+
+    </div>
+  </div>
+  <div fxLayout="column" fxFlex="60" class="mr-1" id="right-div">
+    <mat-card class="example-card">
+
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>
+          <div>
+            <button mat-button (click)="setCurrentTab(1);showBillDiv=false"  mat-stroked-button>New Sale</button>
+            <button mat-button (click)="setCurrentTab(2)"  mat-stroked-button>Sale List</button>
+          </div>
+        </mat-card-title>
+      </mat-card-header>
+
+
+    </mat-card>
+
+
+  </div>
+</div>
+
+<!--This is developer div-->
+<div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch"  id="developer-div" *ngIf="true" >
+  <div fxLayout="column" fxFlex="25" class="mr-1">
+      <pre>
+        transactionMasterForm = {{transactionMasterForm.valid}}
+        transactionMasterForm={{transactionMasterForm.value | json}}
+        transactionMaster={{transactionMaster | json}}
+
+      </pre>
+  </div>
+  <div fxLayout="column" fxFlex="25" class="mr-1">
+          <pre>
+            transactionDetailForm={{transactionDetailForm.valid}}
+            transactionDetailForm={{transactionDetailForm.value | json}}
+            transactionDetails={{transactionDetails | json}}
+          </pre>
+  </div>
+  <div fxLayout="column" fxFlex="25" class="mr-1">
+          <pre>
+            saleMasterForm={{saleMasterForm.valid}}
+            saleMasterForm={{saleMasterForm.value | json}}
+            saleMaster={{saleMaster | json}}
+          </pre>
+  </div>
+  <div fxLayout="column" fxFlex="25" class="mr-1">
+          <pre>
+            saleDetailForm={{saleDetailForm.valid}}
+            saleDetailForm={{saleDetailForm.value | json}}
+            saleDetails={{saleDetails | json}}
+          </pre>
+  </div>
+
+</div>
+
