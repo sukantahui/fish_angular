@@ -8,6 +8,8 @@ import {PaymentService} from '../../services/payment.service';
 import Swal from 'sweetalert2';
 import {TransactionMaster} from '../../models/transactionMaster.model';
 import {TransactionDetail} from '../../models/transactionDetail.model';
+import {Ledger} from '../../models/ledger.model';
+
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
@@ -17,6 +19,7 @@ export class PaymentComponent implements OnInit {
   transactionMasterForm: FormGroup;
   transactionDetailForm: FormGroup;
   vendorList: Vendor[] = [];
+  ledgerList: Ledger[] = [];
   transactionMaster: TransactionMaster;
   transactionDetails: TransactionDetail[] = [];
   paymentContainer: {tm: TransactionMaster, td: TransactionDetail[]};
@@ -26,6 +29,11 @@ export class PaymentComponent implements OnInit {
     this.vendorList = this.vendorService.getVendorList();
     this.vendorService.getVendorUpdateListener().subscribe(response => {
       this.vendorList = response;
+    });
+    this.ledgerList = this.paymentService.getLedgerList();
+    console.log(this.ledgerList);
+    this.paymentService.getLedgerUpdateListener().subscribe( response => {
+      this.ledgerList = response;
     });
   }
 
@@ -63,14 +71,6 @@ export class PaymentComponent implements OnInit {
               showConfirmButton: false,
               timer: 3000
             });
-            this.storage.clear().subscribe(() => {});
-            this.purchaseDetails = [];
-            this.totalPurchaseAmount = 0;
-            this.purchaseMasterForm.reset(this.defaultValues.purchaseMasterForm);
-            this.purchaseDetailForm.reset(this.defaultValues.purchaseDetailsForm);
-            this.transactionMasterForm.reset(this.defaultValues.transactionMasterForm);
-            this.transactionDetailForm.reset(this.defaultValues.transactionDetailsForm);
-            this.currentTab = 2;
           }
         }, (error) => {
           Swal.fire({

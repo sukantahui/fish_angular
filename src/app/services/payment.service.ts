@@ -8,8 +8,12 @@ import {TransactionMaster} from '../models/transactionMaster.model';
 import {TransactionDetail} from '../models/transactionDetail.model';
 import {PurchaseVoucher} from '../models/purchaseVoucher.model';
 import {catchError, tap} from 'rxjs/operators';
-import {throwError} from 'rxjs';
+import {Subject, throwError} from 'rxjs';
 import {Router} from '@angular/router';
+import {Ledger} from '../models/ledger.model';
+import {ProductCategory} from '../models/productCategory.model';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -18,11 +22,20 @@ export class PaymentService {
   transactionMasterForm: FormGroup;
   transactionDetailForm: FormGroup;
   public userData: {id: number, personName: string, _authKey: string, personTypeId: number};
+  public ledgerList: Ledger[] = [];
+  public ledgerListSubject = new Subject<Ledger[]>();
   constructor(private http: HttpClient, private router: Router) {
     this.userData = JSON.parse(localStorage.getItem('user'));
     if (!this.userData){
       return;
     }
+    this.http.get('http://127.0.0.1:8000/api/cashLedgers')
+      .subscribe((response: {success: number, data: Ledger[]}) => {
+        const {data} = response;
+        this.ledgerList = data;
+        this.ledgerListSubject.next([...this.ledgerList]);
+        console.log(this.ledgerList);
+      });
     const now = new Date();
     const val = formatDate(now, 'yyyy-MM-dd', 'en');
     this.transactionMasterForm = new FormGroup({
@@ -62,6 +75,12 @@ export class PaymentService {
       return throwError(errorResponse.error.message);
     }
   }
+  getLedgerUpdateListener(){
+    return this.ledgerListSubject.asObservable();
+  }
+  getLedgerList(){
+    return [...this.ledgerList];
+  }
   savePayment(transactionMaster: TransactionMaster, transactionDetails: TransactionDetail[]) {
     // tslint:disable-next-line:max-line-length
     return this.http.post<{ success: number, data: PurchaseVoucher }>('http://127.0.0.1:8000/api/payment',
@@ -69,7 +88,7 @@ export class PaymentService {
         transaction_master: transactionMaster,
         transaction_details: transactionDetails
       })
-      .pipe(catchError(this.handleError), tap((response: {success: number, data: PaymentVoucher}) => {
+      .pipe(catchError(this.handleError), tap((response: {success: number}) => {
       }));
   }
 
