@@ -26,10 +26,6 @@
                   </mat-datepicker-toggle>
                   <mat-datepicker #picker ></mat-datepicker>
                 </mat-form-field>
-                <!--Transaction Number or Bill Number-->
-                <mat-form-field fxFlex="40" *ngIf="false">
-                  <input matInput placeholder="Invoice" formControlName="transaction_number">
-                </mat-form-field>
               </div>
             </div>
           </form>
@@ -45,7 +41,19 @@
                       {{vendor.ledger_name}}
                     </mat-option>
                   </mat-select>
+
                 </mat-form-field>
+
+              </div>
+              <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+                <!--Customer list-->
+                  <mat-form-field fxFlex="40" *ngIf="true">
+                  <input matInput placeholder="Amount" formControlName="amount">
+                </mat-form-field>
+              </div>
+              <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end" fxLayoutGap="10px" fxLayoutGap.xs="0" >
+                <button mat-button (click)="clearForm()"  mat-stroked-button>Clear</button>
+                <button mat-button (click)="savePayment()"  mat-stroked-button>Save</button>
               </div>
             </div>
           </form>
@@ -67,8 +75,8 @@
         <div mat-card-avatar class="example-header-image"></div>
         <mat-card-title>
           <div>
-            <button mat-button (click)="setCurrentTab(1);showBillDiv=false"  mat-stroked-button>New Sale</button>
-            <button mat-button (click)="setCurrentTab(2)"  mat-stroked-button>Sale List</button>
+            <button mat-button mat-stroked-button>New Sale</button>
+            <button mat-button mat-stroked-button>Sale List</button>
           </div>
         </mat-card-title>
       </mat-card-header>
@@ -83,33 +91,16 @@
 <!--This is developer div-->
 <div fxLayout.xs="column" fxLayout="row" fxLayoutAlign="space-between stretch"  id="developer-div" *ngIf="true" >
   <div fxLayout="column" fxFlex="25" class="mr-1">
-      <pre>
-        transactionMasterForm = {{transactionMasterForm.valid}}
-        transactionMasterForm={{transactionMasterForm.value | json}}
-        transactionMaster={{transactionMaster | json}}
 
-      </pre>
   </div>
   <div fxLayout="column" fxFlex="25" class="mr-1">
-          <pre>
-            transactionDetailForm={{transactionDetailForm.valid}}
-            transactionDetailForm={{transactionDetailForm.value | json}}
-            transactionDetails={{transactionDetails | json}}
-          </pre>
+
   </div>
   <div fxLayout="column" fxFlex="25" class="mr-1">
-          <pre>
-            saleMasterForm={{saleMasterForm.valid}}
-            saleMasterForm={{saleMasterForm.value | json}}
-            saleMaster={{saleMaster | json}}
-          </pre>
+
   </div>
   <div fxLayout="column" fxFlex="25" class="mr-1">
-          <pre>
-            saleDetailForm={{saleDetailForm.valid}}
-            saleDetailForm={{saleDetailForm.value | json}}
-            saleDetails={{saleDetails | json}}
-          </pre>
+
   </div>
 
 </div>
