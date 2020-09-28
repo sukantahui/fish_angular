@@ -71,8 +71,9 @@ export class SaleComponent implements OnInit {
   saleTransactionDetail: SaleTransactionDetail;
   // tslint:disable-next-line:max-line-length
   public editableSaleItemIndex: number;
-  public leftDiv = 40;
-  public rightDiv = 60;
+  public leftDiv = 55;
+  public rightDiv = 45;
+  public countItem = 1;
   constructor(private saleService: SaleService, private customerService: CustomerService, private productService: ProductService, private storage: StorageMap , private productCategoryService: ProductCategoryService) { }
 
   ngOnInit(): void {
@@ -384,4 +385,14 @@ export class SaleComponent implements OnInit {
         }
       });
     }
+
+
+
+  numSequence(n: number): Array<number> {
+    return Array(n);
+  }
+
+  addItemIntoContainer(){
+    this.countItem = this.countItem + 1;
+  }
 }

@@ -52,27 +52,52 @@
           <!--        sale details form-->
           <form [formGroup] = saleDetailForm>
             <div class="container" fxLayout="column" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+
+<!--              container details-->
               <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
-                <form [formGroup] = temporaryForm>
                   <mat-form-field fxFlex="80">
-                    <mat-label>Product category</mat-label>
-                    <mat-select (selectionChange)="selectProductsByCategory($event)"  formControlName="product_category_id">
-                      <mat-option *ngFor="let category of productCategoryList" [value]="category.id">
-                        {{category.category_name}}
+                    <mat-label>Select container</mat-label>
+                    <select matNativeControl required>
+                      <option value="volvo">Caret</option>
+                      <option value="saab">Box</option>
+                      <option value="mercedes">Busket</option>
+                      <option value="audi">no container</option>
+                    </select>
+                  </mat-form-field>
+                  <mat-form-field fxFlex="40">
+                    <mat-label>No of container</mat-label>
+                      <input matInput type="number" placeholder="Quantity"  type="number" class="text-right">
+                  </mat-form-field>
+                <mat-icon>add_shopping_cart</mat-icon>5
+                
+                <button mat-icon-button (click)="addItemIntoContainer()">
+                  <mat-icon>add_circle_outline</mat-icon>
+                </button>
+                <mat-icon>remove</mat-icon>
+              </div>
+
+              <div *ngFor="let n of numSequence(countItem)">
+                  <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+                  <form [formGroup] = temporaryForm>
+                    <mat-form-field fxFlex="80">
+                      <mat-label>Product category</mat-label>
+                      <mat-select (selectionChange)="selectProductsByCategory($event)"  formControlName="product_category_id">
+                        <mat-option *ngFor="let category of productCategoryList" [value]="category.id">
+                          {{category.category_name}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </form>
+                  <mat-form-field fxFlex="40" *ngIf="productListByCategory.length>0">
+                    <mat-label>Product</mat-label>
+                    <mat-select formControlName="product_id">
+                      <mat-option *ngFor="let product of productListByCategory" [value]="product.id">
+                        {{product.product_name}}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
-                </form>
-                <mat-form-field fxFlex="40" *ngIf="productListByCategory.length>0">
-                  <mat-label>Product</mat-label>
-                  <mat-select formControlName="product_id">
-                    <mat-option *ngFor="let product of productListByCategory" [value]="product.id">
-                      {{product.product_name}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+                </div>
+                  <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
                 <mat-form-field fxFlex="15">
                   <input matInput type="number" placeholder="Quantity" (click)="$event.target.select()" type="number" formControlName="quantity" (change)="getAmount()" class="text-right">
                 </mat-form-field>
@@ -97,7 +122,8 @@
                   <input matInput type="number" placeholder="Total" [value]="saleAmount" readonly class="text-right">
                 </mat-form-field>
               </div>
-            </div>
+              </div>
+              </div>
           </form>
 
           <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end" fxLayoutGap="10px" fxLayoutGap.xs="0" >
