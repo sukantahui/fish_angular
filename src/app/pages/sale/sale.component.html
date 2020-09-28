@@ -68,40 +68,30 @@
                     <mat-label>No of container</mat-label>
                       <input matInput type="number" placeholder="Quantity"  type="number" class="text-right">
                   </mat-form-field>
-                <mat-icon>add_shopping_cart</mat-icon>5
-                
-                <button mat-icon-button (click)="addItemIntoContainer()">
-                  <mat-icon>add_circle_outline</mat-icon>
-                </button>
-                <mat-icon>remove</mat-icon>
               </div>
 
-              <div *ngFor="let n of numSequence(countItem)">
-                  <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
-                  <form [formGroup] = temporaryForm>
-                    <mat-form-field fxFlex="80">
-                      <mat-label>Product category</mat-label>
-                      <mat-select (selectionChange)="selectProductsByCategory($event)"  formControlName="product_category_id">
-                        <mat-option *ngFor="let category of productCategoryList" [value]="category.id">
-                          {{category.category_name}}
+               <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+                    <form [formGroup] = temporaryForm>
+                      <mat-form-field fxFlex="40">
+                        <mat-label>Product category</mat-label>
+                        <mat-select (selectionChange)="selectProductsByCategory($event)"  formControlName="product_category_id">
+                          <mat-option *ngFor="let category of productCategoryList" [value]="category.id">
+                            {{category.category_name}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </form>
+                    <mat-form-field fxFlex="10" *ngIf="productListByCategory.length>0">
+                      <mat-label>Product</mat-label>
+                      <mat-select formControlName="product_id">
+                        <mat-option *ngFor="let product of productListByCategory" [value]="product.id">
+                          {{product.product_name}}
                         </mat-option>
                       </mat-select>
                     </mat-form-field>
-                  </form>
-                  <mat-form-field fxFlex="40" *ngIf="productListByCategory.length>0">
-                    <mat-label>Product</mat-label>
-                    <mat-select formControlName="product_id">
-                      <mat-option *ngFor="let product of productListByCategory" [value]="product.id">
-                        {{product.product_name}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                  <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
-                <mat-form-field fxFlex="15">
+                <mat-form-field fxFlex="10">
                   <input matInput type="number" placeholder="Quantity" (click)="$event.target.select()" type="number" formControlName="quantity" (change)="getAmount()" class="text-right">
                 </mat-form-field>
-
                 <mat-form-field fxFlex="10">
                   <mat-label>Unit</mat-label>
                   <mat-select formControlName="unit_id">
@@ -111,19 +101,49 @@
                   </mat-select>
                 </mat-form-field>
 
-                <mat-form-field fxFlex="15">
+                <mat-form-field fxFlex="10">
                   <input matInput type="number" placeholder="price" (click)="$event.target.select()" formControlName="price" (change)="getAmount()" class="text-right">
                 </mat-form-field>
 
                 <mat-form-field fxFlex="10">
                   <input matInput type="input" placeholder="discount" (click)="$event.target.select()" formControlName="discount" (change)="getAmount()" class="text-right">
                 </mat-form-field>
-                <mat-form-field fxFlex="20">
+                <mat-form-field fxFlex="10">
                   <input matInput type="number" placeholder="Total" [value]="saleAmount" readonly class="text-right">
                 </mat-form-field>
+                    <button mat-icon-button (click)="addItemIntoContainer()">
+                      <mat-icon>add_circle_outline</mat-icon>
+                    </button>
               </div>
-              </div>
-              </div>
+              <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="10px" fxLayoutGap.xs="0">
+                <table class="table" id="item-table">
+                  <thead>
+                  <tr>
+                    <th class="w-25">Product Name</th>
+                    <th class="w-15">Quantity</th>
+                    <th class="w-15">Price</th>
+                    <th class="w-15">Disc</th>
+                    <th class="w-15">Amount</th>
+                    <th class="w-10" colspan="1">Action</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td class="text-left" ></td>
+                    <td class="text-right"></td>
+                    <td class="text-right"></td>
+                    <td class="text-right"></td>
+                    <td class="text-right"></td>
+                    <td>
+
+                    </td>
+                  </tr>
+                  </tbody>
+                  <tfoot>
+                  </tfoot>
+                </table>
+             </div>
+            </div>
           </form>
 
           <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end" fxLayoutGap="10px" fxLayoutGap.xs="0" >

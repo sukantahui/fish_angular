@@ -172,7 +172,7 @@ export class SaleComponent implements OnInit {
     const discount = this.saleDetailForm.value.discount;
     this.saleAmount = (qty * price) - discount;
    }
-  addSale() {
+    addSale() {
     if (this.currentTab !== 1){
       this.currentTab = 1;
     }
@@ -393,6 +393,42 @@ export class SaleComponent implements OnInit {
   }
 
   addItemIntoContainer(){
-    this.countItem = this.countItem + 1;
+    const tempItem = this.saleDetailForm.value;
+    let index = this.productList.findIndex(x => x.id === tempItem.product_id);
+    tempItem.product = this.productList[index];
+    index = this.unitList.findIndex(x => x.id === tempItem.unit_id);
+    tempItem.unit = this.unitList[index];
+    if (this.editableItemIndex === -1){
+      this.saleDetails.push(tempItem);
+    }else{
+      this.saleDetails[this.editableItemIndex] = tempItem;
+      this.editableItemIndex = -1;
+    }
+    this.totalSaleAmount = this.saleDetails.reduce( (total, record) => {
+      // @ts-ignore
+      return total + ((record.price * record.quantity) - record.discount);
+    }, 0);
+    const round =  Math.round(this.totalSaleAmount) - this.totalSaleAmount;
+    this.saleMasterForm.patchValue({round_off: parseFloat(round.toFixed(2))});
+    this.saleMaster = this.saleMasterForm.value;
+    this.transactionMaster = this.transactionMasterForm.value;
+    this.finalBillAmount = parseFloat((this.totalSaleAmount - this.saleMaster.discount + this.saleMaster.round_off).toFixed(2));
+    this.transactionDetailForm.patchValue({amount: this.finalBillAmount});
+    this.transactionDetails = [];
+    this.transactionDetails.push(this.transactionDetailForm.value);
+    this.transactionDetails.push(
+      {
+        id: null,
+        transaction_master_id: null,
+        transaction_type_id: 2,
+        ledger_id: 4,
+        amount: this.finalBillAmount
+      });
+    // tslint:disable-next-line:max-line-length
+    this.saleContainer = {saleMaster: this.saleMaster, saleDetails: this.saleDetails, transactionMaster: this.transactionMaster,
+      transactionDetails: this.transactionDetails, totalSaleAmount: this.totalSaleAmount};
+    this.storage.set('saleContainer', this.saleContainer).subscribe(() => {});
+    this.clearForm();
+    this.editableItemIndex = -1;
   }
 }
